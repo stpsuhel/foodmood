@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+
+<div sec:authorize="isAuthenticated()" th:fragment="application-side-bar">
+    <div class="sidebar sidebar-style-2">
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+            <div class="sidebar-content">
+                <div class="user">
+                    <div class="avatar avatar-online float-left mr-2">
+                        <img alt="..." class="avatar-img rounded-circle" th:src="@{/img/profile.jpg}">
+                    </div>
+                    <div class="info">
+                        <a>
+                            <span>
+                                <div class="info-user">
+									<div class=" ml-1 username text-capitalize font-weight-bold"
+                                         th:text="${#strings.capitalize(#authentication.getPrincipal().getName().toString().toLowerCase())}">
+                                    </div>
+									<span class="status small ml-1"
+                                          th:text="${#strings.capitalize(#authentication.getPrincipal().getPrimaryRole().toString().toLowerCase())}"></span>
+								</div>
+                            </span>
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <ul class="nav nav-primary">
+                    <li class="nav-section">
+                        <h5 class="text-section">
+                            Module
+                        </h5>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)">
+                        <a data-toggle="collapse" href="#company-management">
+                            <i class="fas fa-hotel"></i>
+                            <p>Company Management</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="company-management">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/admin/company-registration}">
+                                        <span class="sub-item">Company Registration</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/admin/company-information}">
+                                        <span class="sub-item">Company Information</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="hasAuthority('ADMIN_READ')">
+                        <a data-toggle="collapse" href="#company-registration">
+                            <i class="fas fa-hotel"></i>
+                            <p>Administration</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="company-registration">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/user-registration}">
+                                        <span class="sub-item">User Registration</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/user-information}">
+                                        <span class="sub-item">User Information</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/upload-notice}">
+                                        <span class="sub-item">Upload Notice</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/create-academic-calender}">
+                                        <span class="sub-item">Create Academic Calender</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).STUDENT_READ)">
+                        <a data-toggle="collapse" href="#base">
+                            <i class="fas fa-layer-group"></i>
+                            <p>Student</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="base">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/student-information}">
+                                        <span class="sub-item">Student Information</span>
+                                    </a>
+                                </li>
+                                <li sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).ADMIN_WRITE)">
+                                    <a th:href="@{/student-registration}">
+                                        <span class="sub-item">Student Registration</span>
+                                    </a>
+                                </li>
+                                <li th:if="false" class="d-none">
+                                    <a th:href="@{/student-attendance}">
+                                        <span class="sub-item">Student Attendance</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).ADMIN_READ)">
+                        <a data-toggle="collapse" href="#sidebarLayouts">
+                            <i class="fas fa-th-list"></i>
+                            <p>Teacher</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayouts">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/teacher-information}">
+                                        <span class="sub-item">Teacher Information</span>
+                                    </a>
+                                </li>
+                                <!--  <li>
+                                      <a th:href="@{/teacher-registration}">
+                                          <span class="sub-item">Teacher Registration</span>
+                                      </a>
+                                  </li>-->
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).INVENTORY_READ)">
+                        <a data-toggle="collapse" href="#inventory">
+                            <i class="fas fa-pen-square"></i>
+                            <p>Inventory</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="inventory">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/account-details}">
+                                        <span class="sub-item">Account Details</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/account-history}">
+                                        <span class="sub-item">Account History</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/fee-collection}">
+                                        <span class="sub-item">Fee Collection</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/spend-details}">
+                                        <span class="sub-item">School Cost</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/payment}">
+                                        <span class="sub-item">Payment</span>
+
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).PARENT_READ)">
+                        <a data-toggle="collapse" href="#tables">
+                            <i class="fas fa-table"></i>
+                            <p>Parent</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/parent-information}">
+                                        <span class="sub-item">Parent Information</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/parent-registration}">
+                                        <span class="sub-item">Parent Registration</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COURSE_READ)">
+                        <a data-toggle="collapse" href="#maps">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Course</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="maps">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/course-information}">
+                                        <span class="sub-item">Course Information </span>
+                                    </a>
+                                </li>
+                                <li sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).ADMIN_WRITE)">
+                                    <a th:href="@{/course-registration}">
+                                        <span class="sub-item">Course Registration</span>
+                                    </a>
+                                </li>
+                                <li th:if="false">
+                                    <a th:href="@{/update-course}">
+                                        <span class="sub-item">Update Course</span>
+                                    </a>
+                                </li>
+                                <li th:if="false">
+                                    <a th:href="@{/course-attendance}">
+                                        <span class="sub-item">Course Attendance</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).GRADE_READ)">
+
+                        <a data-toggle="collapse" href="#grade">
+                            <i class="far fa-chart-bar"></i>
+                            <p>Grade</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="grade">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/grade-information}">
+                                        <span class="sub-item">Grade Information</span>
+                                    </a>
+                                </li>
+                                <li sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).ADMIN_WRITE)">
+                                    <a th:href="@{/create-grade}">
+                                        <span class="sub-item">Create Grade</span>
+                                    </a>
+                                </li>
+
+                                <li th:if="false">
+                                    <a th:href="@{/grade-attendance}">
+                                        <span class="sub-item">Grade Attendance</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).CLUB_READ)">
+
+                        <a data-toggle="collapse" href="#club">
+                            <i class="far fa-object-group"></i>
+                            <p>Club</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="club">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/club-information}">
+                                        <span class="sub-item">Club Information</span>
+                                    </a>
+                                </li>
+                                <li th:if="false">
+                                    <a th:href="@{/club-attendance}">
+                                        <span class="sub-item">Club Attendance</span>
+                                    </a>
+                                </li>
+                                <li sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).ADMIN_WRITE)">
+
+                                    <a th:href="@{/club-registration}">
+                                        <span class="sub-item">Club Registration</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).LIBRARY_READ)">
+
+                        <a data-toggle="collapse" href="#submenu">
+                            <i class="fas fa-book-open"></i>
+                            <p>Library</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="submenu">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/book-details}">
+                                        <span class="sub-item">Book Details</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/borrow-details}">
+                                        <span class="sub-item">Borrow Details</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- <li class="nav-item"
+                         sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).PARENT_PORTAL)">
+                         <a th:href="@{/parent/portal}" data-toggle="collapse">
+                             <i class="fas fa-book-open"></i>
+                             <p>Parent Portal</p>
+
+                         </a>
+                     </li>
+
+                     <li class="nav-item"
+                         sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).STUDENT_PORTAL)">
+                         <a th:href="@{/student/portal}" data-toggle="collapse">
+                             <i class="fas fa-book-open"></i>
+                             <p>Student Portal</p>
+                         </a>
+                     </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

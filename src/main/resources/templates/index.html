@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body sec:authorize="isAuthenticated()">
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="panel-header bg-primary-gradient">
+                <div class="page-inner py-5">
+                    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                        <div>
+                            <h2 class="text-white  fw-bold" >Dashboard</h2>
+                            <h5 class="text-white op-7 mb-2">Quality Education</h5>
+                        </div>
+                        <div class="ml-md-auto py-2 py-md-0">
+                            <!--
+                                <a class="btn btn-sm btn-white text-white btn-border btn-round mr-2">Notice Board</a>
+                            -->
+                            <a class="btn btn-sm btn-secondary btn-round text-white"
+                               th:href="@{/academic-calender-details}">Academic calender</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-inner mt--5">
+               
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+
+<script>
+</script>
+</body>
+</html>

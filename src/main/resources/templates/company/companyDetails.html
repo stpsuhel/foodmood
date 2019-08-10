@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Company Details</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Company</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Details</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title" th:text="${company.getName()}"></h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label for="phone">Contact Number</label>
+                                            <input type="text" class="form-control" id="phone"
+                                                   disabled="" th:value="${company.phoneNumber}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label for="contactInfo">Contact Info</label>
+                                            <input type="text" class="form-control" id="contactInfo"
+                                                   disabled="" th:value="${company.contactInfo}">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-head-row">
+                                    <div class="card-title">Account List</div>
+                                    <div class="card-tools">
+                                        <a th:href="@{/admin/create-admin-user(id=${company.id})}"
+                                           class="btn btn-info btn-border btn-round btn-sm mr-2">
+												<span class="btn-label">
+													<i class="fas fa-plus"></i>
+												</span>
+                                            Create Account
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="table-responsive">
+                                    <table id="account-table" class="data-table table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr style="cursor: pointer"
+                                            th:each="itemAccount : ${accountList}">
+
+                                            <td th:text="${itemAccount.id}"></td>
+                                            <td>
+                                                <a style="text-decoration: none !important;color: inherit"
+                                                   th:href="@{/user-details(id=${itemAccount.id})}"
+                                                   th:text="${itemAccount.name}"></a>
+                                            </td>
+                                            <td th:text="${itemAccount.email}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-head-row">
+                                    <div class="card-title">Company Permission</div>
+
+                                </div>
+                            </div>
+                            <div class="card-body pt-1">
+                                <div class="table-responsive">
+                                    <table id="permission-table" class="permission-data-table table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="permissionItem : ${permissionList}">
+                                            <td th:text="${permissionItem.id}"></td>
+                                            <td th:text="${permissionItem.name}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+
+<script>
+    $(".data-table").DataTable({
+        "ordering": false,
+        "bLengthChange": false,
+        "searching": false,
+
+    })
+
+    $(".permission-data-table").DataTable({
+        pageLength: 5,
+        "lengthChange": false
+    })
+
+</script>
+</body>
+</html>

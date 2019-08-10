@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="108" height="35" viewBox="0 0 108 35">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="108" height="35" transform="translate(-3)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2" data-name="Group 2" transform="translate(-820 -301)">
+    <g id="logo" transform="translate(823 301)" clip-path="url(#clip-path)">
+      <g id="Group_1" data-name="Group 1">
+        <path id="Path_2" data-name="Path 2" d="M29.894,9.22,15.447.879,1,9.22V25.9l4.816,2.78V12l9.631-5.56L25.078,12V28.682l4.816-2.78Z" fill="#fff"/>
+        <path id="Path_3" data-name="Path 3" d="M20.262,14.781,15.447,12l-4.816,2.781v5.56l4.816,2.78,4.815-2.78Z" fill="#fff"/>
+        <path id="Path_4" data-name="Path 4" d="M20.262,25.9l-4.815,2.78L10.631,25.9v5.56l4.816,2.78,4.815-2.78Z" fill="#fff"/>
+      </g>
+      <text id="Circle" transform="translate(36 17)" fill="#fff" font-size="12" font-family="LucidaGrande, Lucida Grande"><tspan x="0" y="0">Circle</tspan></text>
+    </g>
+    <text id="Education" transform="translate(859 327)" fill="#fff" font-size="8" font-family="LucidaGrande, Lucida Grande"><tspan x="0" y="0">Education</tspan></text>
+  </g>
+</svg>

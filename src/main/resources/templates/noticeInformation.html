@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Notice</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Notice</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-head-row">
+                                    <div class="card-title">Notice List</div>
+                                    <!--<div class="card-tools">
+                                        <a class="btn btn-info btn-border btn-round btn-sm mr-2"
+                                           th:href="@{/student-registration}">
+												<span class="btn-label">
+													<i class="fas fa-plus"></i>
+												</span>
+                                            Add Student
+                                        </a>
+                                    </div>-->
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="notice-table"
+                                               class="display table table-head-bg-primary table-striped table-hover"
+                                               cellspacing="0" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Published Date</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr style="cursor: pointer"
+                                                th:each="noticeItem : ${allNoticeList}">
+                                                <td th:text="${noticeItem.id}"></td>
+                                                <td>
+                                                    <a style="text-decoration: none !important;color: inherit"
+                                                       th:href="@{/upload-notice(id=${noticeItem.id})}"
+                                                       th:text="${noticeItem.description}"></a>
+                                                </td>
+                                                <td th:text="${noticeItem.dateText}"></td>
+                                                <td>
+                                                    <a style="text-decoration: none !important;color: inherit"
+                                                       th:href="@{/delete-notice(id=${noticeItem.id})}">
+
+                                                        <button class="btn btn-sm btn-danger"><span class="btn-label">
+                                                            <i class="flaticon-interface-5"></i></span>Delete</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+
+<script>
+    /**
+     * TODO add data table
+     */
+
+</script>
+</body>
+</html>

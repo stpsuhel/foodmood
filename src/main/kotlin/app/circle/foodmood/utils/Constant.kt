@@ -7,39 +7,7 @@ enum class Status(val value: Int) {
 
 }
 
-enum class AttendanceType(val value: Int) {
-    Absent(0),
-    CheckIn(1),
-    CheckOut(2)
-}
 
-
-enum class AttendanceSource(val value: Int) {
-    Grade(1),
-    Club(2),
-    Course(3)
-}
-
-/**
- * Make Sure existing type value is not changed when you add new role.
-enum class UserType(val type: Int) {
-Admin(1),
-Student(2),
-Teacher(3),
-Parent(4),
-Manager(5),
-Accounts(6),
-}*/
-
-/**
- * Parent Type
- */
-enum class ParentType(val value: Int) {
-    Parent(1),
-
-    GrandParent(2),
-    Other(3)
-}
 
 
 const val ID_NOT_FOUND: Long = -1L

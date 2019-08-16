@@ -77,15 +77,7 @@ class RoleUtils(val administrationRepository: AdministrationRepository,
     }
 
 
-    fun getPrimaryRoles(): List<PrimaryRole> {
-        val list = PrimaryRole.values().filter { role ->
-            (!role.name.contains(PrimaryRole.STUDENT.name)).and(
-                    (!role.name.contains(PrimaryRole.PARENT.name))
-            )
-        }
 
-        return list
-    }
 
 
 }

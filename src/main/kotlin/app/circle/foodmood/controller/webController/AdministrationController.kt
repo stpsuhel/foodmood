@@ -32,7 +32,6 @@ class AdministrationController(val administrationRepository: AdministrationRepos
 
         model.addAttribute("user", UserDataModel())
         model.addAttribute("permissionList", permission)
-        model.addAttribute("primaryRole", roleUtils.getPrimaryRoles())
         return "administration/userRegistration"
     }
 
@@ -43,10 +42,8 @@ class AdministrationController(val administrationRepository: AdministrationRepos
         val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
         val allUser = userUtils.getUserList(userPrincipal.companyId)
-        val adminAndTeacherUser = userUtils.getAdminAndTeacherUser(userPrincipal.companyId, allUser!!)
 
 
-        model.addAttribute("adminAndTeacherUser", adminAndTeacherUser)
 
         return "administration/companyUserInformation"
     }
@@ -126,7 +123,6 @@ class AdministrationController(val administrationRepository: AdministrationRepos
             user.permissionList = permisttionList
             model.addAttribute("userRoles", roles)
             model.addAttribute("companyPermissionList", companyPermission)
-            model.addAttribute("primaryRole", roleUtils.getPrimaryRoles())
 
             model.addAttribute("userDetails", userInfo)
         } else {

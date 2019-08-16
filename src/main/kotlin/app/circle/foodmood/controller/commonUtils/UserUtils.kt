@@ -28,14 +28,5 @@ class  UserUtils(val administrationRepository: AdministrationRepository) {
 
         return "$STUDENT_PASSWORD_CONSTANT$studentId@"
     }
-
-    fun getAdminAndTeacherUser(companyId: Long, allUserList: ArrayList<User>): ArrayList<User>{
-        val adminAndTeacherUsre = ArrayList<User>()
-        allUserList.forEach {
-            if(it.primaryRole == PrimaryRole.ADMIN || it.primaryRole == PrimaryRole.TEACHER){
-                adminAndTeacherUsre.add(it)
-            }
-        }
-        return adminAndTeacherUsre
-    }
+    
 }

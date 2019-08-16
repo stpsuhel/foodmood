@@ -1,9 +1,11 @@
 package app.circle.foodmood.controller.webController
 
 import app.circle.foodmood.controller.commonUtils.RoleUtils
+import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.controller.commonUtils.UserUtils
 import app.circle.foodmood.model.dataModel.UserDataModel
 import app.circle.foodmood.model.dataModel.UserDetails
+import app.circle.foodmood.model.database.Store
 import app.circle.foodmood.repository.AdministrationRepository
 import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
@@ -22,7 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 class AdministrationController(val administrationRepository: AdministrationRepository, val userRepository: UserRepository, val encoder: PasswordEncoder,
-                               val userUtils: UserUtils, val processDataModel: ProcessDataModel, val roleUtils: RoleUtils) {
+                               val userUtils: UserUtils, val processDataModel: ProcessDataModel, val roleUtils: RoleUtils,
+                               val storeUtils: StoreUtils) {
 
     @RequestMapping("user-registration", method = [RequestMethod.GET])
     fun getUserRegistration(model: Model): String {
@@ -132,5 +135,17 @@ class AdministrationController(val administrationRepository: AdministrationRepos
         return "administration/userDetail"
     }
 
+    @RequestMapping("store-information")
+    fun addStore(model: Model): String{
+        model.addAttribute("store", Store())
+        return "administration/storeInformation"
+    }
 
+    @RequestMapping("store-information", method = [RequestMethod.POST])
+    fun saveStore(@Validated @ModelAttribute store: Store, model: Model): String{
+
+        storeUtils.saveStoreData(store)
+
+        return "administration/storeInformation"
+    }
 }

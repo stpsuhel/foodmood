@@ -9,13 +9,16 @@ import javax.validation.constraints.NotNull
 class Store : AuditModel() {
 
     @NotNull
-    var name: String = ""
+    var name: String? = null
+
+    @NotNull
+    var contactNumber: String? = null
+    @NotNull
+    var address: String? = null
 
     var slogan: String = ""
 
     var locationLatitude: Double = 0.0
 
     var locationLongitude: Double = 0.0
-
-
 }

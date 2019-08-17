@@ -18,14 +18,17 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
 @Controller
-class AdministrationController(val administrationRepository: AdministrationRepository, val userRepository: UserRepository, val encoder: PasswordEncoder,
-                               val userUtils: UserUtils, val processDataModel: ProcessDataModel, val roleUtils: RoleUtils,
-                               val storeUtils: StoreUtils) {
+class AdministrationWebController(val administrationRepository: AdministrationRepository, val userRepository: UserRepository, val encoder: PasswordEncoder,
+                                  val userUtils: UserUtils, val processDataModel: ProcessDataModel, val roleUtils: RoleUtils,
+                                  val storeUtils: StoreUtils) {
 
     @RequestMapping("user-registration", method = [RequestMethod.GET])
     fun getUserRegistration(model: Model): String {
@@ -75,7 +78,6 @@ class AdministrationController(val administrationRepository: AdministrationRepos
                 user.roles = HashSet(permission)
                 user.primaryRole = PrimaryRole.valueOf(userDataModel.primaryRole!!)
                 val savedUser = userRepository.save(user)
-
 
 
             } else {
@@ -136,16 +138,32 @@ class AdministrationController(val administrationRepository: AdministrationRepos
     }
 
     @RequestMapping("store-information")
-    fun addStore(model: Model): String{
-        model.addAttribute("store", Store())
+    fun addStore(model: Model): String {
+
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val storeList = storeUtils.getAllCompanyStore(userPrinciple.companyId)
+
+        model.addAttribute("storeList", storeList)
+
         return "administration/storeInformation"
     }
 
-    @RequestMapping("store-information", method = [RequestMethod.POST])
-    fun saveStore(@Validated @ModelAttribute store: Store, model: Model): String{
+    @RequestMapping("add-store", method = [RequestMethod.POST])
+    fun saveStore(@Validated @ModelAttribute store: Store, model: Model): String {
 
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         storeUtils.saveStoreData(store)
+        storeUtils.deleteAllStoreCompanyCache(companyId = userPrinciple.companyId)
 
-        return "administration/storeInformation"
+        return "redirect:./store-information"
+    }
+
+    @RequestMapping("add-store", method = [RequestMethod.GET])
+    fun getAddUpdateStore(model: Model): String {
+
+        model.addAttribute("store", Store())
+
+
+        return "administration/addStore"
     }
 }

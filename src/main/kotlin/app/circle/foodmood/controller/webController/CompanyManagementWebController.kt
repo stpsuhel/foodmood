@@ -26,11 +26,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("admin")
-class CompanyManagementController(val companyRepository: CompanyRepository,
-                                  val userRepository: UserRepository,
-                                  val companyPermissionRepository: CompanyPermissionRepository,
-                                  val roleUtils: RoleUtils,
-                                  val encoder: PasswordEncoder) {
+class CompanyManagementWebController(val companyRepository: CompanyRepository,
+                                     val userRepository: UserRepository,
+                                     val companyPermissionRepository: CompanyPermissionRepository,
+                                     val roleUtils: RoleUtils,
+                                     val encoder: PasswordEncoder) {
 
     @RequestMapping("company-registration", method = [RequestMethod.GET])
     fun companyRegistration(model: Model): String {

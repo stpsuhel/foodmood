@@ -11,7 +11,7 @@
         <div class="content">
             <div class="page-inner">
                 <div class="page-header">
-                    <h4 class="page-title">Store Information</h4>
+                    <h4 class="page-title">Product Information</h4>
                     <ul class="breadcrumbs">
                         <li class="nav-home">
                             <a href="#">
@@ -22,7 +22,7 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="#">Store</a>
+                            <a href="#">Product</a>
                         </li>
                         <li class="separator">
                             <i class="flaticon-right-arrow"></i>
@@ -34,17 +34,17 @@
                 </div>
 
 
-
                 <div class="row">
 
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
-                                    <h4 class="card-title">Store List</h4>
-                                    <button id="add-store" th:href="@{/add-store}" class="btn btn-primary btn-sm ml-auto" >
+                                    <h4 class="card-title">Product List</h4>
+                                    <button id="add-store" th:href="@{/add-store}"
+                                            class="btn btn-primary btn-sm ml-auto">
                                         <i class="fa fa-plus"></i>
-                                        Add Store
+                                        Add Product
                                     </button>
                                 </div>
                             </div>
@@ -59,20 +59,20 @@
                                             <tr>
                                                 <th scope="col">Id</th>
                                                 <th scope="col">Name</th>
-                                                <th scope="col">Location</th>
+                                                <th scope="col">Price</th>
                                             </tr>
                                             </thead>
 
                                             <tbody>
-                                            <tr class="row-store" th:id="${storeItem.id}" style="cursor: pointer"
-                                                th:each="storeItem : ${storeList}">
-                                                <td th:text="${storeItem.id}">
-                                                </td>
-                                                <td th:text="${storeItem.name}">
+                                            <!--     <tr class="row-store" th:id="${storeItem.id}" style="cursor: pointer"
+                                                     th:each="storeItem : ${storeList}">
+                                                     <td th:text="${storeItem.id}">
+                                                     </td>
+                                                     <td th:text="${storeItem.name}">
 
-                                                </td>
-                                                <td th:text="${storeItem.address}"></td>
-                                            </tr>
+                                                     </td>
+                                                     <td th:text="${storeItem.address}"></td>
+                                                 </tr>-->
 
                                             </tbody>
                                         </table>

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 
 @Controller
-class HomeController(val companyRepository: CompanyRepository) {
+class HomeWebController(val companyRepository: CompanyRepository) {
 
     @RequestMapping(value = [HOME, HOME_PAGE])
     fun getHome(model: Model): String {

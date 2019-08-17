@@ -13,6 +13,7 @@ class Store : AuditModel() {
 
     @NotNull
     var contactNumber: String? = null
+
     @NotNull
     var address: String? = null
 

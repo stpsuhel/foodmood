@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView
 
 
 @ControllerAdvice
-class ExceptionController {
+class ExceptionWebController {
 
     @ExceptionHandler(Exception::class)
     fun handleException(ex: Exception, model: Model): ModelAndView {

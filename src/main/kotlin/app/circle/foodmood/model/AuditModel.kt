@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
 import java.util.*
 import javax.persistence.*
+import javax.validation.constraints.NotNull
 
 
 /****************************
@@ -20,7 +21,7 @@ import javax.persistence.*
 abstract class AuditModel() : Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long?=null
+    var id: Long? = null
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Temporal(TemporalType.TIMESTAMP)
@@ -33,6 +34,8 @@ abstract class AuditModel() : Serializable {
     @LastModifiedDate
     var updatedAt: Date? = Date()
 
+
+    @NotNull
     var companyId: Long? = 0L
 
     var status: Int = Status.Active.value

@@ -4,6 +4,7 @@ import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
+import app.circle.foodmood.model.dataModel.StoreDataModel
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController
 class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils) {
 
     @GetMapping("all-product")
-    fun getAllActiveProduct(): Response<ArrayList<ProductItemDataModel>> {
-        var response = Response<ArrayList<ProductItemDataModel>>()
+    fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
+        var response = Response<List<ProductItemDataModel>>()
         var allProductItemDataModel = ArrayList<ProductItemDataModel>()
 
         try {
@@ -33,7 +34,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
                 productItemDataModel.description = it.description!!
                 productItemDataModel.status = it.status!!
                 productItemDataModel.isFreeDelivery = true
-                productItemDataModel.discountPrice = 10
+                productItemDataModel.discountPrice = 80
                 productItemDataModel.isDiscount = true
 
 
@@ -48,7 +49,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             }
 
             response.isResultAvailable = true
-            response.result = allProductItemDataModel
+            response.result = allProductItemDataModel.shuffled()
             response.isSuccessful = true
             return response
         } catch (e: Exception) {
@@ -57,6 +58,42 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             return response
 
         }
+    }
+
+
+    @GetMapping("all-store-details")
+    fun allStore(): Response<List<StoreDataModel>> {
+
+        val response = Response<List<StoreDataModel>>()
+        val lisOfProductDataModel = ArrayList<StoreDataModel>()
+
+
+
+        try {
+            val storeList = storeUtils.getAllStore()
+
+            storeList.forEach {
+                val storeDataModel = StoreDataModel()
+                val productsByStoreId = storeUtils.getProductsByStoreId(it.id!!)
+                storeDataModel.details = it
+                storeDataModel.productList = productsByStoreId
+
+                lisOfProductDataModel.add(storeDataModel)
+            }
+
+
+
+            response.result = lisOfProductDataModel
+            response.isSuccessful = true
+            response.isResultAvailable = true
+        } catch (e: Exception) {
+            response.result = mutableListOf()
+            response.isSuccessful = false
+            response.isResultAvailable = false
+        }
+
+
+        return response
     }
 
 }

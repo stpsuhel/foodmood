@@ -1,17 +1,21 @@
 package app.circle.foodmood.controller.webController
 
-import app.circle.foodmood.repository.CompanyPermissionRepository
-import app.circle.foodmood.repository.CompanyRepository
+import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.RoleUtils
 import app.circle.foodmood.model.dataModel.CompanyDataModel
 import app.circle.foodmood.model.dataModel.UserDataModel
 import app.circle.foodmood.model.database.Company
 import app.circle.foodmood.model.database.CompanyPermission
+import app.circle.foodmood.model.database.ProductItem
+import app.circle.foodmood.repository.CompanyPermissionRepository
+import app.circle.foodmood.repository.CompanyRepository
 import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
+import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.PrimaryRole
 import app.circle.foodmood.utils.SIZE_EMPTY
 import app.circle.foodmood.utils.Status
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -30,7 +34,8 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository,
                                      val userRepository: UserRepository,
                                      val companyPermissionRepository: CompanyPermissionRepository,
                                      val roleUtils: RoleUtils,
-                                     val encoder: PasswordEncoder) {
+                                     val encoder: PasswordEncoder,
+                                     val productUtils: ProductUtils) {
 
     @RequestMapping("company-registration", method = [RequestMethod.GET])
     fun companyRegistration(model: Model): String {
@@ -167,9 +172,6 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository,
                 val savedUser = userRepository.save(user)
 
 
-
-
-
             } else {
                 throw Exception("Password is not matched")
             }
@@ -180,4 +182,21 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository,
         redirectAttributes.addAttribute("id", userDataModel.companyId)
         return "redirect:./company-details"
     }
+
+    @RequestMapping("all-product-information")
+    fun getAllProductInformation(model: Model): String {
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        if (userPrinciple.primaryRole.name == PrimaryRole.ADMIN.name) {
+            val allProductCompany = productUtils.getAllProductWithOutStatus()
+            model.addAttribute("productList", allProductCompany)
+        } else {
+
+            val data: List<ProductItem> = mutableListOf()
+            model.addAttribute("productList", data)
+        }
+
+        return "product/productInformation"
+    }
+
+
 }

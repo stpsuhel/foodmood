@@ -22,6 +22,11 @@ class ProductUtils(val productRepository: ProductRepository) {
     }
 
 
+    fun getAllProductWithOutStatus(): List<ProductItem> {
+        return productRepository.findAll()
+    }
+
+
     @CacheEvict("all-product")
     fun deleteAllProductCache(): Boolean {
         return true
@@ -37,6 +42,11 @@ class ProductUtils(val productRepository: ProductRepository) {
     @CacheEvict("all-product-company", key = "#companyId")
     fun deleteAllProductByCompanyCache(companyId: Long): Boolean {
         return true
+    }
+
+
+    fun getProductsByStoreId(storeId: Long): List<ProductItem> {
+        return productRepository.getAllByStoreIdAndStatus(storeId, Status.Active.value)
     }
 
 }

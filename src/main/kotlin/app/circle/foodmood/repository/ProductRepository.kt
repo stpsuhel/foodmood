@@ -12,5 +12,8 @@ interface ProductRepository : JpaRepository<ProductItem, Long> {
 
     fun getAllByStatusOrderByIdDesc(status: Int):List<ProductItem>
 
+
+    fun getAllByStoreIdAndStatus(storeId:Long,status: Int):List<ProductItem>
+
 }
 

@@ -2,7 +2,6 @@ package app.circle.foodmood.controller.commonUtils
 
 import app.circle.foodmood.repository.AdministrationRepository
 import app.circle.foodmood.security.User
-import app.circle.foodmood.utils.PrimaryRole
 import app.circle.foodmood.utils.STUDENT_PASSWORD_CONSTANT
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable

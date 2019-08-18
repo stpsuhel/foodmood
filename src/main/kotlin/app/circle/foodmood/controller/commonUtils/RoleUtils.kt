@@ -1,14 +1,11 @@
 package app.circle.foodmood.controller.commonUtils
 
 import app.circle.foodmood.model.dataModel.PermissionDataModel
-import app.circle.foodmood.model.dataModel.UserDataModel
 import app.circle.foodmood.repository.AdministrationRepository
 import app.circle.foodmood.repository.CompanyPermissionRepository
 import app.circle.foodmood.repository.RoleRepository
 import app.circle.foodmood.security.Role
 import app.circle.foodmood.security.RoleName
-import app.circle.foodmood.security.User
-import app.circle.foodmood.utils.PrimaryRole
 import app.circle.foodmood.utils.Status
 import app.circle.foodmood.utils.capitalizeWords
 import org.springframework.stereotype.Service

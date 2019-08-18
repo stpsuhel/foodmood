@@ -1,9 +1,7 @@
 package app.circle.foodmood.utils
 
 import app.circle.foodmood.model.dataModel.*
-import app.circle.foodmood.model.database.*
 import app.circle.foodmood.security.User
-import org.joda.time.format.DateTimeFormat
 import org.springframework.stereotype.Service
 
 

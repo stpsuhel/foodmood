@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/firebase-messaging-sw.js",
 
                         "/login",
+                        "/public/**",
                         "/signup"
                         //API LIST
 /*

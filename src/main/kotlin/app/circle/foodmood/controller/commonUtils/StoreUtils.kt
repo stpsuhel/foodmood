@@ -31,10 +31,24 @@ class StoreUtils(val storeRepository: StoreRepository) {
     }
 
 
-
-
     @CacheEvict("all-store-company", key = "#companyId")
     fun deleteAllStoreCompanyCache(companyId: Long): Boolean {
         return true
+    }
+
+
+    @Cacheable("all-store", key = "1")
+    fun getAllStore(): MutableList<Store> {
+       return storeRepository.findAll()
+    }
+
+    @CacheEvict("all-store", key = "1")
+    fun deleteAllStoreCache() {
+        storeRepository.findAll()
+    }
+
+    fun getStoreById(id: Long): Store {
+        return storeRepository.getByIdAndStatus(id, Status.Active.value)
+
     }
 }

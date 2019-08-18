@@ -1,11 +1,9 @@
 package app.circle.foodmood.security;
 
-import app.circle.foodmood.model.database.Company;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "roles")

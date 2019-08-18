@@ -11,6 +11,7 @@ enum class Status(val value: Int) {
 
 
 const val ID_NOT_FOUND: Long = -1L
+const val ID_NOT_FOUND_INT: Int = -1
 const val SIZE_EMPTY: Int = 0
 const val REJECT_FOR_TEACHER_ID: String = "500"
 

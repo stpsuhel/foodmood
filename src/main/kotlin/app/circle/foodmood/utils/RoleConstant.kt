@@ -23,12 +23,6 @@ class RoleConstant {
 
 }
 
-enum class PrimaryRole(value: Int) {
-    ADMIN(0),
 
-    RestaurantManager(1),
-    RestaurantEmployee(2),
-    RestaurantOwner(3),
-    User(4)
 
-}
+

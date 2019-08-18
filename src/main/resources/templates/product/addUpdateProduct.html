@@ -11,7 +11,7 @@
         <div class="content">
             <div class="page-inner">
                 <div class="page-header">
-                    <h4 class="page-title">Store Information</h4>
+                    <h4 class="page-title">Product Information</h4>
                     <ul class="breadcrumbs">
                         <li class="nav-home">
                             <a href="#">
@@ -22,7 +22,7 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="#">Store</a>
+                            <a href="#">Product</a>
                         </li>
                         <li class="separator">
                             <i class="flaticon-right-arrow"></i>
@@ -36,7 +36,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <form method="post" th:action="@{/add-store}" th:object="${store}">
+                            <form method="post" th:action="@{/add-product}" th:object="${product}">
                                 <div class="card-header">
                                     <div class="card-title">Store Info</div>
                                 </div>
@@ -44,11 +44,11 @@
                                     <div class="row">
                                         <div class="col-md-12 col-lg-6">
                                             <div class="form-group">
-                                                <label for="fullName">Full Name <a
+                                                <label for="fullName">Food Title<a
                                                         class="text-danger">*</a></label>
                                                 <input class="form-control" id="fullName"
-                                                       placeholder="Enter Full Name"
-                                                       th:name="fullName"
+                                                       placeholder="Enter Food Title"
+                                                       th:name="name"
                                                        th:field="*{name}" type="text">
                                                 <small class="form-text text-muted"></small>
                                             </div>
@@ -56,24 +56,49 @@
 
                                         <div class="col-md-12 col-lg-6">
                                             <div class="form-group">
-                                                <label for="contactNumber">Phone Number<a
+                                                <label for="description">Description<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="contactNumber"
-                                                       placeholder="Enter Phone Number"
-                                                       th:name="contactNumber"
-                                                       th:field="*{contactNumber}">
+                                                <input class="form-control" id="description"
+                                                       placeholder="Product Description"
+                                                       th:name="description"
+                                                       th:field="*{description}">
                                                 <small class="form-text text-muted"></small>
                                             </div>
                                         </div>
 
                                         <div class="col-md-12 col-lg-6">
+
                                             <div class="form-group">
-                                                <label for="address">Address<a
+                                                <label for="description">Price<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="address"
-                                                       placeholder="Enter Address"
-                                                       th:name="address"
-                                                       th:field="*{address}">
+                                                <div class="input-group">
+
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">BDT</span>
+                                                    </div>
+                                                    <input class="form-control" id="price"
+                                                           placeholder="Enter product description"
+                                                           th:name="price"
+                                                           type="number" min="0"
+                                                           th:field="*{price}">
+                                                    <small class="form-text text-muted"></small>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="store">Store<a
+                                                        class="text-danger">*</a></label>
+                                                <select class="select2-class" id="store" th:field="*{storeId}">
+                                                    <option th:each="storeItem : ${storeList}"
+                                                            th:value="${storeItem.getId()}"
+                                                            th:text="${storeItem.getName()}">
+                                                    </option>
+                                                    <small class="form-text text-danger text-capitalize text-muted"></small>
+                                                </select>
                                                 <small class="form-text text-muted"></small>
                                             </div>
                                         </div>
@@ -81,7 +106,7 @@
                                 </div>
                                 <div class="card-action">
                                     <input class="btn btn-primary" type="submit"/>
-                                    <button class="btn btn-danger">Cancel</button>
+                                    <button class="btn btn-danger" id="cancel-button" type="reset">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -105,14 +130,10 @@
     });
 
 
-    $("#store-table").DataTable({
-        "bPaginate": true,
-        "bLengthChange": false,
-        "bFilter": true,
-        "bInfo": false,
-        "bAutoWidth": false
-    });
+    $("#cancel-button").click(function () {
+        $(location).attr('href', './product-information')
 
+    })
 
 </script>
 </body>

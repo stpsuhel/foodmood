@@ -17,7 +17,17 @@ class Store : AuditModel() {
     @NotNull
     var address: String? = null
 
-    var slogan: String = ""
+    @NotNull
+    var area: String? = null
+
+    @NotNull
+    var tagline: String = ""
+
+    @NotNull
+    var openTime: String? = null
+
+    @NotNull
+    var closedTime: String = ""
 
     var locationLatitude: Double = 0.0
 

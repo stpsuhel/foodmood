@@ -68,12 +68,64 @@
 
                                         <div class="col-md-12 col-lg-6">
                                             <div class="form-group">
+                                                <label for="address">Area<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="area"
+                                                       placeholder="Enter Area"
+                                                       th:field="*{area}"
+                                                       th:name="area">
+
+                                                <!--th:field="*{address}"-->
+
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
                                                 <label for="address">Address<a
                                                         class="text-danger">*</a></label>
                                                 <input class="form-control" id="address"
                                                        placeholder="Enter Address"
                                                        th:name="address"
                                                        th:field="*{address}">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Open Time<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" type="time"
+                                                       placeholder="Enter Closed Time"
+                                                       th:name="openTime"
+                                                       th:field="*{openTime}">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Closed Time<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control"
+                                                       placeholder="Enter Closed Time"
+                                                       th:name="closedTime"
+                                                       type="time"
+                                                       th:field="*{closedTime}">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Closed Time<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control"
+                                                       placeholder="Enter Tag Line"
+                                                       th:name="tagline"
+                                                       type="text" maxlength="50"
+                                                       th:field="*{tagline}">
                                                 <small class="form-text text-muted"></small>
                                             </div>
                                         </div>

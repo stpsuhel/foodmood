@@ -4,19 +4,9 @@ import app.circle.foodmood.model.AuditModel
 import javax.persistence.Entity
 import javax.validation.constraints.NotNull
 
-
 @Entity
-class ProductItem : AuditModel() {
+class ProductCategory: AuditModel() {
 
     @NotNull
-    var name: String = ""
-
-    var description: String = ""
-
-    @NotNull
-    var price: Int? = null
-
-    @NotNull
-    var storeId: Long? = null
-
+    val name: String? = null
 }

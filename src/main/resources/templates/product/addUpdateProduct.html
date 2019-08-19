@@ -69,7 +69,7 @@
                                         <div class="col-md-12 col-lg-6">
 
                                             <div class="form-group">
-                                                <label for="description">Price<a
+                                                <label for="price">Price<a
                                                         class="text-danger">*</a></label>
                                                 <div class="input-group">
 
@@ -77,7 +77,7 @@
                                                         <span class="input-group-text">BDT</span>
                                                     </div>
                                                     <input class="form-control" id="price"
-                                                           placeholder="Enter product description"
+                                                           placeholder="Enter product Price"
                                                            th:name="price"
                                                            type="number" min="0"
                                                            th:field="*{price}">
@@ -124,7 +124,7 @@
 <script>
     $(".select2-class").select2({
         closeOnSelect: true,
-        placeholder: "Grade",
+        placeholder: "Select Store",
         width: '100%',
         dropdownAutoWidth: true
     });

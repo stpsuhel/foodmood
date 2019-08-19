@@ -1,9 +1,11 @@
 package app.circle.foodmood.controller.webController
 
+import app.circle.foodmood.controller.commonUtils.CategoryUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.RoleUtils
 import app.circle.foodmood.model.dataModel.CompanyDataModel
 import app.circle.foodmood.model.dataModel.UserDataModel
+import app.circle.foodmood.model.database.ProductCategory
 import app.circle.foodmood.model.database.Company
 import app.circle.foodmood.model.database.CompanyPermission
 import app.circle.foodmood.model.database.ProductItem
@@ -31,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @Controller
 @RequestMapping("admin")
 class CompanyManagementWebController(val companyRepository: CompanyRepository,
+                                     val categoryUtils: CategoryUtils,
                                      val userRepository: UserRepository,
                                      val companyPermissionRepository: CompanyPermissionRepository,
                                      val roleUtils: RoleUtils,
@@ -198,5 +201,28 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository,
         return "product/productInformation"
     }
 
+    @RequestMapping("all-category-information")
+    fun getAllCategoryInformation(model: Model): String{
 
+        val allCategory = categoryUtils.getAllCategoryList()
+        model.addAttribute("allCategoryList", allCategory)
+
+        return "product/categoryInformation"
+    }
+
+    @RequestMapping("add-category")
+    fun getAddUpdateCategory(model: Model): String{
+        model.addAttribute("productCategory", ProductCategory())
+
+        return "product/addUpdateCategory"
+    }
+
+    @RequestMapping(value=["add-category"], method = [RequestMethod.POST])
+    fun getSaveUpdateCategory(@Validated @ModelAttribute("productCategory") productCategory: ProductCategory, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String{
+
+        categoryUtils.saveUpdateCategory(productCategory)
+        categoryUtils.deleteAllCategoryList()
+
+        return "redirect:./all-category-information"
+    }
 }

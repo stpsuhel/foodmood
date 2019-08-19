@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Category Information</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Category</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Information</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form method="post" th:action="@{./add-category}" th:object="${productCategory}">
+                                <div class="card-header">
+                                    <div class="card-title">Category Info</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="fullName">Category Title<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="fullName"
+                                                       placeholder="Enter Category Title"
+                                                       th:name="name"
+                                                       th:field="*{name}" type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary" type="submit"/>
+                                    <button class="btn btn-danger" id="cancel-button" type="reset">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+
+<script>
+
+
+    $("#cancel-button").click(function () {
+        $(location).attr('href', './admin/all-category-information')
+
+    })
+
+</script>
+</body>
+</html>

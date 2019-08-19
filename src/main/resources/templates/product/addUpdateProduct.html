@@ -36,14 +36,21 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <form method="post" th:action="@{/add-product(id=${product.id})}" th:object="${product}">
-                                <div class="card-header">
-                                    <div class="card-title">Store Info</div>
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Product Info</h4>
+                                    <button id="updateProduct"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Update Product
+                                    </button>
                                 </div>
+                            </div>
+                            <form method="post" th:action="@{/add-product(id=${product.id})}" th:object="${product}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 col-lg-6">
-                                            <div class="form-group" id="checkProduct" th:id="${product.id}">
+                                            <div class="form-group checkProduct" th:id="${product.id}">
                                                 <label for="fullName">Food Title<a
                                                         class="text-danger">*</a></label>
                                                 <input class="form-control disableProductInfo" id="fullName"
@@ -107,8 +114,8 @@
                                     </div>
                                 </div>
                                 <div class="card-action">
-                                    <input class="btn btn-primary" type="submit"/>
-                                    <button class="btn btn-danger" id="cancel-button" type="reset">Cancel</button>
+                                    <input class="btn btn-primary hideSaveButton" type="submit"/>
+                                    <button class="btn btn-danger hideSaveButton" id="cancel-button" type="reset">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -124,6 +131,15 @@
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
 
 <script>
+    let productId = $(".checkProduct").attr("id");
+    console.log(productId);
+    if(productId==null){
+        $('.disableProductInfo').prop('disabled', false);
+        $('#updateProduct').hide();
+    }else{
+        $('.hideSaveButton').hide();
+    }
+
     $(".select2-class").select2({
         closeOnSelect: true,
         placeholder: "Select Store",
@@ -131,18 +147,21 @@
         dropdownAutoWidth: true
     });
 
-    $(document).ready(function () {
-        let productId = $("checkProduct").attr("id");
-        console.log(productId);
-        if(productId==null){
-            $('.disableProductInfo').prop('disabled', false);
-        }
-    });
-
 
     $("#cancel-button").click(function () {
-        $(location).attr('href', './product-information')
 
+        if(productId==null){
+            $(location).attr('href', './product-information');
+        }else{
+            $('.hideSaveButton').hide();
+            $('.disableProductInfo').prop('disabled', true);
+        }
+
+    });
+
+    $('#updateProduct').click(function () {
+        $('.hideSaveButton').show();
+        $('.disableProductInfo').prop('disabled', false);
     })
 
 </script>

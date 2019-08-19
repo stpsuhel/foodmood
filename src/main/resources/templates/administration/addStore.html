@@ -36,17 +36,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <form method="post" th:action="@{/add-store(id=${store.id})}" th:object="${store}">
-                                <div class="card-header">
-                                    <div class="card-title">Store Info</div>
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Store Info</h4>
+                                    <button id="updateStore"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Update Store
+                                    </button>
                                 </div>
+                            </div>
+                            <form method="post" th:action="@{/add-store(id=${store.id})}" th:object="${store}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 col-lg-6">
-                                            <div class="form-group">
+                                            <div class="form-group findStoreId" th:id="${store.id}">
                                                 <label for="fullName">Full Name <a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="fullName"
+                                                <input class="form-control disableInputField" id="fullName"
                                                        placeholder="Enter Full Name"
                                                        th:name="fullName"
                                                        th:field="*{name}" type="text">
@@ -58,7 +65,7 @@
                                             <div class="form-group">
                                                 <label for="contactNumber">Phone Number<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="contactNumber"
+                                                <input class="form-control disableInputField" id="contactNumber"
                                                        placeholder="Enter Phone Number"
                                                        th:name="contactNumber"
                                                        th:field="*{contactNumber}">
@@ -70,7 +77,7 @@
                                             <div class="form-group">
                                                 <label for="address">Area<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="area"
+                                                <input class="form-control disableInputField" id="area"
                                                        placeholder="Enter Area"
                                                        th:field="*{area}"
                                                        th:name="area">
@@ -85,7 +92,7 @@
                                             <div class="form-group">
                                                 <label for="address">Address<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="address"
+                                                <input class="form-control disableInputField" id="address"
                                                        placeholder="Enter Address"
                                                        th:name="address"
                                                        th:field="*{address}">
@@ -97,7 +104,7 @@
                                             <div class="form-group">
                                                 <label for="address">Open Time<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" type="time"
+                                                <input class="form-control disableInputField" type="time"
                                                        placeholder="Enter Closed Time"
                                                        th:name="openTime"
                                                        th:field="*{openTime}">
@@ -108,7 +115,7 @@
                                             <div class="form-group">
                                                 <label for="address">Closed Time<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control"
+                                                <input class="form-control disableInputField"
                                                        placeholder="Enter Closed Time"
                                                        th:name="closedTime"
                                                        type="time"
@@ -121,7 +128,7 @@
                                             <div class="form-group">
                                                 <label for="address">Tag Line<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control"
+                                                <input class="form-control disableInputField"
                                                        placeholder="Enter Tag Line"
                                                        th:name="tagline"
                                                        type="text" maxlength="50"
@@ -132,8 +139,8 @@
                                     </div>
                                 </div>
                                 <div class="card-action">
-                                    <input class="btn btn-primary" type="submit"/>
-                                    <button class="btn btn-danger">Cancel</button>
+                                    <input class="btn btn-primary hideSaveButton" type="submit"/>
+                                    <button class="btn btn-danger hideSaveButton" id="cancel-button" type="reset">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -149,6 +156,15 @@
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
 
 <script>
+    let storeId = $('.findStoreId').attr('id');
+
+    if(storeId==null){
+        $('#updateStore').hide();
+    }else {
+        $('.hideSaveButton').hide();
+        $('.disableInputField').prop('disabled', true);
+    }
+
     $(".select2-class").select2({
         closeOnSelect: true,
         placeholder: "Grade",
@@ -165,6 +181,20 @@
         "bAutoWidth": false
     });
 
+    $("#cancel-button").click(function () {
+
+        if(storeId==null){
+            $(location).attr('href', './store-information');
+        }else{
+            $('.hideSaveButton').hide();
+            $('.disableInputField').prop('disabled', true);
+        }
+    });
+
+    $('#updateStore').click(function () {
+        $('.hideSaveButton').show();
+        $('.disableInputField').prop('disabled', false);
+    })
 
 </script>
 </body>

@@ -24,7 +24,7 @@ class Store : AuditModel() {
     var tagline: String = ""
 
     @NotNull
-    var openTime: String? = null
+    var openTime: String? = ""
 
     @NotNull
     var closedTime: String = ""

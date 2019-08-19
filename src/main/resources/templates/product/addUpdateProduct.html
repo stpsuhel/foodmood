@@ -36,18 +36,18 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <form method="post" th:action="@{/add-product}" th:object="${product}">
+                            <form method="post" th:action="@{/add-product(id=${product.id})}" th:object="${product}">
                                 <div class="card-header">
                                     <div class="card-title">Store Info</div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 col-lg-6">
-                                            <div class="form-group">
+                                            <div class="form-group" id="checkProduct" th:id="${product.id}">
                                                 <label for="fullName">Food Title<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="fullName"
-                                                       placeholder="Enter Food Title"
+                                                <input class="form-control disableProductInfo" id="fullName"
+                                                       placeholder="Enter Food Title" disabled
                                                        th:name="name"
                                                        th:field="*{name}" type="text">
                                                 <small class="form-text text-muted"></small>
@@ -58,8 +58,8 @@
                                             <div class="form-group">
                                                 <label for="description">Description<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="description"
-                                                       placeholder="Product Description"
+                                                <input class="form-control disableProductInfo" id="description"
+                                                       placeholder="Product Description" disabled
                                                        th:name="description"
                                                        th:field="*{description}">
                                                 <small class="form-text text-muted"></small>
@@ -76,8 +76,8 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">BDT</span>
                                                     </div>
-                                                    <input class="form-control" id="price"
-                                                           placeholder="Enter product Price"
+                                                    <input class="form-control disableProductInfo" id="price"
+                                                           placeholder="Enter product Price" disabled
                                                            th:name="price"
                                                            type="number" min="0"
                                                            th:field="*{price}">
@@ -92,7 +92,9 @@
                                             <div class="form-group">
                                                 <label for="store">Store<a
                                                         class="text-danger">*</a></label>
-                                                <select class="select2-class" id="store" th:field="*{storeId}">
+                                                <select class="select2-class disableProductInfo" id="store"
+                                                        disabled th:field="*{storeId}">
+
                                                     <option th:each="storeItem : ${storeList}"
                                                             th:value="${storeItem.getId()}"
                                                             th:text="${storeItem.getName()}">
@@ -127,6 +129,14 @@
         placeholder: "Select Store",
         width: '100%',
         dropdownAutoWidth: true
+    });
+
+    $(document).ready(function () {
+        let productId = $("checkProduct").attr("id");
+        console.log(productId);
+        if(productId==null){
+            $('.disableProductInfo').prop('disabled', false);
+        }
     });
 
 

@@ -1,3 +1,4 @@
+/*
 $(document).ready(function () {
 
 
@@ -73,7 +74,7 @@ let userUpdate = {
 
 
 
-        /*"async": true,
+        /!*"async": true,
         "crossDomain": true,
         "url": "./user/update",
         "method": "POST",
@@ -82,9 +83,10 @@ let userUpdate = {
         },
         "processData": false,
         "data": "{\n\t\"\": \"name\",\n\t\"userName\": \"skdjgl\",\n\t\"email\": \"adhzg@gmail.com\",\n\t\"phone\": \"114422556\",\n\t\"id\": 15\n}"
-}*/
+}*!/
 
-/*$.ajax(userUpdate).done(function (response) {
+/!*$.ajax(userUpdate).done(function (response) {
     console.log(response);
-});*/
+});*!/
 
+*/

@@ -110,10 +110,9 @@
     });
 
     $(".row-store").click(function (e) {
-        let storeId = $(this).attr("id");
-        $(location).attr('href', './store-details?id=' + storeId)
+        var storeId = $(this).attr("id");
+        $(location).attr('href', './add-store?id=' + storeId)
     })
-
 
     $("#add-store").click(function (e) {
         $(location).attr('href', './add-store')

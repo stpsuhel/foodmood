@@ -64,10 +64,8 @@
                                             <tbody>
                                                  <tr class="row-store" th:id="${productItem.id}" style="cursor: pointer"
                                                      th:each="productItem : ${productList}">
-                                                     <td th:text="${productItem.id}">
-                                                     </td>
-                                                     <td th:text="${productItem.name}">
-                                                     </td>
+                                                     <td th:text="${productItem.id}"></td>
+                                                     <td th:text="${productItem.name}"></td>
                                                      <td th:text="${productItem.storeId}"></td>
                                                  </tr>
                                             </tbody>
@@ -102,7 +100,7 @@
 
     $(".row-store").click(function (e) {
         let storeId = $(this).attr("id");
-        $(location).attr('href', './product-details?id=' + storeId)
+        $(location).attr('href', './add-product?id=' + storeId)
     })
 
 

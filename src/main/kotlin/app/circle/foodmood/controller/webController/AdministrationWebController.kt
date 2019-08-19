@@ -138,7 +138,7 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
     }
 
     @RequestMapping("store-information")
-    fun addStore(model: Model): String {
+    fun storeInformation(model: Model): String {
 
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         val storeList = storeUtils.getAllCompanyStore(userPrinciple.companyId)
@@ -148,22 +148,28 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
         return "administration/storeInformation"
     }
 
+    @RequestMapping("add-store", method = [RequestMethod.GET])
+    fun getAddUpdateStore(@RequestParam("id", required = false) id: String? = null, model: Model): String {
+
+        if (id.isNullOrEmpty()){
+            model.addAttribute("store", Store())
+        }else{
+            val storeId = id!!.toLong()
+            val storeInfo = storeUtils.getStoreById(storeId)
+
+            model.addAttribute("store", storeInfo)
+        }
+
+        return "administration/addStore"
+    }
+
     @RequestMapping("add-store", method = [RequestMethod.POST])
-    fun saveStore(@Validated @ModelAttribute store: Store, model: Model): String {
+    fun saveStore(@Validated @RequestParam("id", required = false) id: String? = null, @ModelAttribute store: Store, model: Model): String {
 
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         storeUtils.saveStoreData(store)
         storeUtils.deleteAllStoreCompanyCache(companyId = userPrinciple.companyId)
 
         return "redirect:./store-information"
-    }
-
-    @RequestMapping("add-store", method = [RequestMethod.GET])
-    fun getAddUpdateStore(model: Model): String {
-
-        model.addAttribute("store", Store())
-
-
-        return "administration/addStore"
     }
 }

@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     });
 
-    $('#student-list').on('select2:select', function (e) {
+    /*$('#student-list').on('select2:select', function (e) {
     });
 
     $("#student-club-save").click(function () {
@@ -35,9 +35,9 @@ $(document).ready(function () {
 
         let date = Number(moment().format("YYYYMMDD"));
         let time = Number(moment().format("hhmm"));
-        /**
+        /!**
          *Source Type = 1 (grade)  , 2 (Club) , 3 (Course)
-         **/
+         **!/
         let sourceType = 2;
 
 
@@ -46,10 +46,11 @@ $(document).ready(function () {
         };
 
         StudentAttendance.post(body, studentName)
-    })
+    })*/
 
 });
 
+/*
 
 let StudentClub = {
     addStudentToClub: function (studentClub) {
@@ -108,3 +109,4 @@ let StudentAttendance = {
         });
     }
 }
+*/

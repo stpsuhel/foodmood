@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
@@ -32,13 +33,22 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
 
 
     @RequestMapping(value = ["add-product"])
-    fun getAddUpdateProduct(model: Model): String {
+    fun getAddUpdateProduct(@RequestParam("id", required = false) id:String? = null, model: Model): String {
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
+        if(id.isNullOrEmpty()) {
+            model.addAttribute("product", ProductItem())
+            model.addAttribute("storeList", storeUtils.getAllCompanyStore(userPrinciple.companyId))
 
-        model.addAttribute("product", ProductItem())
-        model.addAttribute("storeList", storeUtils.getAllCompanyStore(userPrinciple.companyId))
+        }else{
+            val productId = id!!.toLong()
+            val productInfo = productUtils.getProductById(userPrinciple.companyId, productId)
 
+            val storeInfo = storeUtils.getStoreById(productInfo.storeId!!)
+
+            model.addAttribute("product", productInfo)
+            model.addAttribute("storeList", storeInfo)
+        }
 
         return "product/addUpdateProduct"
     }

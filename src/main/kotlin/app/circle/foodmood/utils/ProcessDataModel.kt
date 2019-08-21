@@ -1,14 +1,14 @@
 package app.circle.foodmood.utils
 
 import app.circle.foodmood.model.dataModel.*
+import app.circle.foodmood.model.database.ProductItem
+import app.circle.foodmood.model.database.Store
 import app.circle.foodmood.security.User
 import org.springframework.stereotype.Service
 
 
 @Service
 class ProcessDataModel {
-
-
 
     fun processUserItemToUserDetailsItem(user: UserDetails, userInfo: User): UserDetails {
 
@@ -38,4 +38,19 @@ class ProcessDataModel {
     }
 
 
+    fun processProductItemToProcessItemDataModel(product: ProductItem, store: Store): ProductItemDataModel{
+        val productDataModel = ProductItemDataModel()
+
+        productDataModel.companyId = product.companyId!!
+        productDataModel.id = product.id!!
+        productDataModel.name = product.name
+        productDataModel.description = product.description
+        productDataModel.price = product.price
+        productDataModel.discountPrice = product.discountPrice
+        productDataModel.isDiscount = product.isDiscount
+        productDataModel.storeId = product.storeId!!
+        productDataModel.storeName = store.name!!
+
+        return productDataModel
+    }
 }

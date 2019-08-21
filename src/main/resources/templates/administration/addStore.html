@@ -41,7 +41,7 @@
                                     <h4 class="card-title">Store Info</h4>
                                     <button id="updateStore"
                                             class="btn btn-primary btn-sm ml-auto">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fas fa-save"></i>
                                         Update Store
                                     </button>
                                 </div>
@@ -55,9 +55,10 @@
                                                         class="text-danger">*</a></label>
                                                 <input class="form-control disableInputField" id="fullName"
                                                        placeholder="Enter Full Name"
-                                                       th:name="fullName"
+                                                       th:name="name"
                                                        th:field="*{name}" type="text">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
 
@@ -69,7 +70,8 @@
                                                        placeholder="Enter Phone Number"
                                                        th:name="contactNumber"
                                                        th:field="*{contactNumber}">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('contactNumber')}" th:errors="*{contactNumber}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
 
@@ -82,9 +84,8 @@
                                                        th:field="*{area}"
                                                        th:name="area">
 
-                                                <!--th:field="*{address}"-->
-
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('area')}" th:errors="*{area}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
 
@@ -96,7 +97,8 @@
                                                        placeholder="Enter Address"
                                                        th:name="address"
                                                        th:field="*{address}">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
 
@@ -108,7 +110,8 @@
                                                        placeholder="Enter Closed Time"
                                                        th:name="openTime"
                                                        th:field="*{openTime}">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('openTime')}" th:errors="*{openTime}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-lg-6">
@@ -120,7 +123,8 @@
                                                        th:name="closedTime"
                                                        type="time"
                                                        th:field="*{closedTime}">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('closedTime')}" th:errors="*{closedTime}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
 
@@ -133,7 +137,8 @@
                                                        th:name="tagline"
                                                        type="text" maxlength="50"
                                                        th:field="*{tagline}">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('tagline')}" th:errors="*{tagline}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
                                     </div>

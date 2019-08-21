@@ -8,5 +8,5 @@ import javax.validation.constraints.NotNull
 class ProductCategory: AuditModel() {
 
     @NotNull
-    val name: String? = null
+    var name: String? = null
 }

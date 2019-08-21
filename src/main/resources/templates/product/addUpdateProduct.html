@@ -41,7 +41,7 @@
                                     <h4 class="card-title">Product Info</h4>
                                     <button id="updateProduct"
                                             class="btn btn-primary btn-sm ml-auto">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fas fa-save"></i>
                                         Update Product
                                     </button>
                                 </div>
@@ -57,7 +57,8 @@
                                                        placeholder="Enter Food Title" disabled
                                                        th:name="name"
                                                        th:field="*{name}" type="text">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
 
@@ -69,7 +70,8 @@
                                                        placeholder="Product Description" disabled
                                                        th:name="description"
                                                        th:field="*{description}">
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
 
@@ -79,7 +81,6 @@
                                                 <label for="price">Price<a
                                                         class="text-danger">*</a></label>
                                                 <div class="input-group">
-
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">BDT</span>
                                                     </div>
@@ -88,8 +89,27 @@
                                                            th:name="price"
                                                            type="number" min="0"
                                                            th:field="*{price}">
-                                                    <small class="form-text text-muted"></small>
+                                                </div>
+                                                <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
 
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+
+                                            <div class="form-group">
+                                                <label for="discountPrice">Discount Price*</a></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">BDT</span>
+                                                    </div>
+                                                    <input class="form-control disableProductInfo" id="discountPrice"
+                                                           placeholder="Enter Discount Price" disabled
+                                                           th:name="discountPrice"
+                                                           type="number" min="0"
+                                                           th:field="*{discountPrice}">
+                                                    <small class="form-text text-muted"></small>
                                                 </div>
                                             </div>
 
@@ -106,7 +126,8 @@
                                                             th:value="${storeItem.getId()}"
                                                             th:text="${storeItem.getName()}">
                                                     </option>
-                                                    <small class="form-text text-danger text-capitalize text-muted"></small>
+                                                    <small th:if="${#fields.hasErrors('storeId')}" th:errors="*{storeId}"
+                                                           class="form-text text-danger text-capitalize text-muted"></small>
                                                 </select>
                                                 <small class="form-text text-muted"></small>
                                             </div>

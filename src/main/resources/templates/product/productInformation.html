@@ -57,6 +57,7 @@
                                             <tr>
                                                 <th style="width: 10%" scope="col">Id</th>
                                                 <th scope="col">Name</th>
+                                                <th scope="col">Discount Price</th>
                                                 <th scope="col">Store</th>
                                             </tr>
                                             </thead>
@@ -66,7 +67,8 @@
                                                      th:each="productItem : ${productList}">
                                                      <td th:text="${productItem.id}"></td>
                                                      <td th:text="${productItem.name}"></td>
-                                                     <td th:text="${productItem.storeId}"></td>
+                                                     <td th:text="${productItem.discountPrice>0?productItem.discountPrice:''}"></td>
+                                                     <td th:text="${productItem.storeName}"></td>
                                                  </tr>
                                             </tbody>
                                         </table>

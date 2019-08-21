@@ -3,8 +3,6 @@ package app.circle.foodmood.utils
 enum class Status(val value: Int) {
     Deleted(0),
     Active(1),
-
-
 }
 
 

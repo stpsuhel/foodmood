@@ -164,7 +164,12 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
     }
 
     @RequestMapping("add-store", method = [RequestMethod.POST])
-    fun saveStore(@Validated @RequestParam("id", required = false) id: String? = null, @ModelAttribute store: Store, model: Model): String {
+    fun saveStore(@Validated @ModelAttribute("store") store: Store, @RequestParam("id", required = false) id: String? = null,
+                  bindingResult: BindingResult, redirectAttributes: RedirectAttributes, model: Model): String {
+
+        if(bindingResult.hasErrors()){
+            return "administration/addStore"
+        }
 
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         storeUtils.saveStoreData(store)

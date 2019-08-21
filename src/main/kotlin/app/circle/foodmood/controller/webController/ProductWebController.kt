@@ -2,9 +2,12 @@ package app.circle.foodmood.controller.webController
 
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
+import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.database.ProductItem
+import app.circle.foodmood.model.database.Store
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.PrimaryRole
+import app.circle.foodmood.utils.ProcessDataModel
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -18,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
 @Controller
-class ProductWebController(val storeUtils: StoreUtils, val productUtils: ProductUtils) {
+class ProductWebController(val storeUtils: StoreUtils, val productUtils: ProductUtils, val processDataModel: ProcessDataModel) {
 
 
     @RequestMapping("product-information")
@@ -26,7 +29,12 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         val allProductCompany = productUtils.getAllProductByCompanyId(userPrinciple.companyId)
 
-        model.addAttribute("productList", allProductCompany)
+        val productList = ArrayList<ProductItemDataModel>()
+        allProductCompany.forEach {
+            productList.add(processDataModel.processProductItemToProcessItemDataModel(it, storeUtils.getStoreById(it.storeId!!)))
+        }
+
+        model.addAttribute("productList", productList)
 
         return "product/productInformation"
     }
@@ -54,11 +62,33 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
     }
 
     @RequestMapping(value = ["add-product"], method = [RequestMethod.POST])
-    fun getSaveUpdateProduct(@Validated @ModelAttribute("product") product: ProductItem, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String {
+    fun getSaveUpdateProduct(@RequestParam("id", required = false) id: String? = null,
+                             @Validated @ModelAttribute("product") product: ProductItem, bindingResult: BindingResult,
+                             model: Model, redirectAttributes: RedirectAttributes): String {
+
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
+        if(product.storeId == null){
+            bindingResult.rejectValue("storeId", "500", "Please Select a Store")
+        }
+        if(product.price == null || product.price == 0){
+            bindingResult.rejectValue("price", "500", "Product price must be greater then Zero")
+        }
+        if(bindingResult.hasErrors()){
+            model.addAttribute("storeList", storeUtils.getAllCompanyStore(userPrinciple.companyId))
+            return "product/addUpdateProduct"
+        }
 
         product.companyId = userPrinciple.companyId
+
+        product.discountPrice?.let {
+            if(it > 0){
+                product.isDiscount = true
+            }else{
+                product.discountPrice = 0
+            }
+        }
+
         productUtils.saveUpdateProduct(product)
         productUtils.deleteAllProductByCompanyCache(userPrinciple.companyId)
         productUtils.deleteAllProductCache()

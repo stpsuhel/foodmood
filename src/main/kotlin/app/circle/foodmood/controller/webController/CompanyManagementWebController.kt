@@ -3,7 +3,9 @@ package app.circle.foodmood.controller.webController
 import app.circle.foodmood.controller.commonUtils.CategoryUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.RoleUtils
+import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.dataModel.CompanyDataModel
+import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.UserDataModel
 import app.circle.foodmood.model.database.ProductCategory
 import app.circle.foodmood.model.database.Company
@@ -15,6 +17,7 @@ import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.PrimaryRole
+import app.circle.foodmood.utils.ProcessDataModel
 import app.circle.foodmood.utils.SIZE_EMPTY
 import app.circle.foodmood.utils.Status
 import org.springframework.security.core.context.SecurityContextHolder
@@ -32,13 +35,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("admin")
-class CompanyManagementWebController(val companyRepository: CompanyRepository,
-                                     val categoryUtils: CategoryUtils,
-                                     val userRepository: UserRepository,
+class CompanyManagementWebController(val companyRepository: CompanyRepository, val processDataModel: ProcessDataModel,
+                                     val categoryUtils: CategoryUtils, val userRepository: UserRepository,
                                      val companyPermissionRepository: CompanyPermissionRepository,
-                                     val roleUtils: RoleUtils,
-                                     val encoder: PasswordEncoder,
-                                     val productUtils: ProductUtils) {
+                                     val roleUtils: RoleUtils, val encoder: PasswordEncoder,
+                                     val productUtils: ProductUtils, val storeUtils: StoreUtils) {
 
     @RequestMapping("company-registration", method = [RequestMethod.GET])
     fun companyRegistration(model: Model): String {
@@ -191,7 +192,12 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository,
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         if (userPrinciple.primaryRole.name == PrimaryRole.ADMIN.name) {
             val allProductCompany = productUtils.getAllProductWithOutStatus()
-            model.addAttribute("productList", allProductCompany)
+            val productList = ArrayList<ProductItemDataModel>()
+
+            allProductCompany.forEach {
+                productList.add(processDataModel.processProductItemToProcessItemDataModel(it, storeUtils.getStoreById(it.storeId!!)))
+            }
+            model.addAttribute("productList", productList)
         } else {
 
             val data: List<ProductItem> = mutableListOf()

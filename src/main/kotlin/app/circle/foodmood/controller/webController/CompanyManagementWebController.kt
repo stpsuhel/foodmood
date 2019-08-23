@@ -7,7 +7,7 @@ import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.dataModel.CompanyDataModel
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.UserDataModel
-import app.circle.foodmood.model.database.ProductCategory
+import app.circle.foodmood.model.database.Category
 import app.circle.foodmood.model.database.Company
 import app.circle.foodmood.model.database.CompanyPermission
 import app.circle.foodmood.model.database.ProductItem
@@ -218,15 +218,15 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
     @RequestMapping("add-category")
     fun getAddUpdateCategory(model: Model): String{
-        model.addAttribute("productCategory", ProductCategory())
+        model.addAttribute("category", Category())
 
         return "product/addUpdateCategory"
     }
 
     @RequestMapping(value=["add-category"], method = [RequestMethod.POST])
-    fun getSaveUpdateCategory(@Validated @ModelAttribute("productCategory") productCategory: ProductCategory, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String{
+    fun getSaveUpdateCategory(@Validated @ModelAttribute("productCategory") category: Category, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String{
 
-        categoryUtils.saveUpdateCategory(productCategory)
+        categoryUtils.saveUpdateCategory(category)
         categoryUtils.deleteAllCategoryList()
 
         return "redirect:./all-category-information"

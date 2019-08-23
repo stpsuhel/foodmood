@@ -2,6 +2,7 @@ package app.circle.foodmood.model.database
 
 import app.circle.foodmood.model.AuditModel
 import javax.persistence.Entity
+import javax.persistence.ManyToMany
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
@@ -22,6 +23,9 @@ class ProductItem : AuditModel() {
 
     @NotNull(message = "")
     var price: Int? = null
+
+    @NotNull
+    var categoryIdList: ArrayList<Long>? = null
 
     @NotNull
     var storeId: Long? = null

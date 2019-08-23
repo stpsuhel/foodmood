@@ -6,7 +6,7 @@ import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
-import app.circle.foodmood.model.database.ProductCategory
+import app.circle.foodmood.model.database.Category
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -99,9 +99,9 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
 
 
     @GetMapping("all-product-category")
-    fun getAllCategory(): Response<List<ProductCategory>> {
+    fun getAllCategory(): Response<List<Category>> {
 
-        val response = Response<List<ProductCategory>>()
+        val response = Response<List<Category>>()
 
         response.isSuccessful = true
         response.result = categoryUtils.getAllCategoryList().shuffled()

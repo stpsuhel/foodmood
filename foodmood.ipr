@@ -213,7 +213,13 @@
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>circle_foodmood</user-name>
-      <introspection-schemas>foodmood_db:public</introspection-schemas>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="database" qname="foodmood_db">
+            <node kind="schema" qname="public" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
     </data-source>
   </component>
   <component name="libraryTable">

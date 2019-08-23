@@ -1,6 +1,6 @@
 package app.circle.foodmood.controller.commonUtils
 
-import app.circle.foodmood.model.database.ProductCategory
+import app.circle.foodmood.model.database.Category
 import app.circle.foodmood.repository.CategoryRepository
 import app.circle.foodmood.utils.Status
 import org.springframework.cache.annotation.CacheEvict
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service
 @Service
 class CategoryUtils(val categoryRepository: CategoryRepository) {
 
-    fun saveUpdateCategory(productCategory: ProductCategory): ProductCategory{
-        return categoryRepository.save(productCategory)
+    fun saveUpdateCategory(category: Category): Category{
+        return categoryRepository.save(category)
     }
 
     @Cacheable("all-category")
-    fun getAllCategoryList(): ArrayList<ProductCategory>{
+    fun getAllCategoryList(): ArrayList<Category>{
         return categoryRepository.getAllByStatusOrderByNameAsc(Status.Active.value)
     }
 

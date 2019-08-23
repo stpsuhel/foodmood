@@ -41,7 +41,7 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
                                     <h4 class="card-title">Category List</h4>
-                                    <button id="add-productCategory"
+                                    <button id="add-category"
                                             class="btn btn-primary btn-sm ml-auto">
                                         <i class="fa fa-plus"></i>
                                         Add Category
@@ -51,7 +51,7 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <div class="table-responsive">
-                                        <table id="productCategory-table"
+                                        <table id="category-table"
                                                class="display table table-striped table-hover dataTable">
                                             <thead>
                                             <tr>
@@ -86,16 +86,16 @@
 
 <script>
 
-      $("#productCategory-table").DataTable({
+      $("#category-table").DataTable({
       });
 /*
     $(".row-store").click(function (e) {
         var storeId = $(this).attr("id");
-        $(location).attr('href', './productCategory-details?id=' + storeId)
+        $(location).attr('href', './category-details?id=' + storeId)
     })*/
 
 
-    $("#add-productCategory").click(function (e) {
+    $("#add-category").click(function (e) {
         $(location).attr('href', './add-category')
     })
 </script>

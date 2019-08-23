@@ -16,7 +16,7 @@ class CategoryUtils(val categoryRepository: CategoryRepository) {
 
     @Cacheable("all-category")
     fun getAllCategoryList(): ArrayList<ProductCategory>{
-        return categoryRepository.getAllByStatus(Status.Active.value)
+        return categoryRepository.getAllByStatusOrderByNameAsc(Status.Active.value)
     }
 
     @CacheEvict("all-category")

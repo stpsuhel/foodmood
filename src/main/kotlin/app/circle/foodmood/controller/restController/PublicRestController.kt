@@ -1,10 +1,12 @@
 package app.circle.foodmood.controller.restController
 
+import app.circle.foodmood.controller.commonUtils.CategoryUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
+import app.circle.foodmood.model.database.ProductCategory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("public")
-class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils) {
+class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils) {
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
@@ -28,14 +30,13 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
                 val productItemDataModel = ProductItemDataModel()
                 productItemDataModel.companyId = it.companyId!!
                 productItemDataModel.id = it.id!!
-                productItemDataModel.name = it.name!!
+                productItemDataModel.name = it.name
                 productItemDataModel.price = it.price!!
                 productItemDataModel.storeId = it.storeId!!
-                productItemDataModel.description = it.description!!
-                productItemDataModel.status = it.status!!
-                productItemDataModel.isFreeDelivery = true
-                productItemDataModel.discountPrice = 80
-                productItemDataModel.isDiscount = true
+                productItemDataModel.description = it.description
+                productItemDataModel.status = it.status
+                productItemDataModel.discountPrice = it.discountPrice
+                productItemDataModel.isDiscount = it.isDiscount
 
 
                 for (store in allStore) {
@@ -94,6 +95,20 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
 
 
         return response
+    }
+
+
+    @GetMapping("all-product-category")
+    fun getAllCategory(): Response<List<ProductCategory>> {
+
+        val response = Response<List<ProductCategory>>()
+
+        response.isSuccessful = true
+        response.result = categoryUtils.getAllCategoryList().shuffled()
+        response.isResultAvailable = true
+
+        return response
+
     }
 
 }

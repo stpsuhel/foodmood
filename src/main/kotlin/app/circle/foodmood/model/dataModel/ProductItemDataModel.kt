@@ -16,4 +16,6 @@ class ProductItemDataModel {
     var isFreeDelivery: Boolean = false
     var storeName: String = ""
     var status: Int = ID_NOT_FOUND_INT
+    val categoryList: Array<Long> = arrayOf()
+
 }

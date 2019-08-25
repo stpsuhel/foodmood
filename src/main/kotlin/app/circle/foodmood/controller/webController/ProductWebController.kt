@@ -1,6 +1,5 @@
 package app.circle.foodmood.controller.webController
 
-import app.circle.foodmood.controller.commonUtils.CategoryUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
@@ -22,8 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
 @Controller
-class ProductWebController(val storeUtils: StoreUtils, val productUtils: ProductUtils, val processDataModel: ProcessDataModel,
-                           val categoryUtils: CategoryUtils) {
+class ProductWebController(val storeUtils: StoreUtils, val productUtils: ProductUtils, val processDataModel: ProcessDataModel) {
 
 
     @RequestMapping("product-information")
@@ -48,7 +46,6 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
 
         if(id.isNullOrEmpty()) {
             model.addAttribute("product", ProductItem())
-            model.addAttribute("category", categoryUtils.getAllCategoryList())
             model.addAttribute("storeList", storeUtils.getAllCompanyStore(userPrinciple.companyId))
 
         }else{
@@ -56,9 +53,11 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
             val productInfo = productUtils.getProductById(userPrinciple.companyId, productId)
 
             val storeInfo = storeUtils.getStoreById(productInfo.storeId!!)
+            val storeList = storeUtils.getAllCompanyStore(userPrinciple.companyId)
 
             model.addAttribute("product", productInfo)
-            model.addAttribute("storeList", storeInfo)
+            model.addAttribute("storeList", storeList)
+            model.addAttribute("store", storeInfo)
         }
 
         return "product/addUpdateProduct"

@@ -6,8 +6,6 @@ enum class Status(val value: Int) {
 }
 
 
-
-
 const val ID_NOT_FOUND: Long = -1L
 const val ID_NOT_FOUND_INT: Int = -1
 const val SIZE_EMPTY: Int = 0
@@ -24,3 +22,5 @@ const val MAX_HINT_LENGTH = 99
 const val START_MONTH_DATE = "0101"
 const val END_MONTH_DATE = "1231"
 
+
+const val defaultCompany = 2L

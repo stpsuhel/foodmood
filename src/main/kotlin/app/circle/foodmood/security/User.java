@@ -52,7 +52,7 @@ public class User {
 
     private String phone = "";
 
-    private Long companyId;
+    private Long companyId ;
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Temporal(TemporalType.TIMESTAMP)
@@ -65,7 +65,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-
 
 
     @NotNull

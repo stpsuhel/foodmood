@@ -1,6 +1,7 @@
 package app.circle.foodmood.controller.restController;
 
 
+import app.circle.foodmood.model.Response;
 import app.circle.foodmood.repository.RoleRepository;
 import app.circle.foodmood.repository.UserRepository;
 import app.circle.foodmood.security.Role;
@@ -11,6 +12,7 @@ import app.circle.foodmood.security.request.LoginForm;
 import app.circle.foodmood.security.request.SignUpForm;
 import app.circle.foodmood.security.response.JwtResponse;
 import app.circle.foodmood.utils.PrimaryRole;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,9 +86,6 @@ public class AuthController {
             return new ResponseEntity<String>("Fail -> Email is already in use!",
                     HttpStatus.BAD_REQUEST);
         }
-       // UserPrinciple userPrincipal = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        // Creating user's account
         User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
                 signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()), 2L);
 
@@ -95,21 +94,19 @@ public class AuthController {
 
 
         Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
+
+        Set<Role> roles = new HashSet<Role>();
 
         strRoles.forEach(role -> {
-            switch (role) {
-                case "admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(adminRole);
-                    user.setPrimaryRole(PrimaryRole.ADMIN);
-
-                    break;
-                default:
-                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(userRole);
+            if ("admin".equals(role)) {
+                Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(adminRole);
+                user.setPrimaryRole(PrimaryRole.ADMIN);
+            } else {
+                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(userRole);
             }
         });
 
@@ -118,5 +115,63 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok().body("User registered successfully!");
+    }
+
+
+    @PostMapping("/token")
+    public Response<JwtResponse> registerUserToken(@Valid @RequestBody SignUpForm signUpRequest) {
+
+
+        Response<JwtResponse> response = new Response<JwtResponse>();
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return getJwtResponseResponse(signUpRequest, response);
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            response.setSuccessful(false);
+
+            String[] message = {"Already Exits but password not matched"};
+            response.setMessage(message);
+            response.setSuccessful(false);
+            return response;
+        }
+
+        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
+                signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()), 2L);
+        user.setPhone(signUpRequest.getPhone());
+
+
+        Set<String> strRoles = signUpRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+        strRoles.forEach(role -> {
+            user.setPrimaryRole(PrimaryRole.User);
+            Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+            roles.add(userRole);
+        });
+        user.setRoles(roles);
+
+        User userData = userRepository.save(user);
+
+        return getJwtResponseResponse(signUpRequest, response);
+    }
+
+    @NotNull
+    private Response<JwtResponse> getJwtResponseResponse(@RequestBody @Valid SignUpForm signUpRequest, Response<JwtResponse> response) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        signUpRequest.getUsername(),
+                        signUpRequest.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = jwtProvider.generateJwtToken(authentication);
+        response.setSuccessful(true);
+
+        response.setResult(new JwtResponse(jwt));
+        response.setSuccessful(true);
+        return response;
     }
 }

@@ -9,16 +9,14 @@ import java.util.Set;
 public class SignUpForm {
     @NotBlank
     @Size(min = 3, max = 50)
-    private String name;
+    private String name = "Unknown";
 
     @NotBlank
     @Size(min = 3, max = 50)
     private String username;
 
-    @NotBlank
     @Size(max = 60)
-    @Email
-    private String email;
+    private String email= "";
 
     private Set<String> role;
 

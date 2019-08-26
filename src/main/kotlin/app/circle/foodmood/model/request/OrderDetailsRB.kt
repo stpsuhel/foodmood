@@ -7,8 +7,16 @@ import javax.validation.constraints.NotNull
 class OrderDetailsRB : AuditModel() {
 
     @NotEmpty
-    val productList: Array<Long> = arrayOf()
+    val productList: Array<Cart> = arrayOf()
 
     @NotNull
-    val userId: Long? = null
+    @NotEmpty
+    val userId: String = ""
 }
+
+
+class Cart(
+        val productId: Long,
+        val storeId: Long,
+        var quantity: Int = 1
+)

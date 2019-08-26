@@ -49,7 +49,14 @@ class ProductUtils(val productRepository: ProductRepository) {
         return productRepository.getAllByStoreIdAndStatus(storeId, Status.Active.value)
     }
 
-    fun getProductById(companyId: Long, id: Long): ProductItem{
+    fun getProductById(companyId: Long, id: Long): ProductItem {
         return productRepository.getByCompanyIdAndIdAndStatus(companyId, id, Status.Active.value)
+    }
+
+
+    fun getProductsWhereIdIn(productList: ArrayList<Long>): List<ProductItem> {
+
+        return productRepository.getAllByIdInAndStatus(productList, Status.Active.value)
+
     }
 }

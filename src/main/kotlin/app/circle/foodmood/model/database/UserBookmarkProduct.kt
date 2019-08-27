@@ -5,19 +5,13 @@ import javax.persistence.Entity
 import javax.validation.constraints.NotNull
 
 @Entity
-class UserAddress: AuditModel() {
+class UserBookmarkProduct: AuditModel() {
 
     @NotNull
     var userId: Long? = null
 
     @NotNull
-    var description: String? = null
+    var productId: Long? = null
 
-    var addressLineOne: String? = null
-
-    var addressLineTwo: String? = null
-
-    var locationLatitude: Double = 0.0
-
-    var locationLongitude: Double = 0.0
+    var bookmarkType: String? = null
 }

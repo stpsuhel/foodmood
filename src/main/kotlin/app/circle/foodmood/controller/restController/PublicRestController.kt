@@ -7,6 +7,9 @@ import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
 import app.circle.foodmood.model.database.Category
+import app.circle.foodmood.model.database.ProductItem
+import app.circle.foodmood.security.services.UserPrinciple
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -108,7 +111,19 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         response.isResultAvailable = true
 
         return response
-
     }
 
+    @GetMapping("all-product-discount")
+    fun getAllProductDiscount(): Response<ArrayList<ProductItem>>{
+        val response = Response<ArrayList<ProductItem>>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+        val allDiscountProduct = productUtils.getProductByDiscount(userPrinciple.companyId)
+
+        response.isSuccessful = true
+        response.isResultAvailable = true
+        response.result = allDiscountProduct
+
+        return response
+    }
 }

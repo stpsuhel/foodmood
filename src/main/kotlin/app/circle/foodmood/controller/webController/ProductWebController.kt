@@ -55,6 +55,7 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
             val storeInfo = storeUtils.getStoreById(productInfo.storeId!!)
             val storeList = storeUtils.getAllCompanyStore(userPrinciple.companyId)
 
+
             model.addAttribute("product", productInfo)
             model.addAttribute("storeList", storeList)
             model.addAttribute("store", storeInfo)

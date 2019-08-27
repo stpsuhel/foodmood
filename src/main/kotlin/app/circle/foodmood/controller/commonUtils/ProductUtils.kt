@@ -55,8 +55,10 @@ class ProductUtils(val productRepository: ProductRepository) {
 
 
     fun getProductsWhereIdIn(productList: ArrayList<Long>): List<ProductItem> {
-
         return productRepository.getAllByIdInAndStatus(productList, Status.Active.value)
+    }
 
+    fun getProductByDiscount(companyId: Long): ArrayList<ProductItem>{
+        return productRepository.getAllByCompanyIdAndIsDiscountAndStatus(companyId,  true, Status.Active.value)
     }
 }

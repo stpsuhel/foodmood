@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragment/component/header :: application-head"></head>
 <body>
@@ -59,6 +58,9 @@
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Discount Price</th>
                                                 <th scope="col">Store</th>
+                                                <th scope="col"
+                                                    sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)">
+                                                    Free Delivery</th>
                                             </tr>
                                             </thead>
 
@@ -69,6 +71,28 @@
                                                      <td th:text="${productItem.name}"></td>
                                                      <td th:text="${productItem.discountPrice>0?productItem.discountPrice:''}"></td>
                                                      <td th:text="${productItem.storeName}"></td>
+                                                     <td class="ignoreClick"
+                                                         sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)">
+                                                         <ul class="nav nav-pills nav-secondary"
+                                                             id="pills-tab" role="tablist">
+                                                             <li class="nav-item submenu">
+                                                                 <a class="nav-link ignoreClick"
+                                                                    th:classappend="${productItem.isFreeDelivery()==true?'active show':''}"
+                                                                    id="pills-home-tab"
+                                                                    data-toggle="pill" role="tab" th:attr="deliveryType=true"
+                                                                    aria-controls="pills-home"
+                                                                    aria-selected="true">Yes</a>
+                                                             </li>
+
+                                                             <li class="nav-item submenu">
+                                                                 <a class="nav-link ignoreClick"
+                                                                    th:classappend="${productItem.isFreeDelivery()==false?'active show':''}"
+                                                                    data-toggle="pill" role="tab" th:attr="deliveryType=false"
+                                                                    aria-controls="pills-profile"
+                                                                    aria-selected="true">No</a>
+                                                             </li>
+                                                         </ul>
+                                                     </td>
                                                  </tr>
                                             </tbody>
                                         </table>
@@ -87,28 +111,10 @@
     </div>
 </div>
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
+<script th:src="@{/page/productDetails.js}"></script>
 
 <script>
-    $(".select2-class").select2({
-        closeOnSelect: true,
-        placeholder: "Grade",
-        width: '100%',
-        dropdownAutoWidth: true
-    });
 
-
-      $("#product-table").DataTable({
-      });
-
-    $(".row-store").click(function (e) {
-        let storeId = $(this).attr("id");
-        $(location).attr('href', './add-product?id=' + storeId)
-    })
-
-
-    $("#add-product").click(function (e) {
-        $(location).attr('href', './add-product')
-    })
 </script>
 </body>
 </html>

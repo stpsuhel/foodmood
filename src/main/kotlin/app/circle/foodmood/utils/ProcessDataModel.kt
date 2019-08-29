@@ -38,18 +38,23 @@ class ProcessDataModel {
     }
 
 
-    fun processProductItemToProcessItemDataModel(product: ProductItem, store: Store): ProductItemDataModel{
+    fun processProductItemToProductItemDataModel(product: ProductItem, store: Store): ProductItemDataModel{
         val productDataModel = ProductItemDataModel()
 
-        productDataModel.companyId = product.companyId!!
-        productDataModel.id = product.id!!
-        productDataModel.name = product.name
-        productDataModel.description = product.description
-        productDataModel.price = product.price
-        productDataModel.discountPrice = product.discountPrice
-        productDataModel.isDiscount = product.isDiscount
-        productDataModel.storeId = product.storeId!!
-        productDataModel.storeName = store.name!!
+        try {
+            productDataModel.companyId = product.companyId!!
+            productDataModel.id = product.id!!
+            productDataModel.name = product.name
+            productDataModel.description = product.description
+            productDataModel.price = product.price
+            productDataModel.discountPrice = product.discountPrice
+            productDataModel.isDiscount = product.isDiscount
+            productDataModel.storeId = product.storeId!!
+            productDataModel.storeName = store.name!!
+            productDataModel.isFreeDelivery = product.freeDelivery!!
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
         return productDataModel
     }

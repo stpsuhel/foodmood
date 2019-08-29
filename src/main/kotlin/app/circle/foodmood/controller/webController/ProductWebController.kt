@@ -4,9 +4,7 @@ import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.database.ProductItem
-import app.circle.foodmood.model.database.Store
 import app.circle.foodmood.security.services.UserPrinciple
-import app.circle.foodmood.utils.PrimaryRole
 import app.circle.foodmood.utils.ProcessDataModel
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -31,7 +29,7 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
 
         val productList = ArrayList<ProductItemDataModel>()
         allProductCompany.forEach {
-            productList.add(processDataModel.processProductItemToProcessItemDataModel(it, storeUtils.getStoreById(it.storeId!!)))
+            productList.add(processDataModel.processProductItemToProductItemDataModel(it, storeUtils.getStoreById(it.storeId!!)))
         }
 
         model.addAttribute("productList", productList)
@@ -97,5 +95,10 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
         productUtils.deleteAllProductCache()
 
         return "redirect:./product-information"
+    }
+
+    @RequestMapping("coupon-information")
+    fun getCouponInformation(): String{
+        return "product/couponInformation"
     }
 }

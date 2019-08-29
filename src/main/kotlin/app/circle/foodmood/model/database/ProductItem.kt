@@ -27,4 +27,6 @@ class ProductItem : AuditModel() {
     var discountPrice: Int? = 0
 
     var isDiscount: Boolean = false
+
+    var freeDelivery: Boolean? = null
 }

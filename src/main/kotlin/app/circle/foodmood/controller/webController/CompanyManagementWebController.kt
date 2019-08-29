@@ -195,7 +195,14 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
             val productList = ArrayList<ProductItemDataModel>()
 
             allProductCompany.forEach {
-                productList.add(processDataModel.processProductItemToProcessItemDataModel(it, storeUtils.getStoreById(it.storeId!!)))
+
+                try {
+                    val storeInfo = storeUtils.getStoreById(it.storeId!!)
+                    val processData = processDataModel.processProductItemToProductItemDataModel(it, storeInfo)
+                    productList.add(processData)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
             model.addAttribute("productList", productList)
         } else {

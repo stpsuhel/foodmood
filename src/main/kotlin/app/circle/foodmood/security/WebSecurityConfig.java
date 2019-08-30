@@ -74,6 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                         "/login",
                         "/public/**",
+                        "/data/**",
                         "/signup"
                         //API LIST
 /*

@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>FoodMood</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
+    <meta th:id="isAdmin" th:content="${true}" sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)"/>
     <link rel="icon" th:href="@{/img/icon.ico}" type="image/x-icon"/>
     <script th:src="@{/js/plugin/webfont/webfont.min.js}"></script>
     <script>

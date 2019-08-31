@@ -238,4 +238,54 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
         return "redirect:./all-category-information"
     }
+
+    @RequestMapping("update-product")
+    fun getUpdateProduct(@RequestParam id: Long? = null, model: Model): String{
+        if (id != null) {
+
+            val productInfo = productUtils.getByProductId(id)
+            val companyInfo = companyRepository.getCompanyByIdAndStatus(productInfo.companyId!!, Status.Active.value)
+            val storeInfo = storeUtils.getStoreById(productInfo.storeId!!)
+            val storeList = storeUtils.getAllCompanyStore(companyInfo.id!!)
+
+            model.addAttribute("product", productInfo)
+            model.addAttribute("company", companyInfo)
+            model.addAttribute("storeList", storeList)
+            model.addAttribute("store", storeInfo)
+
+            return "company/updateProduct"
+        } else {
+            return "redirect:./error"
+        }
+    }
+
+    @RequestMapping(value = ["update-product"], method = [RequestMethod.POST])
+    fun getSaveUpdateProduct(@RequestParam("id", required = false) id: String? = null,
+                             @Validated @ModelAttribute("product") product: ProductItem, bindingResult: BindingResult,
+                             model: Model, redirectAttributes: RedirectAttributes): String {
+
+        if(product.storeId == null){
+            bindingResult.rejectValue("storeId", "500", "Please Select a Store")
+        }
+        if(product.price == null || product.price == 0){
+            bindingResult.rejectValue("price", "500", "Product price must be greater then Zero")
+        }
+        if(bindingResult.hasErrors()){
+            model.addAttribute("storeList", storeUtils.getAllCompanyStore(product.companyId!!))
+            return "product/addUpdateProduct"
+        }
+        product.discountPrice?.let {
+            if(it > 0){
+                product.isDiscount = true
+            }else{
+                product.discountPrice = 0
+            }
+        }
+
+        productUtils.saveUpdateProduct(product)
+        productUtils.deleteAllProductByCompanyCache(product.companyId!!)
+        productUtils.deleteAllProductCache()
+
+        return "redirect:./all-product-information"
+    }
 }

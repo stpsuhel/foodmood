@@ -61,4 +61,8 @@ class ProductUtils(val productRepository: ProductRepository) {
     fun getProductByDiscount(companyId: Long): ArrayList<ProductItem>{
         return productRepository.getAllByCompanyIdAndIsDiscountAndStatus(companyId,  true, Status.Active.value)
     }
+
+    fun getByProductId(id: Long): ProductItem{
+        return productRepository.getByIdAndStatus(id, Status.Active.value)
+    }
 }

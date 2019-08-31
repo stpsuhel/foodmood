@@ -1,21 +1,3 @@
-let product = {
-    saveDeliveryType: function(product, productId) {
-        $.ajax({
-            url: './product/save-free-delivery?id=' + productId,
-            type: 'post',
-            contentType: 'application/json',
-            data: JSON.stringify(product),
-            success: function (data, textStatus, jQxhr) {
-                if (data.resultAvailable && data.successful) {
-                    window.location.reload(true);
-                }
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
-                console.log(errorThrown);
-            }
-        });
-    }
-}
 
 $(document).ready(function () {
 
@@ -45,8 +27,12 @@ $(document).ready(function () {
 
             return;
         }
-
-        $(location).attr('href', './add-product?id=' + productId)
+        let isAdmin = $("#isAdmin").attr('content')
+        if(isAdmin){
+            $(location).attr('href', './update-product?id=' + productId)
+        }else {
+            $(location).attr('href', './add-product?id=' + productId)
+        }
     })
 
     $("#add-product").click(function (e) {
@@ -54,5 +40,24 @@ $(document).ready(function () {
     })
 
 })
+
+let product = {
+    saveDeliveryType: function(product, productId) {
+        $.ajax({
+            url: './product/save-free-delivery?id=' + productId,
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(product),
+            success: function (data, textStatus, jQxhr) {
+                if (data.resultAvailable && data.successful) {
+                    window.location.reload(true);
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+    }
+}
 
 

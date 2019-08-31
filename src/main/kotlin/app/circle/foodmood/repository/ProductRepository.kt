@@ -19,5 +19,7 @@ interface ProductRepository : JpaRepository<ProductItem, Long> {
     fun getAllByIdInAndStatus(productList: ArrayList<Long>, value: Int):List<ProductItem>
 
     fun getAllByCompanyIdAndIsDiscountAndStatus(companyId: Long, isDiscount: Boolean, status: Int): ArrayList<ProductItem>
+
+    fun getByIdAndStatus(id: Long, status: Int): ProductItem
 }
 

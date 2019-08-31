@@ -1,6 +1,8 @@
 package app.circle.foodmood.utils
 
+import app.circle.foodmood.controller.commonUtils.GlobalUtils
 import app.circle.foodmood.model.dataModel.*
+import app.circle.foodmood.model.database.Coupon
 import app.circle.foodmood.model.database.ProductItem
 import app.circle.foodmood.model.database.Store
 import app.circle.foodmood.security.User
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class ProcessDataModel {
+class ProcessDataModel(val globalUtils: GlobalUtils) {
 
     fun processUserItemToUserDetailsItem(user: UserDetails, userInfo: User): UserDetails {
 
@@ -57,5 +59,16 @@ class ProcessDataModel {
         }
 
         return productDataModel
+    }
+
+    fun processCouponDataModelToCoupon(couponDataModel: CouponDataModel): Coupon{
+        val coupon = Coupon()
+
+        coupon.couponText = couponDataModel.couponText
+        coupon.maxUse = couponDataModel.maxUse
+        coupon.startDate = globalUtils.getDateInInteger(couponDataModel.startDate!!)
+        coupon.endDate = globalUtils.getDateInInteger(couponDataModel.endDate!!)
+
+        return coupon
     }
 }

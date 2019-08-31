@@ -35,7 +35,7 @@ $(document).ready(function () {
         }
 
         console.log(body)
-        /*coupon.saveCoupon(body)*/
+        coupon.saveCoupon(body)
     })
 
     /*$('#updateProduct').click(function () {

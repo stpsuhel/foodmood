@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Product Information</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Product</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Information</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Product Info</h4>
+                                    <button id="updateProduct"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fas fa-save"></i>
+                                        Update Product
+                                    </button>
+                                </div>
+                            </div>
+                            <form method="post" th:action="@{/admin/update-product(id=${product.id})}" th:object="${product}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group checkProduct" th:id="${product.id}">
+                                                <label for="fullName">Food Title<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableProductInfo" id="fullName"
+                                                       placeholder="Enter Food Title" disabled
+                                                       th:name="name"
+                                                       th:field="*{name}" type="text">
+                                                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="description">Description<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableProductInfo" id="description"
+                                                       placeholder="Product Description" disabled
+                                                       th:name="description"
+                                                       th:field="*{description}">
+                                                <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+
+                                            <div class="form-group">
+                                                <label for="price">Price<a
+                                                        class="text-danger">*</a></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">BDT</span>
+                                                    </div>
+                                                    <input class="form-control disableProductInfo" id="price"
+                                                           placeholder="Enter product Price" disabled
+                                                           th:name="price"
+                                                           type="number" min="0"
+                                                           th:field="*{price}">
+                                                </div>
+                                                <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+
+                                            <div class="form-group">
+                                                <label for="discountPrice">Discount Price*</a></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">BDT</span>
+                                                    </div>
+                                                    <input class="form-control disableProductInfo" id="discountPrice"
+                                                           placeholder="Enter Discount Price" disabled
+                                                           th:name="discountPrice"
+                                                           type="number" min="0"
+                                                           th:field="*{discountPrice}">
+                                                    <small class="form-text text-muted"></small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="store">Store<a
+                                                        class="text-danger">*</a></label>
+                                                <select class="select2-class disableProductInfo" id="store"
+                                                        disabled th:field="*{storeId}">
+
+                                                    <option th:each="storeItem : ${storeList}"
+                                                            th:value="${storeItem.getId()}"
+                                                            th:text="${storeItem.getName()}">
+                                                    </option>
+                                                    <small th:if="${#fields.hasErrors('storeId')}" th:errors="*{storeId}"
+                                                           class="form-text text-danger text-capitalize text-muted"></small>
+                                                </select>
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="company">Company Name<a
+                                                        class="text-danger">*</a></label>
+                                                <select class="select2-class disableProductInfo" id="company"
+                                                        disabled th:field="*{companyId}">
+
+                                                    <option th:value="${company.id}"
+                                                            th:text="${company.name}">
+                                                    </option>
+                                                    <small class="form-text text-danger text-capitalize text-muted"></small>
+                                                </select>
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary hideSaveButton" type="submit"/>
+                                    <button class="btn btn-danger hideSaveButton" id="cancel-button" type="reset">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+
+<script>
+    let productId = $(".checkProduct").attr("id");
+    console.log(productId);
+    if(productId==null){
+        $('.disableProductInfo').prop('disabled', false);
+        $('#updateProduct').hide();
+    }else{
+        $('.hideSaveButton').hide();
+    }
+
+    $(".select2-class").select2({
+        closeOnSelect: true,
+        placeholder: "Select Store",
+        width: '100%',
+        dropdownAutoWidth: true
+    });
+
+
+    $("#cancel-button").click(function () {
+
+        if(productId==null){
+            $(location).attr('href', './product-information');
+        }else{
+            $('.hideSaveButton').hide();
+            $('.disableProductInfo').prop('disabled', true);
+        }
+
+    });
+
+    $('#updateProduct').click(function () {
+        $('.hideSaveButton').show();
+        $('.disableProductInfo').prop('disabled', false);
+    })
+
+</script>
+</body>
+</html>

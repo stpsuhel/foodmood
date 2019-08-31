@@ -3,6 +3,7 @@ package app.circle.foodmood.controller.commonUtils
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import org.springframework.stereotype.Service
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,9 +32,6 @@ class GlobalUtils {
         val fmt = DateTimeFormat.forPattern("yyyyMMdd")
         val str = date.toString(fmt)
 
-
-
-
         return str.toIntOrNull()
     }
 
@@ -43,5 +41,14 @@ class GlobalUtils {
         val str = time.toString(fmt)
 
         return str.toIntOrNull()
+    }
+
+    fun getDateInInteger(date: String): Int{
+        val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
+        val dateTime = fmt.parseDateTime(date)
+
+        val myFormat = DateTimeFormat.forPattern("yyyyMMdd")
+        val dateFormate = myFormat.print(dateTime)
+        return dateFormate.toInt()
     }
 }

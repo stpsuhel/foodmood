@@ -7,9 +7,11 @@ import app.circle.foodmood.security.services.UserPrinciple
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
-
+/**
+ * Only Company Admin can access this
+ */
 @RestController
-@RequestMapping("product")
+@RequestMapping("admin/product")
 class ProductRestController(val productUtils: ProductUtils) {
 
     @PostMapping("save-free-delivery")
@@ -17,7 +19,7 @@ class ProductRestController(val productUtils: ProductUtils) {
         val response = Response<ProductItem>()
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
-        val productInfo = productUtils.getProductById(userPrinciple.companyId, id)
+        val productInfo = productUtils.getByProductId(id)
 
         productInfo.freeDelivery = productItem.freeDelivery
 

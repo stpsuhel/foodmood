@@ -1,6 +1,7 @@
 package app.circle.foodmood.model.database
 
 import app.circle.foodmood.model.AuditModel
+import app.circle.foodmood.utils.OrderStatus
 import javax.persistence.Entity
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
@@ -24,4 +25,11 @@ class Order : AuditModel() {
 
     @NotEmpty
     var orderBy: String = ""
+
+
+    var orderStatus: Int = OrderStatus.PENDING_FOR_APPROVAL.value
+
+
+    @NotNull
+    var orderDate: Int? = null
 }

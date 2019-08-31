@@ -3,11 +3,11 @@ package app.circle.foodmood.controller.restController
 import app.circle.foodmood.controller.commonUtils.UserAddressUtils
 import app.circle.foodmood.controller.commonUtils.UserBookmarkProductUtils
 import app.circle.foodmood.model.Response
+import app.circle.foodmood.model.dataModel.AddressDataModel
 import app.circle.foodmood.model.database.UserAddress
 import app.circle.foodmood.model.database.UserBookmarkProduct
 import app.circle.foodmood.repository.UserAddressRepository
 import app.circle.foodmood.repository.UserBookmarkProductRepository
-import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
@@ -21,28 +21,40 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
                          val userBookmarkProductUtils: UserBookmarkProductUtils) {
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("create-update-user-address")
-    fun saveUpdateUserAddressDetails(@RequestBody userAddress: UserAddress): Response<UserAddress> {
-        val response = Response<UserAddress>()
+    @PostMapping("create-update-address")
+    fun saveUpdateUserAddressDetails(@RequestBody address: AddressDataModel): Response<UserAddress> {
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
-        userAddress.userId = userPrinciple.id
-        userAddress.companyId = userPrinciple.companyId
+        val response = Response<UserAddress>()
 
-        val userAddressDetails = userAddressRepository.save(userAddress)
+        try {
+            val userAddress = UserAddress()
+            userAddress.addressLineOne = address.addressLineOne
+            userAddress.addressLineTwo = address.addressLineTwo
+            userAddress.locationLatitude = address.locationLatitude!!
+            userAddress.locationLongitude = address.locationLongitude!!
+            userAddress.description = address.description!!
+            userAddress.companyId = userPrinciple.companyId
+            userAddress.userId = userPrinciple.id
 
-        response.isResultAvailable = true
-        response.isSuccessful = true
-        response.result = userAddressDetails
+            val userAddressDetails = userAddressRepository.save(userAddress)
+            response.isResultAvailable = true
+            response.isSuccessful = true
+            response.result = userAddressDetails
+            userAddressUtils.deleteCacheUserAddressList(userPrinciple.companyId)
+        } catch (e: Exception) {
 
-        userAddressUtils.deleteCacheUserAddressList(userPrinciple.companyId)
+            response.isResultAvailable = true
+            response.isSuccessful = true
+            response.message = arrayOf(e.message)
+        }
 
         return response
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("get-user-address-by-user-id")
-    fun getAllUserAddressByUserId(): Response<ArrayList<UserAddress>>{
+    fun getAllUserAddressByUserId(): Response<ArrayList<UserAddress>> {
         val response = Response<ArrayList<UserAddress>>()
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
@@ -58,8 +70,8 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("create-update-user-Bookmark-product")
     fun saveUpdateUserBookmarkProductDetails(@RequestBody userBookmarkProduct: UserBookmarkProduct): Response<UserBookmarkProduct> {
-        val response = Response<UserBookmarkProduct>()
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val response = Response<UserBookmarkProduct>()
 
         userBookmarkProduct.userId = userPrinciple.id
         userBookmarkProduct.companyId = userPrinciple.companyId
@@ -77,7 +89,7 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("get-user-bookmark-by-user-id")
-    fun getAllUserBookmarkProductListByUserId(): Response<ArrayList<UserBookmarkProduct>>{
+    fun getAllUserBookmarkProductListByUserId(): Response<ArrayList<UserBookmarkProduct>> {
         val response = Response<ArrayList<UserBookmarkProduct>>()
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 

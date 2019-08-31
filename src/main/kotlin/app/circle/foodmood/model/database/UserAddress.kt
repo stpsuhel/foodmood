@@ -5,13 +5,13 @@ import javax.persistence.Entity
 import javax.validation.constraints.NotNull
 
 @Entity
-class UserAddress: AuditModel() {
+class UserAddress : AuditModel() {
 
     @NotNull
     var userId: Long? = null
 
     @NotNull
-    var description: String? = null
+    var description: String = ""
 
     var addressLineOne: String? = null
 

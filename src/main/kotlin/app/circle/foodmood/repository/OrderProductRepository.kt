@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 
 interface OrderProductRepository : JpaRepository<OrderProduct, Long> {
+
+    fun countAllByCompanyIdAndStatus(companyId: Long, status: Int): Long
 }
 

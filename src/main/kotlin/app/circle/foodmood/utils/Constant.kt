@@ -43,3 +43,11 @@ enum class OrderStatus(val value: Int) {
     DELIVERED_SUCCESSFULLY(6),
     ORDER_CANCELED(7)
 }
+
+
+enum class ImageSourceType(val value: Int) {
+    PRODUCT_IMAGE(1),
+    USER_PROFILE_IMAGE(2),
+    COMPANY_PROFILE_IMAGE(3),
+    CATEGORY_IMAGE(3),
+}

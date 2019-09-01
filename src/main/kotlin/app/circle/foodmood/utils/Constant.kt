@@ -34,13 +34,12 @@ enum class PaymentType(val value: Int) {
     CASH_ON_DELIVERY(1)
 }
 
-
 enum class OrderStatus(val value: Int) {
     PENDING_FOR_APPROVAL(1),
     ACCEPT_BY_RESTAURANT(2),
     COOKING_ON_RESTAURANT(3),
     PICK_UP_BY_DELIVERY_MAN(4),
     START_DELIVERY(5),
-    DELIVERED_SUCCESSFULLY(5),
-    ORDER_CANCELED(6)
+    DELIVERED_SUCCESSFULLY(6),
+    ORDER_CANCELED(7)
 }

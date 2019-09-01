@@ -52,7 +52,7 @@ public class User {
 
     private String phone = "";
 
-    private Long companyId ;
+    private Long companyId;
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Temporal(TemporalType.TIMESTAMP)
@@ -71,6 +71,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private PrimaryRole primaryRole;
+
+
+    private String fcmToken = "";
 
     public User() {
     }
@@ -154,6 +157,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     public PrimaryRole getPrimaryRole() {

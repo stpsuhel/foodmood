@@ -29,4 +29,5 @@ class ProductItem : AuditModel() {
     var isDiscount: Boolean = false
 
     var freeDelivery: Boolean? = null
+
 }

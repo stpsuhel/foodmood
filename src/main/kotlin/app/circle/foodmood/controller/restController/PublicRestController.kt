@@ -7,7 +7,6 @@ import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
 import app.circle.foodmood.model.database.Category
-import app.circle.foodmood.model.database.ProductItem
 import app.circle.foodmood.security.services.UserPrinciple
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -113,17 +112,52 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         return response
     }
 
-    @GetMapping("all-product-discount")
-    fun getAllProductDiscount(): Response<ArrayList<ProductItem>>{
-        val response = Response<ArrayList<ProductItem>>()
+    @GetMapping("all-discount-product")
+    fun getAllProductDiscount(): Response<List<ProductItemDataModel>> {
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val response = Response<List<ProductItemDataModel>>()
+        val allProductItemDataModel = ArrayList<ProductItemDataModel>()
 
-        val allDiscountProduct = productUtils.getProductByDiscount(userPrinciple.companyId)
+        try {
+            val allProduct = productUtils.getProductByDiscount(userPrinciple.companyId)
+            val allStore = storeUtils.getAllStore()
 
-        response.isSuccessful = true
-        response.isResultAvailable = true
-        response.result = allDiscountProduct
+            allProduct.forEach {
+                try {
+                    val productItemDataModel = ProductItemDataModel()
+                    productItemDataModel.companyId = it.companyId!!
+                    productItemDataModel.id = it.id!!
+                    productItemDataModel.name = it.name
+                    productItemDataModel.price = it.price!!
+                    productItemDataModel.storeId = it.storeId!!
+                    productItemDataModel.description = it.description
+                    productItemDataModel.status = it.status
+                    productItemDataModel.discountPrice = it.discountPrice
+                    productItemDataModel.isDiscount = it.isDiscount
 
-        return response
+
+                    for (store in allStore) {
+                        if (store.id == it.storeId) {
+                            productItemDataModel.storeName = store.name!!
+                            break
+                        }
+                    }
+
+                    allProductItemDataModel.add(productItemDataModel)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            response.isResultAvailable = true
+            response.result = allProductItemDataModel.shuffled()
+            response.isSuccessful = true
+            return response
+        } catch (e: Exception) {
+            response.isResultAvailable = false
+            response.isSuccessful = false
+            return response
+
+        }
     }
 }

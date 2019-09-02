@@ -1,10 +1,13 @@
 package app.circle.foodmood.controller.restController
 
 import app.circle.foodmood.controller.commonUtils.GlobalUtils
+import app.circle.foodmood.controller.commonUtils.OrderUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.model.OrderDetailsSnippet
 import app.circle.foodmood.model.Response
+import app.circle.foodmood.model.dataModel.OrderDataModel
 import app.circle.foodmood.model.dataModel.OrderDetails
+import app.circle.foodmood.model.dataModel.OrderProductDataModel
 import app.circle.foodmood.model.database.Order
 import app.circle.foodmood.model.database.OrderProduct
 import app.circle.foodmood.model.request.OrderDetailsRB
@@ -13,20 +16,20 @@ import app.circle.foodmood.repository.OrderProductRepository
 import app.circle.foodmood.repository.OrderRepository
 import app.circle.foodmood.repository.ProductRepository
 import app.circle.foodmood.security.services.UserPrinciple
+import app.circle.foodmood.utils.ProcessDataModel
 import app.circle.foodmood.utils.tokenEqualText
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 
 @RestController
 @RequestMapping("order")
-class OrderRestController(val productUtils: ProductUtils, val orderRepository: OrderRepository, val productRepository: ProductRepository, val orderProductRepository: OrderProductRepository , val globalUtils: GlobalUtils) {
+class OrderRestController(val productUtils: ProductUtils, val orderRepository: OrderRepository,
+                          val productRepository: ProductRepository, val orderProductRepository: OrderProductRepository ,
+                          val globalUtils: GlobalUtils, val orderUtils: OrderUtils, val processDataModel: ProcessDataModel) {
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -156,5 +159,51 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
         return response
     }
 
+    /**
+     * Get all Order And Order Product List
+     * Has Some error on Company Id
+     * All Order has same Company Id
+     * After Fix this problem delete this comment
+     */
+    @GetMapping("get-order-list")
+    fun getOrderList(): Response<ArrayList<OrderDataModel>>{
+        val response = Response<ArrayList<OrderDataModel>>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
+        val orderList = orderUtils.getAllOrderList(userPrinciple.companyId)
+
+        orderList.forEach {
+            val orderDataInfo = processDataModel.processOrderToOrderDataModel(it)
+
+            response.result.add(orderDataInfo)
+        }
+        response.isSuccessful = true
+        response.isResultAvailable = true
+
+        return response
+    }
+
+    /**
+     * Get all Order And Order Product List
+     * Has Some error on Company Id
+     * All Order has same Company Id
+     * After Fix this problem delete this comment
+     */
+    @GetMapping("get-order-product-list")
+    fun getOrderProductList(): Response<ArrayList<OrderProductDataModel>>{
+        val response = Response<ArrayList<OrderProductDataModel>>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+        val orderList = orderUtils.getAllOrderProductList(userPrinciple.companyId)
+
+        orderList.forEach {
+            val orderDataInfo = processDataModel.processOrderProductToOrderProductDataModel(it)
+
+            response.result.add(orderDataInfo)
+        }
+        response.isSuccessful = true
+        response.isResultAvailable = true
+
+        return response
+    }
 }

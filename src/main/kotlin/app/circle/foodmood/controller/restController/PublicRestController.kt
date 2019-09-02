@@ -11,17 +11,18 @@ import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
 import app.circle.foodmood.model.database.Category
 import app.circle.foodmood.security.services.UserPrinciple
+import app.circle.foodmood.utils.ID_NOT_FOUND
 import app.circle.foodmood.utils.ProcessDataModel
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
 @RequestMapping("public")
-class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils,
-                           val orderUtils: OrderUtils, val processDataModel: ProcessDataModel) {
+class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils) {
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
@@ -166,51 +167,59 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         }
     }
 
-    /**
-     * Get all Order And Order Product List
-     * Has Some error on Company Id
-     * All Order has same Company Id
-     * After Fix this problem delete this comment
-     */
-    @GetMapping("get-order-list")
-    fun getOrderList(): Response<ArrayList<OrderDataModel>>{
-        val response = Response<ArrayList<OrderDataModel>>()
+    @GetMapping("all-category-product")
+    fun getAllProductByCategory(@RequestParam(required = true, defaultValue = ID_NOT_FOUND.toString()) categoryId: Long = ID_NOT_FOUND): Response<List<ProductItemDataModel>> {
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val response = Response<List<ProductItemDataModel>>()
+        val allProductItemDataModel = ArrayList<ProductItemDataModel>()
 
-        val orderList = orderUtils.getAllOrderList(userPrinciple.companyId)
+        try {
+            if(categoryId == ID_NOT_FOUND){
+                response.isResultAvailable = false
+                response.isSuccessful = false
+                response.message = arrayOf("Id not found")
 
-        orderList.forEach {
-            val orderDataInfo = processDataModel.processOrderToOrderDataModel(it)
+                return response
+            }
+            val allProduct = productUtils.getProductByCategory(userPrinciple.companyId, categoryId!!)
+            val allStore = storeUtils.getAllStore()
 
-            response.result.add(orderDataInfo)
+            allProduct.forEach {
+                try {
+                    val productItemDataModel = ProductItemDataModel()
+                    productItemDataModel.companyId = it.companyId!!
+                    productItemDataModel.id = it.id!!
+                    productItemDataModel.name = it.name
+                    productItemDataModel.price = it.price!!
+                    productItemDataModel.storeId = it.storeId!!
+                    productItemDataModel.description = it.description
+                    productItemDataModel.status = it.status
+                    productItemDataModel.discountPrice = it.discountPrice
+                    productItemDataModel.isDiscount = it.isDiscount
+
+
+                    for (store in allStore) {
+                        if (store.id == it.storeId) {
+                            productItemDataModel.storeName = store.name!!
+                            break
+                        }
+                    }
+
+                    allProductItemDataModel.add(productItemDataModel)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            response.isResultAvailable = true
+            response.result = allProductItemDataModel.shuffled()
+            response.isSuccessful = true
+            return response
+        } catch (e: Exception) {
+            response.isResultAvailable = false
+            response.isSuccessful = false
+            return response
+
         }
-        response.isSuccessful = true
-        response.isResultAvailable = true
-
-        return response
-    }
-
-    /**
-     * Get all Order And Order Product List
-     * Has Some error on Company Id
-     * All Order has same Company Id
-     * After Fix this problem delete this comment
-     */
-    @GetMapping("get-order-product-list")
-    fun getOrderProductList(): Response<ArrayList<OrderProductDataModel>>{
-        val response = Response<ArrayList<OrderProductDataModel>>()
-        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
-
-        val orderList = orderUtils.getAllOrderProductList(userPrinciple.companyId)
-
-        orderList.forEach {
-            val orderDataInfo = processDataModel.processOrderProductToOrderProductDataModel(it)
-
-            response.result.add(orderDataInfo)
-        }
-        response.isSuccessful = true
-        response.isResultAvailable = true
-
-        return response
     }
 }

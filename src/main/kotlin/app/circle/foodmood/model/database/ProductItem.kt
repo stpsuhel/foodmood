@@ -30,4 +30,7 @@ class ProductItem : AuditModel() {
 
     var freeDelivery: Boolean? = null
 
+    @NotNull
+    var categoryId: Long? = null
+
 }

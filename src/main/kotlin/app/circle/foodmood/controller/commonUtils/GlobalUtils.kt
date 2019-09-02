@@ -3,10 +3,10 @@ package app.circle.foodmood.controller.commonUtils
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
 import org.springframework.stereotype.Service
-import java.text.SimpleDateFormat
 import java.util.*
+
+
 
 
 @Service
@@ -50,5 +50,16 @@ class GlobalUtils {
         val myFormat = DateTimeFormat.forPattern("yyyyMMdd")
         val dateFormate = myFormat.print(dateTime)
         return dateFormate.toInt()
+    }
+
+    fun getOneWeekBeforeDate(date: LocalDate): Int? {
+        val beforeSevenDays = date.minusDays(7)
+        /**
+         * Date Format should be yyyyMMdd.
+         */
+        val fmt = DateTimeFormat.forPattern("yyyyMMdd")
+        val str = beforeSevenDays.toString(fmt)
+
+        return str.toIntOrNull()
     }
 }

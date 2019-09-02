@@ -1,18 +1,15 @@
 package app.circle.foodmood.controller.restController
 
-import app.circle.foodmood.controller.commonUtils.CategoryUtils
-import app.circle.foodmood.controller.commonUtils.OrderUtils
-import app.circle.foodmood.controller.commonUtils.ProductUtils
-import app.circle.foodmood.controller.commonUtils.StoreUtils
+import app.circle.foodmood.controller.commonUtils.*
 import app.circle.foodmood.model.Response
-import app.circle.foodmood.model.dataModel.OrderDataModel
-import app.circle.foodmood.model.dataModel.OrderProductDataModel
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
+import app.circle.foodmood.model.dataModel.TrendingDataModel
 import app.circle.foodmood.model.database.Category
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.ID_NOT_FOUND
-import app.circle.foodmood.utils.ProcessDataModel
+import app.circle.foodmood.utils.TOP_TRENDING
+import org.joda.time.LocalDate
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("public")
-class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils) {
+class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils,
+                           val orderUtils: OrderUtils, val globalUtils: GlobalUtils) {
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
@@ -221,5 +219,52 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             return response
 
         }
+    }
+
+    @GetMapping("get-top-ten-product")
+    fun getTopTenProduct(): Response<ArrayList<TrendingDataModel>>{
+        val response = Response<ArrayList<TrendingDataModel>>()
+        val allProductItemDataModel = ArrayList<ProductItemDataModel>()
+
+        val currentDate = globalUtils.getCurrentDate()
+        val oneWeekBeforeDate = globalUtils.getOneWeekBeforeDate(LocalDate.now())
+
+        val allProductOfLastSevenDays = orderUtils.getAllOrderProductOfLastSevenDays(currentDate!!, oneWeekBeforeDate!!)
+
+        val orderIdList = ArrayList<Long>()
+        allProductOfLastSevenDays.forEach {
+            orderIdList.add(it.id!!)
+        }
+        val allOrderProductList= orderUtils.getAllOrderProductByOrderId(orderIdList)
+
+        val hashMap = HashMap<Long, Int>()
+        allOrderProductList.forEach {
+            if(hashMap.containsKey(it.productId)){
+                val quantity = hashMap.get(it.productId)
+                hashMap.put(it.productId!!, quantity!!+it.quantity)
+            }else{
+                hashMap.put(it.productId!!, it.quantity)
+            }
+        }
+
+        val sortedMap = hashMap.toList().sortedByDescending(Pair<*, Int>::second).toMap()
+        val productList = sortedMap.toList().take(TOP_TRENDING)
+
+        val productTrendingList = ArrayList<TrendingDataModel>()
+        productList.forEach {
+            val trendingItem = TrendingDataModel()
+
+            trendingItem.productId = it.first
+            trendingItem.count = it.second
+
+            productTrendingList.add(trendingItem)
+        }
+
+
+        response.isResultAvailable = true
+        response.isSuccessful = true
+        response.result = productTrendingList
+
+        return response
     }
 }

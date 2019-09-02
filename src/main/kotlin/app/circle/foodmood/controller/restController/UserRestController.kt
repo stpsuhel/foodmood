@@ -4,10 +4,12 @@ import app.circle.foodmood.controller.commonUtils.UserAddressUtils
 import app.circle.foodmood.controller.commonUtils.UserBookmarkProductUtils
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.AddressDataModel
+import app.circle.foodmood.model.dataModel.UpdateTokenDataModel
 import app.circle.foodmood.model.database.UserAddress
 import app.circle.foodmood.model.database.UserBookmarkProduct
 import app.circle.foodmood.repository.UserAddressRepository
 import app.circle.foodmood.repository.UserBookmarkProductRepository
+import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.services.UserPrinciple
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("user")
 class UserRestController(val userAddressRepository: UserAddressRepository, val userAddressUtils: UserAddressUtils,
                          val userBookmarkProductRepository: UserBookmarkProductRepository,
-                         val userBookmarkProductUtils: UserBookmarkProductUtils) {
+                         val userBookmarkProductUtils: UserBookmarkProductUtils,
+                         val userRepository: UserRepository) {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("create-update-address")
@@ -99,6 +102,28 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
         response.isSuccessful = true
         response.result = allUserBookmarkProductList
 
+        return response
+    }
+
+    @PostMapping("update-fcm-token")
+    fun updateFcmToken(@RequestBody updateTokenDataModel: UpdateTokenDataModel): Response<String>{
+        val response = Response<String>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+        val userInfo = userRepository.findById(userPrinciple.id)
+        if(userInfo.isPresent){
+            val user = userInfo.get()
+            user.fcmToken = updateTokenDataModel.token
+
+            val saveUser = userRepository.save(user)
+            response.isResultAvailable = true
+            response.isSuccessful = true
+            response.result = "FCM Token Successfully updated!!"
+        }else{
+            response.isResultAvailable = false
+            response.isSuccessful = false
+            response.message = arrayOf("User not found!!")
+        }
         return response
     }
 }

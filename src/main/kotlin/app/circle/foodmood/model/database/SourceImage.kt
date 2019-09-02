@@ -18,6 +18,4 @@ class SourceImage : AuditModel() {
     @NotNull
     @NotEmpty
     var imageURL: String? = null
-
-
 }

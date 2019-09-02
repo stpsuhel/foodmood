@@ -11,5 +11,6 @@ interface OrderRepository : JpaRepository<Order, Long> {
     @Query("select count (distinct order_by) from Order where company_id=?1 and status=?2")
     fun countDistinctByCompanyIdAndStatus(companyId: Long, status: Int): Long
 
+    fun getAllByCompanyIdAndStatus(companyId: Long, status: Int): ArrayList<Order>
 }
 

@@ -2,9 +2,7 @@ package app.circle.foodmood.utils
 
 import app.circle.foodmood.controller.commonUtils.GlobalUtils
 import app.circle.foodmood.model.dataModel.*
-import app.circle.foodmood.model.database.Coupon
-import app.circle.foodmood.model.database.ProductItem
-import app.circle.foodmood.model.database.Store
+import app.circle.foodmood.model.database.*
 import app.circle.foodmood.security.User
 import org.springframework.stereotype.Service
 
@@ -61,8 +59,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         return productDataModel
     }
 
-    fun processCouponDataModelToCoupon(couponDataModel: CouponDataModel): Coupon{
-        val coupon = Coupon()
+    fun processCouponDataModelToCoupon(couponDataModel: CouponDataModel, coupon: Coupon): Coupon{
 
         coupon.couponText = couponDataModel.couponText
         coupon.maxUse = couponDataModel.maxUse
@@ -70,5 +67,37 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         coupon.endDate = globalUtils.getDateInInteger(couponDataModel.endDate!!)
 
         return coupon
+    }
+
+    fun processOrderToOrderDataModel(order: Order): OrderDataModel{
+        val orderInfo = OrderDataModel()
+
+        orderInfo.id = order.id
+        orderInfo.addressId = order.addressId
+        orderInfo.companyId = order.companyId
+        orderInfo.couponId = order.couponId
+        orderInfo.hasCoupon = order.hasCoupon
+        orderInfo.orderBy = order.orderBy
+        orderInfo.orderDate = order.orderDate
+        orderInfo.orderStatus = order.orderStatus
+        orderInfo.totalDiscountPrice = order.totalDiscountPrice
+        orderInfo.totalPrice = order.totalPrice
+
+        return orderInfo
+    }
+
+    fun processOrderProductToOrderProductDataModel(orderProduct: OrderProduct): OrderProductDataModel{
+        val orderProductInfo = OrderProductDataModel()
+
+        orderProductInfo.id = orderProduct.id
+        orderProductInfo.companyId = orderProduct.companyId
+        orderProductInfo.hasDiscount = orderProduct.hasDiscount
+        orderProductInfo.orderId = orderProduct.orderId
+        orderProductInfo.perProductDiscountPrice = orderProduct.perProductDiscountPrice
+        orderProductInfo.perProductPrice = orderProduct.perProductPrice
+        orderProductInfo.productId = orderProduct.productId
+        orderProductInfo.quantity = orderProduct.quantity
+
+        return orderProductInfo
     }
 }

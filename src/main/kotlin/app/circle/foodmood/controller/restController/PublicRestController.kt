@@ -1,13 +1,17 @@
 package app.circle.foodmood.controller.restController
 
 import app.circle.foodmood.controller.commonUtils.CategoryUtils
+import app.circle.foodmood.controller.commonUtils.OrderUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.Response
+import app.circle.foodmood.model.dataModel.OrderDataModel
+import app.circle.foodmood.model.dataModel.OrderProductDataModel
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
 import app.circle.foodmood.model.database.Category
 import app.circle.foodmood.security.services.UserPrinciple
+import app.circle.foodmood.utils.ProcessDataModel
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("public")
-class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils) {
+class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils,
+                           val orderUtils: OrderUtils, val processDataModel: ProcessDataModel) {
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
@@ -159,5 +164,53 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             return response
 
         }
+    }
+
+    /**
+     * Get all Order And Order Product List
+     * Has Some error on Company Id
+     * All Order has same Company Id
+     * After Fix this problem delete this comment
+     */
+    @GetMapping("get-order-list")
+    fun getOrderList(): Response<ArrayList<OrderDataModel>>{
+        val response = Response<ArrayList<OrderDataModel>>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+        val orderList = orderUtils.getAllOrderList(userPrinciple.companyId)
+
+        orderList.forEach {
+            val orderDataInfo = processDataModel.processOrderToOrderDataModel(it)
+
+            response.result.add(orderDataInfo)
+        }
+        response.isSuccessful = true
+        response.isResultAvailable = true
+
+        return response
+    }
+
+    /**
+     * Get all Order And Order Product List
+     * Has Some error on Company Id
+     * All Order has same Company Id
+     * After Fix this problem delete this comment
+     */
+    @GetMapping("get-order-product-list")
+    fun getOrderProductList(): Response<ArrayList<OrderProductDataModel>>{
+        val response = Response<ArrayList<OrderProductDataModel>>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+        val orderList = orderUtils.getAllOrderProductList(userPrinciple.companyId)
+
+        orderList.forEach {
+            val orderDataInfo = processDataModel.processOrderProductToOrderProductDataModel(it)
+
+            response.result.add(orderDataInfo)
+        }
+        response.isSuccessful = true
+        response.isResultAvailable = true
+
+        return response
     }
 }

@@ -2,25 +2,26 @@ package app.circle.foodmood.controller.restController
 
 import app.circle.foodmood.controller.commonUtils.*
 import app.circle.foodmood.model.Response
+import app.circle.foodmood.model.dataModel.CategoryDataModel
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.StoreDataModel
 import app.circle.foodmood.model.dataModel.TrendingDataModel
-import app.circle.foodmood.model.database.Category
+import app.circle.foodmood.model.database.UserToken
+import app.circle.foodmood.repository.UserTokenRepository
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.ID_NOT_FOUND
+import app.circle.foodmood.utils.Status
 import app.circle.foodmood.utils.TOP_TRENDING
 import org.joda.time.LocalDate
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 
 @RestController
 @RequestMapping("public")
 class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils,
-                           val orderUtils: OrderUtils, val globalUtils: GlobalUtils) {
+                           val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val userTokenRepository: UserTokenRepository) {
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
@@ -105,12 +106,44 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
 
 
     @GetMapping("all-product-category")
-    fun getAllCategory(): Response<List<Category>> {
+    fun getAllCategory(): Response<List<CategoryDataModel>> {
 
-        val response = Response<List<Category>>()
+        val response = Response<List<CategoryDataModel>>()
 
         response.isSuccessful = true
-        response.result = categoryUtils.getAllCategoryList().shuffled()
+        val allCategoryList = categoryUtils.getAllCategoryList()
+
+        var categoryList = ArrayList<CategoryDataModel>()
+        val categoryCount = HashMap<Long, Int>()
+
+
+        productUtils.getAllProduct().forEach { productItem ->
+
+            productItem.categoryId?.let {
+
+                if (categoryCount.containsKey(it)) {
+                    var existingCount = categoryCount.get(it)!!
+                    categoryCount.put(it, ++existingCount)
+                } else {
+                    categoryCount.put(it, 1)
+
+                }
+            }
+        }
+        allCategoryList.forEach {
+            if (categoryCount.containsKey(it.id!!)) {
+                val itemDataModel = CategoryDataModel()
+                itemDataModel.id = it.id!!
+                itemDataModel.companyId = it.companyId!!
+                itemDataModel.name = it.name!!
+                itemDataModel.totalItem = categoryCount.get(it.id!!)!!
+                itemDataModel.status = Status.Active.value
+                categoryList.add(itemDataModel)
+            }
+        }
+
+
+        response.result = categoryList
         response.isResultAvailable = true
 
         return response
@@ -172,7 +205,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         val allProductItemDataModel = ArrayList<ProductItemDataModel>()
 
         try {
-            if(categoryId == ID_NOT_FOUND){
+            if (categoryId == ID_NOT_FOUND) {
                 response.isResultAvailable = false
                 response.isSuccessful = false
                 response.message = arrayOf("Id not found")
@@ -222,7 +255,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
     }
 
     @GetMapping("get-top-ten-product")
-    fun getTopTenProduct(): Response<ArrayList<TrendingDataModel>>{
+    fun getTopTenProduct(): Response<ArrayList<TrendingDataModel>> {
         val response = Response<ArrayList<TrendingDataModel>>()
         val allProductItemDataModel = ArrayList<ProductItemDataModel>()
 
@@ -235,14 +268,14 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         allProductOfLastSevenDays.forEach {
             orderIdList.add(it.id!!)
         }
-        val allOrderProductList= orderUtils.getAllOrderProductByOrderId(orderIdList)
+        val allOrderProductList = orderUtils.getAllOrderProductByOrderId(orderIdList)
 
         val hashMap = HashMap<Long, Int>()
         allOrderProductList.forEach {
-            if(hashMap.containsKey(it.productId)){
+            if (hashMap.containsKey(it.productId)) {
                 val quantity = hashMap.get(it.productId)
-                hashMap.put(it.productId!!, quantity!!+it.quantity)
-            }else{
+                hashMap.put(it.productId!!, quantity!! + it.quantity)
+            } else {
                 hashMap.put(it.productId!!, it.quantity)
             }
         }
@@ -265,6 +298,17 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         response.isSuccessful = true
         response.result = productTrendingList
 
+        return response
+    }
+
+
+    @PostMapping("update-token")
+    fun updateTokenUnknownUserToken(@Valid @RequestBody userToken: UserToken): Response<UserToken> {
+        var response: Response<UserToken> = Response()
+        val token = userTokenRepository.save(userToken)
+        response.result = token
+        response.isResultAvailable = true
+        response.isSuccessful = true
         return response
     }
 }

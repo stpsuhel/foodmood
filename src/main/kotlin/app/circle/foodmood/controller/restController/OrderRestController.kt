@@ -1,13 +1,9 @@
 package app.circle.foodmood.controller.restController
 
-import app.circle.foodmood.controller.commonUtils.GlobalUtils
-import app.circle.foodmood.controller.commonUtils.OrderUtils
-import app.circle.foodmood.controller.commonUtils.ProductUtils
+import app.circle.foodmood.controller.commonUtils.*
 import app.circle.foodmood.model.OrderDetailsSnippet
 import app.circle.foodmood.model.Response
-import app.circle.foodmood.model.dataModel.OrderDataModel
-import app.circle.foodmood.model.dataModel.OrderDetails
-import app.circle.foodmood.model.dataModel.OrderProductDataModel
+import app.circle.foodmood.model.dataModel.*
 import app.circle.foodmood.model.database.Order
 import app.circle.foodmood.model.database.OrderProduct
 import app.circle.foodmood.model.request.OrderDetailsRB
@@ -16,6 +12,7 @@ import app.circle.foodmood.repository.OrderProductRepository
 import app.circle.foodmood.repository.OrderRepository
 import app.circle.foodmood.repository.ProductRepository
 import app.circle.foodmood.security.services.UserPrinciple
+import app.circle.foodmood.utils.APP
 import app.circle.foodmood.utils.ProcessDataModel
 import app.circle.foodmood.utils.tokenEqualText
 import org.springframework.data.repository.findByIdOrNull
@@ -27,8 +24,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("order")
-class OrderRestController(val productUtils: ProductUtils, val orderRepository: OrderRepository,
-                          val productRepository: ProductRepository, val orderProductRepository: OrderProductRepository ,
+class OrderRestController(val productUtils: ProductUtils, val orderRepository: OrderRepository, val userAddressUtils: UserAddressUtils,
+                          val productRepository: ProductRepository, val orderProductRepository: OrderProductRepository,val storeUtils: StoreUtils,
                           val globalUtils: GlobalUtils, val orderUtils: OrderUtils, val processDataModel: ProcessDataModel) {
 
 
@@ -45,22 +42,6 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
         var discountPrice: Int = 0
 
         var itemList = arrayListOf<Long>()
-
-/*        orderDetailsRB.productList.forEach {
-            itemList.add(it.productId)
-        }*/
-
-/*        val productListOrder = productUtils.getProductsWhereIdIn(itemList)
-
-        productListOrder.forEach {
-
-            totalPrice += it.price!!
-            discountPrice += if (it.isDiscount) {
-                it.discountPrice!!
-            } else {
-                it.price!!
-            }
-        }*/
 
         var totalItem = 0
 
@@ -111,9 +92,11 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                 order.orderBy = userPrinciple.username
                 order.totalDiscountPrice = orderRB.discountPrice
                 order.totalPrice = orderRB.actualPrice
-                order.companyId = userPrinciple.companyId
+                // Order table company represent App Id
+                order.companyId = APP.FOOD_MOOD.value.toLong()
 
                 order.orderDate = globalUtils.getCurrentDate()
+                order.userId = userPrinciple.id
 
                 val orderData = orderRepository.save(order)
 
@@ -126,7 +109,9 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                         val orderProduct = OrderProduct()
                         orderProduct.orderId = orderData.id
                         orderProduct.productId = cart.productId
+                        orderProduct.orderDate =globalUtils.getCurrentDate()
                         orderProduct.quantity = cart.quantity
+                        orderProduct.storeId = cart.storeId
 
                         orderProduct.hasDiscount = it.isDiscount
                         orderProduct.perProductPrice = it.price
@@ -166,11 +151,16 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
      * After Fix this problem delete this comment
      */
     @GetMapping("get-order-list")
-    fun getOrderList(): Response<ArrayList<OrderDataModel>>{
+    fun getOrderList(): Response<ArrayList<OrderDataModel>> {
         val response = Response<ArrayList<OrderDataModel>>()
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
         val orderList = orderUtils.getAllOrderList(userPrinciple.companyId)
+
+        val allCompanyStore = storeUtils.getAllCompanyStore(userPrinciple.companyId)
+
+
+
 
         orderList.forEach {
             val orderDataInfo = processDataModel.processOrderToOrderDataModel(it)
@@ -190,7 +180,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
      * After Fix this problem delete this comment
      */
     @GetMapping("get-order-product-list")
-    fun getOrderProductList(): Response<ArrayList<OrderProductDataModel>>{
+    fun getOrderProductList(): Response<ArrayList<OrderProductDataModel>> {
         val response = Response<ArrayList<OrderProductDataModel>>()
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
@@ -198,7 +188,6 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
         orderList.forEach {
             val orderDataInfo = processDataModel.processOrderProductToOrderProductDataModel(it)
-
             response.result.add(orderDataInfo)
         }
         response.isSuccessful = true
@@ -206,4 +195,72 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
         return response
     }
+
+
+    @GetMapping(value = ["get-order-history"])
+    fun getUserOrderHistory(): Response<ArrayList<OrderHistory>> {
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val response = Response<ArrayList<OrderHistory>>()
+        var orderList = ArrayList<Long>()
+        var allOrderList = arrayListOf<OrderHistory>()
+
+
+        try {
+            val allOrder = orderUtils.getAllOrderByUserId(userPrinciple.id)
+
+            allOrder.forEach {
+                orderList.add(it.id!!)
+            }
+
+            val orderDetailsList = orderUtils.getAllOrderProductByOrderList(orderList)
+
+
+            allOrder.forEach {
+                val orderHistory = OrderHistory()
+                orderHistory.orderId = it.id!!
+                orderHistory.hasDiscount = it.totalDiscountPrice!! < it.totalPrice!!
+                orderHistory.orderDiscountPrice = it.totalDiscountPrice!!
+                orderHistory.orderOriginalPrice = it.totalPrice!!
+                orderHistory.orderStatus = it.orderStatus!!
+                orderHistory.orderDate = it.orderDate!!
+                for (orderProduct in orderDetailsList) {
+                    if (orderProduct.orderId == it.id) {
+                        val orderItem = OrderItemDetails()
+                        orderItem.id = orderProduct.id!!
+                        orderItem.price = orderProduct.perProductPrice!!
+                        orderItem.priceDiscount = orderProduct.perProductDiscountPrice!!
+                        orderItem.hasDiscount = orderProduct.hasDiscount!!
+                        orderItem.quantity = orderProduct.quantity!!
+                        val product = productUtils.getByProductId(orderProduct.productId!!)
+                        orderItem.name = product.name
+                        orderHistory.itemList.add(orderItem)
+
+                    }
+                }
+
+                orderHistory.deliveryAddress = userAddressUtils.getUserAddressById(it.addressId!!)!!
+
+                allOrderList.add(orderHistory)
+            }
+
+
+            response.result = allOrderList
+            response.isSuccessful = true
+            response.isResultAvailable = true
+
+            return response
+        } catch (e: Exception) {
+            response.result = allOrderList
+            response.isSuccessful = false
+            response.isResultAvailable = false
+        }
+
+        return response
+    }
+
+
+
+
+
+
 }

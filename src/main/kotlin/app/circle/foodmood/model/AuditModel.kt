@@ -45,3 +45,27 @@ abstract class AuditModel() : Serializable {
         this.companyId = companyId
     }
 }
+
+@EntityListeners(AuditingEntityListener::class)
+@JsonIgnoreProperties(value = ["createdAt", "updatedAt"], allowGetters = true)
+abstract class AuditModelWithOutCompanyId() : Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id: Long? = null
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
+    var createdAt: Date? = Date()
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at", nullable = false)
+    @LastModifiedDate
+    var updatedAt: Date? = Date()
+
+
+    var status: Int = Status.Active.value
+
+}
+

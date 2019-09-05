@@ -74,7 +74,6 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
 
         orderInfo.id = order.id
         orderInfo.addressId = order.addressId
-        orderInfo.companyId = order.companyId
         orderInfo.couponId = order.couponId
         orderInfo.hasCoupon = order.hasCoupon
         orderInfo.orderBy = order.orderBy

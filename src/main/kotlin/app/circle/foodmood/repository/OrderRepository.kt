@@ -1,11 +1,8 @@
 package app.circle.foodmood.repository
 
 import app.circle.foodmood.model.database.Order
-import app.circle.foodmood.model.database.ProductItem
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 interface OrderRepository : JpaRepository<Order, Long> {
@@ -16,5 +13,13 @@ interface OrderRepository : JpaRepository<Order, Long> {
     fun getAllByCompanyIdAndStatus(companyId: Long, status: Int): ArrayList<Order>
 
     fun findAllByStatusAndOrderDateGreaterThanAndOrderDateLessThan(status: Int, beforeSevenDay: Int, toDay: Int): ArrayList<Order>
+
+    fun getAllByUserId(userId: Long): ArrayList<Order>
+
+
+    fun getAllByOrderDateAndStatus(orderDate:Int,status: Int):ArrayList<Order>
+
+
+
 }
 

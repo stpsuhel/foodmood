@@ -52,3 +52,16 @@ enum class ImageSourceType(val value: Int) {
     COMPANY_PROFILE_IMAGE(3),
     CATEGORY_IMAGE(3)
 }
+
+
+enum class APP(val value: Int) {
+    FOOD_MOOD(1),
+    CITY_CENTER(2),
+    DAILY_BAZER(3),
+}
+
+
+enum class DeliveryType(val value: Int) {
+    FREE_DELIVERY(5),
+    PAID_DELIVERY(6),
+}

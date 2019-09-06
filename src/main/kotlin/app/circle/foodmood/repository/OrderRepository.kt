@@ -17,6 +17,9 @@ interface OrderRepository : JpaRepository<Order, Long> {
     fun getAllByUserId(userId: Long): ArrayList<Order>
 
 
+    fun getOrderById(orderId:Long):Order?
+
+
     fun getAllByOrderDateAndStatus(orderDate:Int,status: Int):ArrayList<Order>
 
 

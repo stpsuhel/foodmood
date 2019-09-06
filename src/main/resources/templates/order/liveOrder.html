@@ -70,8 +70,11 @@
                                                         <div class="item-list"
                                                              th:each="productItem : ${orderItem.getItemList()}">
                                                             <div class="info-user">
-                                                                <pre class="username" th:if="${productItem.hasDiscount}" th:text="${productItem.getName()  + '     x ' + productItem.getQuantity() +  '  (' + productItem.getPriceDiscount()+ ' BDT) = ' + (productItem.getPriceDiscount()* productItem.getQuantity())  + ' BDT'}"></pre>
-                                                                <pre class="username" th:if="!${productItem.hasDiscount}" th:text="${productItem.getName()  + '     x ' + productItem.getQuantity() +  '  (' + productItem.getPrice()+  ' BDT) = ' + (productItem.getPrice()* productItem.getQuantity()) + ' BDT' }"></pre>
+                                                                <pre class="username" th:if="${productItem.hasDiscount}"
+                                                                     th:text="${productItem.getName()  + '     x ' + productItem.getQuantity() +  '  (' + productItem.getPriceDiscount()+ ' BDT) = ' + (productItem.getPriceDiscount()* productItem.getQuantity())  + ' BDT'}"></pre>
+                                                                <pre class="username"
+                                                                     th:if="!${productItem.hasDiscount}"
+                                                                     th:text="${productItem.getName()  + '     x ' + productItem.getQuantity() +  '  (' + productItem.getPrice()+  ' BDT) = ' + (productItem.getPrice()* productItem.getQuantity()) + ' BDT' }"></pre>
 
 
                                                             </div>
@@ -83,12 +86,14 @@
 
                                                 </td>
                                                 <td>
-                                                    <button class="btn m-1 btn-success btn-sm ml-auto">
+                                                    <button th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                            class="order-accept btn m-1 btn-success btn-sm ml-auto">
                                                         <i class="fas fa-check"></i>
                                                         Accept
                                                     </button>
 
-                                                    <button class="btn  m-1   btn-danger btn-sm ml-auto">
+                                                    <button th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                            class="order-reject btn  m-1   btn-danger btn-sm ml-auto">
                                                         <i class="fas fa-times"></i>
                                                         Reject
                                                     </button>
@@ -112,6 +117,7 @@
     </div>
 </div>
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
+<script th:src="@{/page/orderLive.js}"></script>
 
 <script>
 

@@ -1,6 +1,5 @@
 package app.circle.foodmood.security.request;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -16,7 +15,7 @@ public class SignUpForm {
     private String username;
 
     @Size(max = 60)
-    private String email= "";
+    private String email = "";
 
     private Set<String> role;
 
@@ -25,6 +24,8 @@ public class SignUpForm {
     private String password;
 
     private String phone = "";
+
+    private String fcmToken = "";
 
     public String getName() {
         return name;
@@ -68,6 +69,14 @@ public class SignUpForm {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     public void setRole(Set<String> role) {

@@ -28,4 +28,9 @@ class OrderItemDetails {
     var price: Int = 0
     var priceDiscount: Int = 0
     var hasDiscount: Boolean = false
+
+
+    override fun toString(): String {
+        return id.toString()
+    }
 }

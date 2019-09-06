@@ -5,7 +5,7 @@ enum class Status(val value: Int) {
     Active(1),
 }
 
-
+const val FIREBASE_URL = "https://fcm.googleapis.com/fcm/send"
 const val ID_NOT_FOUND: Long = -1L
 const val ID_NOT_FOUND_INT: Int = -1
 const val DISCOUNT_NOT_FOUND_INT: Int = -1

@@ -6,6 +6,8 @@ import app.circle.foodmood.repository.OrderProductRepository
 import app.circle.foodmood.repository.OrderRepository
 import app.circle.foodmood.utils.Status
 import org.springframework.stereotype.Service
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Service
 class OrderUtils(val orderRepository: OrderRepository, val orderProductRepository: OrderProductRepository) {
@@ -39,5 +41,11 @@ class OrderUtils(val orderRepository: OrderRepository, val orderProductRepositor
 
     fun getOrderByDate(date:Int): ArrayList<Order> {
         return orderRepository.getAllByOrderDateAndStatus(date,Status.Active.value)
+    }
+
+
+    fun getOrderById(orderId:Long): Order? {
+
+        return   orderRepository.getOrderById(orderId)
     }
 }

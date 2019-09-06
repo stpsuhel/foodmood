@@ -51,7 +51,7 @@ class Config {
 
 
 @Bean
-fun getRestTemplate(): RestTemplate {
+fun restTemplate(): RestTemplate {
     return RestTemplate()
 }
 

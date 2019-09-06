@@ -120,10 +120,17 @@ public class AuthController {
 
     @PostMapping("/token")
     public Response<JwtResponse> registerUserToken(@Valid @RequestBody SignUpForm signUpRequest) {
-
-
         Response<JwtResponse> response = new Response<JwtResponse>();
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+
+            if (!signUpRequest.getFcmToken().isEmpty()) {
+                User user = userRepository.getByUsername(signUpRequest.getUsername());
+
+                user.setFcmToken(signUpRequest.getFcmToken());
+
+                userRepository.save(user);
+            }
+
             return getJwtResponseResponse(signUpRequest, response);
         }
 
@@ -151,6 +158,9 @@ public class AuthController {
         });
         user.setRoles(roles);
 
+        if (!signUpRequest.getFcmToken().isEmpty()) {
+            user.setFcmToken(signUpRequest.getFcmToken());
+        }
         User userData = userRepository.save(user);
 
         return getJwtResponseResponse(signUpRequest, response);

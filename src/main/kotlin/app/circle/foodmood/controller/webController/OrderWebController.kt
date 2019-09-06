@@ -48,7 +48,7 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
             for (orderProduct in orderDetailsList) {
                 if (orderProduct.orderId == it.id && allStoreIdCurrentCompany.contains(orderProduct.storeId)) {
                     val orderItem = OrderItemDetails()
-                    orderItem.id = orderProduct.id!!
+                    orderItem.id = orderProduct.productId!!
                     orderItem.price = orderProduct.perProductPrice!!
                     orderItem.priceDiscount = orderProduct.perProductDiscountPrice!!
                     orderItem.hasDiscount = orderProduct.hasDiscount!!

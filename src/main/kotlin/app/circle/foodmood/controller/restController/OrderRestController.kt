@@ -29,7 +29,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("order")
 class OrderRestController(val productUtils: ProductUtils, val orderRepository: OrderRepository, val userAddressUtils: UserAddressUtils, val userUtils: UserUtils,
                           val productRepository: ProductRepository, val orderProductRepository: OrderProductRepository, val storeUtils: StoreUtils,
-                          val globalUtils: GlobalUtils, val orderUtils: OrderUtils, val processDataModel: ProcessDataModel, val notificationUtils: NotificationUtils) {
+                          val globalUtils: GlobalUtils, val orderUtils: OrderUtils, val processDataModel: ProcessDataModel,
+                          val notificationUtils: NotificationUtils, val homeUtils: HomeUtils) {
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -162,9 +163,6 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
         val orderList = orderUtils.getAllOrderList(userPrinciple.companyId)
 
         val allCompanyStore = storeUtils.getAllCompanyStore(userPrinciple.companyId)
-
-
-
 
         orderList.forEach {
             val orderDataInfo = processDataModel.processOrderToOrderDataModel(it)
@@ -327,5 +325,72 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
         return response
     }
 
+    @GetMapping("todays-order-list")
+    fun getTodayUserOrderHistory(): Response<ArrayList<OrderHistory>> {
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val response = Response<ArrayList<OrderHistory>>()
+        val orderList = ArrayList<Long>()
+        val allOrderList = arrayListOf<OrderHistory>()
 
+
+        try {
+            val storeList = homeUtils.getStoreByCompanyId(userPrinciple.companyId)
+
+            val storeIdList = arrayListOf<Long>()
+            storeList.forEach {
+                storeIdList.add(it.id!!)
+            }
+
+            val orderProductList = homeUtils.getOrderListByStoreId(storeIdList)
+            val orderIdList = arrayListOf<Long>()
+            orderProductList.forEach {
+                orderIdList.add(it.orderId!!)
+            }
+
+            val allOrder = orderUtils.getAllOrderOfTodaysDate(orderIdList)
+
+            val orderDetailsList = orderUtils.getAllOrderProductByOrderList(orderIdList)
+
+            allOrder.forEach {
+                val orderHistory = OrderHistory()
+                orderHistory.orderId = it.id!!
+                orderHistory.hasDiscount = it.totalDiscountPrice!! < it.totalPrice!!
+                orderHistory.orderDiscountPrice = it.totalDiscountPrice!!
+                orderHistory.orderOriginalPrice = it.totalPrice!!
+                orderHistory.orderStatus = it.orderStatus!!
+                orderHistory.orderDate = it.orderDate!!
+                for (orderProduct in orderDetailsList) {
+                    if (orderProduct.orderId == it.id) {
+                        val orderItem = OrderItemDetails()
+                        orderItem.id = orderProduct.id!!
+                        orderItem.price = orderProduct.perProductPrice!!
+                        orderItem.priceDiscount = orderProduct.perProductDiscountPrice!!
+                        orderItem.hasDiscount = orderProduct.hasDiscount!!
+                        orderItem.quantity = orderProduct.quantity!!
+                        val product = productUtils.getByProductId(orderProduct.productId!!)
+                        orderItem.name = product.name
+                        orderHistory.itemList.add(orderItem)
+
+                    }
+                }
+
+                orderHistory.deliveryAddress = userAddressUtils.getUserAddressById(it.addressId!!)!!
+
+                allOrderList.add(orderHistory)
+            }
+
+
+            response.result = allOrderList
+            response.isSuccessful = true
+            response.isResultAvailable = true
+
+            return response
+        } catch (e: Exception) {
+            response.result = allOrderList
+            response.isSuccessful = false
+            response.isResultAvailable = false
+        }
+
+        return response
+    }
 }

@@ -22,7 +22,7 @@ interface ProductRepository : JpaRepository<ProductItem, Long> {
 
     fun getByIdAndStatus(id: Long, status: Int): ProductItem
 
-    fun countAllByCompanyIdAndStatus(companyId: Long, status: Int): Long
+    fun countAllByStoreIdInAndStatus(storeId: ArrayList<Long>, status: Int): Int
 
     fun getAllByCompanyIdAndCategoryIdAndStatus(companyId: Long, categoryId: Long, status: Int): ArrayList<ProductItem>
 }

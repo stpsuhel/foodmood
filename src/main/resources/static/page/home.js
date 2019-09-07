@@ -23,8 +23,8 @@ let home = {
             if(response.isResultAvailable && response.isSuccessful) {
                 $('#totalCustomer').html(response.result.countCustomer);
                 $('#totalProductItem').html(response.result.countProductItem);
-                $('#totalOrder').html(response.result.countOrder);
-                $('#totalEarning').html(response.result.totalEarning);
+                $('#totalAcceptOrder').html(response.result.countAcceptedOrder);
+                $('#totalRejectOrder').html(response.result.countRejectedOrder);
             }
         });
     }

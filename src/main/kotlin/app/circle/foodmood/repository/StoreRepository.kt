@@ -10,4 +10,6 @@ interface StoreRepository : JpaRepository<Store, Long> {
     fun getAllByCompanyIdAndStatusOrderByIdDesc(companyId: Long, status: Int): List<Store>
 
     fun getByIdAndStatus(id:Long,status: Int):Store
+
+    fun getAllByCompanyIdAndStatus(companyId: Long, status: Int): ArrayList<Store>
 }

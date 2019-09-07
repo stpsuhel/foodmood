@@ -4,8 +4,8 @@ import javax.validation.constraints.NotNull
 
 
 class DashboardDataModel() {
-        var countCustomer: Long = 0L
-        var countOrder: Long = 0L
-        var countProductItem: Long = 0L
-        var totalEarning: Long = 0L
+        var countCustomer: Int = 0
+        var countAcceptedOrder: Int = 0
+        var countProductItem: Int = 0
+        var countRejectedOrder: Int = 0
 }

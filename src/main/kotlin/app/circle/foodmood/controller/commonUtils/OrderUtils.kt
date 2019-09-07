@@ -10,7 +10,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @Service
-class OrderUtils(val orderRepository: OrderRepository, val orderProductRepository: OrderProductRepository) {
+class OrderUtils(val orderRepository: OrderRepository, val orderProductRepository: OrderProductRepository,
+                 val globalUtils: GlobalUtils) {
 
 
     fun getAllOrderList(companyId: Long): ArrayList<Order> {
@@ -43,9 +44,11 @@ class OrderUtils(val orderRepository: OrderRepository, val orderProductRepositor
         return orderRepository.getAllByOrderDateAndStatus(date,Status.Active.value)
     }
 
+    fun getOrderById(orderId: Long): Order? {
+        return orderRepository.getOrderById(orderId)
+    }
 
-    fun getOrderById(orderId:Long): Order? {
-
-        return   orderRepository.getOrderById(orderId)
+    fun getAllOrderOfTodaysDate(orderIdList: ArrayList<Long>): ArrayList<Order>{
+        return orderRepository.getAllByIdInAndOrderDateAndStatus(orderIdList, globalUtils.getCurrentDate()!!, Status.Active.value)
     }
 }

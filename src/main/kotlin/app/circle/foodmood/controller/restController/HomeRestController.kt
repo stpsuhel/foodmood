@@ -31,9 +31,26 @@ class HomeRestController(val homeUtils: HomeUtils) {
         val dashboardDataModel = DashboardDataModel()
 
         try {
-            dashboardDataModel.countCustomer = homeUtils.getCountDistinctCustomer(userPrinciple.companyId)
-            dashboardDataModel.countOrder = homeUtils.getCountOrder(userPrinciple.companyId)
-            dashboardDataModel.countProductItem = homeUtils.getCountItem(userPrinciple.companyId)
+
+            val storeList = homeUtils.getStoreByCompanyId(userPrinciple.companyId)
+
+            val storeIdList = arrayListOf<Long>()
+            storeList.forEach {
+                storeIdList.add(it.id!!)
+            }
+
+            val orderProductList = homeUtils.getOrderListByStoreId(storeIdList)
+            val orderIdList = arrayListOf<Long>()
+            orderProductList.forEach {
+                orderIdList.add(it.orderId!!)
+            }
+
+            dashboardDataModel.countProductItem = homeUtils.getCountProductItem(storeIdList)
+//            dashboardDataModel.countCustomer = homeUtils.getCountDistinctCustomer(userPrinciple.companyId)
+            val orderStatus = homeUtils.getCountOrder(orderIdList)
+
+            dashboardDataModel.countAcceptedOrder = orderStatus.acceptCount
+            dashboardDataModel.countRejectedOrder = orderStatus.rejectCount
 
             response.isResultAvailable = true
             response.isSuccessful = true

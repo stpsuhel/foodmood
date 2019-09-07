@@ -75,6 +75,11 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
         model.addAttribute("restaurantCanEditUpto", OrderStatus.FRAUD_ORDER.value)
         model.addAttribute("pendingByRestaurant", OrderStatus.PENDING_FOR_APPROVAL.value)
         model.addAttribute("acceptedByRestaurant", OrderStatus.ACCEPT_BY_RESTAURANT.value)
+        model.addAttribute("cookingByRestaurant", OrderStatus.COOKING_ON_RESTAURANT.value)
+        model.addAttribute("readyToPickUp", OrderStatus.READY_TO_PICK_UP.value)
+        model.addAttribute("fraudOrder", OrderStatus.FRAUD_ORDER.value)
+        model.addAttribute("pickedUpByDeliveryMan", OrderStatus.PICK_UP_BY_DELIVERY_MAN.value)
+        model.addAttribute("rejectedByRestaurant", OrderStatus.ORDER_CANCELED.value)
 
         return "order/liveOrder"
     }

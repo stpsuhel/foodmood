@@ -1,42 +1,20 @@
-$(document).ready(function () {
+let OrderAPI = {
 
-    $(".order-reject").click(function () {
+    updateOrder: function (body) {
 
-        let product = $(this).attr("productlist");
-        let order = $(this).attr("orderid");
-
-        if (product && order) {
-            let productList = (product + "").toString().replace("[", "").replace("]", "").split(", ");
-
-            console.log(productList)
-
-        }
-    })
-    $(".order-accept").click(function () {
-
-        let product = $(this).attr("productlist");
-        let order = $(this).attr("orderid");
-
-        if (product && order) {
-            let productList = (product + "").toString().replace("[", "").replace("]", "").split(", ");
-
-            console.log(productList)
-
-
-            var body ={
-                orderId:Number(order),
-                productList
-            }
-
+        if (body) {
             $.ajax({
-                url: './accept',
+                url: './update-status',
                 type: 'post',
                 contentType: 'application/json',
                 data: JSON.stringify(body),
                 success: function (data, textStatus, jQxhr) {
 
 
-                    console.log(data)
+                    if (data['isResultAvailable'] && data['isSuccessful']) {
+                        location.reload();
+                    }
+
 
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
@@ -45,5 +23,60 @@ $(document).ready(function () {
             });
 
         }
+    }
+}
+
+
+$(document).ready(function () {
+
+
+    $(".order-reject").click(function () {
+
+        let product = $(this).attr("productlist");
+        let order = $(this).attr("orderid");
+        let productList = (product + "").toString().replace("[", "").replace("]", "").split(", ");
+
+        let body = {
+            orderId: Number(order),
+            productList, orderStatus: 10//Order Reject
+        };
+        OrderAPI.updateOrder(body)
+    });
+    $(".order-accept").click(function () {
+
+        let product = $(this).attr("productlist");
+        let order = $(this).attr("orderid");
+        let productList = (product + "").toString().replace("[", "").replace("]", "").split(", ");
+
+        let body = {
+            orderId: Number(order),
+            productList, orderStatus: 2 //Order Accept
+        };
+        OrderAPI.updateOrder(body)
+    })
+    $(".order-start-cooking").click(function () {
+
+        let product = $(this).attr("productlist");
+        let order = $(this).attr("orderid");
+        let productList = (product + "").toString().replace("[", "").replace("]", "").split(", ");
+
+        let body = {
+            orderId: Number(order),
+            productList, orderStatus: 3 //Order start cooking
+        };
+        OrderAPI.updateOrder(body)
+    })
+
+    $(".order-ready-pick-up").click(function () {
+
+        let product = $(this).attr("productlist");
+        let order = $(this).attr("orderid");
+        let productList = (product + "").toString().replace("[", "").replace("]", "").split(", ");
+
+        let body = {
+            orderId: Number(order),
+            productList, orderStatus: 4 //Ready for pick up
+        };
+        OrderAPI.updateOrder(body)
     })
 })

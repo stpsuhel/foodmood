@@ -3,8 +3,12 @@
 
 
 <head th:replace="fragment/component/header :: application-head"></head>
+
 <body>
+
+
 <div class="wrapper">
+
     <div th:replace="fragment/component/header :: application-top-header"></div>
     <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
     <div class="main-panel">
@@ -51,7 +55,7 @@
                                 <div class="table-responsive">
                                     <div class="table-responsive">
                                         <table id="live-Order"
-                                               class="display table table-hover dataTable"
+                                               class="display table table-bordered dataTable"
                                                cellspacing="0" width="100%">
                                             <thead>
                                             <tr>
@@ -63,7 +67,7 @@
 
                                             <tbody>
 
-                                            <tr th:each="orderItem : ${orderHistoryList}">
+                                            <tr  th:each="orderItem : ${orderHistoryList}">
                                                 <td th:text="${orderItem.getOrderId()}"></td>
                                                 <td style="cursor: pointer">
                                                     <div class="card-list">
@@ -85,31 +89,40 @@
                                                     <div class="clearfix"></div>
 
                                                 </td>
-                                                <td>
-                                                    <div th:if="${orderItem.getOrderStatus() < restaurantCanEditUpto}">
+                                                <td th:class="${orderItem.getOrderStatus() == fraudOrder ?'bg-danger text-white':''}">
+                                                    <div>
 
-                                                        <button  th:if="${orderItem.getOrderStatus() == pendingByRestaurant}" th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
-                                                                class="order-accept hover-square  btn m-1 btn-success btn-sm ml-auto">
+                                                        <button th:if="${orderItem.getOrderStatus() == pendingByRestaurant}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                                class="order-accept hover-square   btn m-1 btn-success btn-sm ml-auto">
                                                             <i class="fas fa-check"></i>
                                                             Accept
                                                         </button>
 
-                                                        <button th:if="${orderItem.getOrderStatus() == pendingByRestaurant}" th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                        <button th:if="${orderItem.getOrderStatus() == pendingByRestaurant}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
                                                                 class="order-reject  btn  m-1   btn-danger btn-sm ml-auto">
                                                             <i class="fas fa-times"></i>
                                                             Reject
                                                         </button>
 
-                                                        <button th:if="${orderItem.getOrderStatus() >= acceptedByRestaurant}" th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
-                                                                class="order-reject  btn  m-1   btn-danger btn-sm ml-auto">
-                                                            <i class="fas fa-times"></i>
+                                                        <button th:if="${orderItem.getOrderStatus() >= acceptedByRestaurant && orderItem.getOrderStatus()<readyToPickUp  && orderItem.getOrderStatus()!= cookingByRestaurant}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                                class="order-start-cooking  btn  m-1   btn-success btn-sm ml-auto">
+                                                            <i class="fas fa-rocket"></i>
                                                             Start Cooking
                                                         </button>
-                                                        <button th:if="${orderItem.getOrderStatus() >= acceptedByRestaurant}" th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
-                                                                class="order-reject  btn  m-1   btn-danger btn-sm ml-auto">
-                                                            <i class="fas fa-times"></i>
+                                                        <button th:if="${orderItem.getOrderStatus() >= acceptedByRestaurant  && orderItem.getOrderStatus()!= readyToPickUp && orderItem.getOrderStatus() < readyToPickUp}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                                class="order-ready-pick-up btn  m-1   btn-secondary btn-sm ml-auto">
+                                                            <i class="fas fa-shipping-fast"></i>
                                                             Ready To Pick Up
                                                         </button>
+
+                                                        <span th:if="${ orderItem.getOrderStatus() == fraudOrder}">Fraud Order</span>
+                                                        <span th:if="${ orderItem.getOrderStatus() == rejectedByRestaurant}" class="text-danger">Order Rejected</span>
+                                                        <span th:if="${ orderItem.getOrderStatus() == readyToPickUp}">Waiting For Delivery Man</span>
+                                                        <span  th:if="${ orderItem.getOrderStatus() >= pickedUpByDeliveryMan &&  orderItem.getOrderStatus() != rejectedByRestaurant}"> Picked By Delivery Man</span>
 
                                                     </div>
 

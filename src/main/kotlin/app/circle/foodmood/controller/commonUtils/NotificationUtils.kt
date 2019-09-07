@@ -26,6 +26,7 @@ class NotificationUtils(val androidPushNotificationsService: AndroidPushNotifica
 
         val data = JSONObject();
         data.put("orderId", orderId);
+        data.put("OrderStatus", "Order Notification");
 
         body.put("notification", notification);
         body.put("data", data);

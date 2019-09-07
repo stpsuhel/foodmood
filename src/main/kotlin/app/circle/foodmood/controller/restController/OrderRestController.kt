@@ -14,7 +14,6 @@ import app.circle.foodmood.repository.OrderRepository
 import app.circle.foodmood.repository.ProductRepository
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.APP
-import app.circle.foodmood.utils.OrderStatus
 import app.circle.foodmood.utils.ProcessDataModel
 import app.circle.foodmood.utils.tokenEqualText
 import org.springframework.data.repository.findByIdOrNull
@@ -260,7 +259,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
         return response
     }
 
-    @PostMapping("accept")
+    @PostMapping("update-status")
     fun acceptOrderByRestaurant(@Validated @RequestBody updateOrderStatusRequestBody: UpdateOrderStatusRequestBody): Response<String> {
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         val response = Response<String>()
@@ -268,51 +267,51 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
         try {
             order?.let { order ->
-                if (order.orderStatus == OrderStatus.PENDING_FOR_APPROVAL.value) {
-                    val productList = productUtils.getAllProductByCompanyId(userPrinciple.companyId)
-                    val productIdList = arrayListOf<Long>()
 
-                    productList.forEach {
-                        productIdList.add(it.id!!)
-                    }
-                    updateOrderStatusRequestBody.productList.forEach {
-                        if (!productIdList.contains(it)) {
-                            response.isResultAvailable = false
-                            response.isSuccessful = false
-                            response.result = null
-                            response.message = arrayOf("Order contain multiple store products")
+                val productList = productUtils.getAllProductByCompanyId(userPrinciple.companyId)
+                val productIdList = arrayListOf<Long>()
 
-                            return response
-                        }
-                    }
-                    order.orderStatus = OrderStatus.ACCEPT_BY_RESTAURANT.value
-                    orderRepository.save(order)
-
-
-                    val userId = order.userId
-
-
-                    val userDetails = userUtils.getUserById(userId!!)
-
-                    val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted by ", userDetails!!.fcmToken!!, order.id!!)
-
-
-                    if (sendOrderAcceptNotification.statusCode == HttpStatus.OK) {
-                        response.isResultAvailable = false
-                        response.isSuccessful = false
-                        response.result = sendOrderAcceptNotification.body.toString()
-                        response.message = arrayOf("Order contain multiple store products")
-
-                        return response
-                    } else {
-
+                productList.forEach {
+                    productIdList.add(it.id!!)
+                }
+                updateOrderStatusRequestBody.productList.forEach {
+                    if (!productIdList.contains(it)) {
                         response.isResultAvailable = false
                         response.isSuccessful = false
                         response.result = null
-                        response.message = arrayOf("App Notification Error")
+                        response.message = arrayOf("Order contain multiple store products")
 
+                        return response
                     }
                 }
+                order.orderStatus = updateOrderStatusRequestBody.orderStatus!!
+                orderRepository.save(order)
+
+
+                val userId = order.userId
+
+
+                val userDetails = userUtils.getUserById(userId!!)
+
+                val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted by ", userDetails!!.fcmToken!!, order.id!!)
+
+
+                if (sendOrderAcceptNotification.statusCode == HttpStatus.OK) {
+                    response.isResultAvailable = true
+                    response.isSuccessful = true
+                    response.result = sendOrderAcceptNotification.body.toString()
+                    response.message = null
+
+                    return response
+                } else {
+
+                    response.isResultAvailable = false
+                    response.isSuccessful = false
+                    response.result = null
+                    response.message = arrayOf("App Notification Error")
+
+                }
+
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -441,7 +440,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                 response.isResultAvailable = true
 
                 return response
-            }else{
+            } else {
                 response.result = allOrderList
                 response.isSuccessful = false
                 response.isResultAvailable = false

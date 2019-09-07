@@ -99,6 +99,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                 order.companyId = APP.FOOD_MOOD.value.toLong()
 
                 order.orderDate = globalUtils.getCurrentDate()
+                order.orderTime = globalUtils.getCurrentTime()
                 order.userId = userPrinciple.id
 
                 val orderData = orderRepository.save(order)
@@ -295,7 +296,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
                     val userDetails = userUtils.getUserById(userId!!)
 
-                    val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted", userDetails!!.fcmToken!!, order.id!!)
+                    val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted by ", userDetails!!.fcmToken!!, order.id!!)
 
 
                     if (sendOrderAcceptNotification.statusCode == HttpStatus.OK) {

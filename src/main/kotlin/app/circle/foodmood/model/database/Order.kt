@@ -38,4 +38,7 @@ class Order : AuditModel() {
 
     @NotNull
     var orderDate: Int? = null
+
+    @NotNull
+    var orderTime: Int? = null
 }

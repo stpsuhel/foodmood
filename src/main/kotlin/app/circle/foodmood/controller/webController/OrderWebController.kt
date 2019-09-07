@@ -1,10 +1,12 @@
 package app.circle.foodmood.controller.webController
 
 import app.circle.foodmood.controller.commonUtils.*
+import app.circle.foodmood.model.dataModel.OrderDetails
 import app.circle.foodmood.model.dataModel.OrderHistory
 import app.circle.foodmood.model.dataModel.OrderItemDetails
 import app.circle.foodmood.repository.CouponRepository
 import app.circle.foodmood.security.services.UserPrinciple
+import app.circle.foodmood.utils.OrderStatus
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,6 +24,8 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
         val allOrderIdTodayForCurrentCompany = arrayListOf<Long>()
         val allStoreIdCurrentCompany = arrayListOf<Long>()
 
+
+
         var allOrderList = arrayListOf<OrderHistory>()
         val todaysOderList = orderUtils.getOrderByDate(globalUtils.getCurrentDate()!!)
 
@@ -31,7 +35,7 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
             allStoreIdCurrentCompany.add(it.id!!)
         }
         todaysOderList.forEach {
-            allOrderIdTodayForCurrentCompany.add(it.id!!)
+                allOrderIdTodayForCurrentCompany.add(it.id!!)
         }
 
         val orderDetailsList = orderUtils.getAllOrderProductByOrderList(allOrderIdTodayForCurrentCompany)
@@ -68,6 +72,9 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
 
 
         model.addAttribute("orderHistoryList", allOrderList)
+        model.addAttribute("restaurantCanEditUpto", OrderStatus.FRAUD_ORDER.value)
+        model.addAttribute("pendingByRestaurant", OrderStatus.PENDING_FOR_APPROVAL.value)
+        model.addAttribute("acceptedByRestaurant", OrderStatus.ACCEPT_BY_RESTAURANT.value)
 
         return "order/liveOrder"
     }

@@ -16,5 +16,6 @@ interface OrderProductRepository : JpaRepository<OrderProduct, Long> {
 
     fun getAllByStoreIdInAndStatus(storeIdList: ArrayList<Long>, status: Int): ArrayList<OrderProduct>
 
+    fun getByIdAndStatus(id: Long, status: Int): ArrayList<OrderProduct>
 }
 

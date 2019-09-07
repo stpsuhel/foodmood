@@ -393,4 +393,65 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
         return response
     }
+
+    @GetMapping("order-details")
+    fun getUserOrderHistoryById(@RequestParam id: Long? = null): Response<ArrayList<OrderHistory>> {
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val response = Response<ArrayList<OrderHistory>>()
+        val orderList = ArrayList<Long>()
+        val allOrderList = arrayListOf<OrderHistory>()
+
+
+        try {
+            if (id != null) {
+                val orderDetails = orderUtils.getOrderById(id)
+
+                val orderDetailsList = orderUtils.getOrderProductByOrderId(orderDetails!!.id!!)
+
+                val orderHistory = OrderHistory()
+                orderHistory.orderId = orderDetails.id!!
+                orderHistory.hasDiscount = orderDetails.totalDiscountPrice!! < orderDetails.totalPrice!!
+                orderHistory.orderDiscountPrice = orderDetails.totalDiscountPrice!!
+                orderHistory.orderOriginalPrice = orderDetails.totalPrice!!
+                orderHistory.orderStatus = orderDetails.orderStatus!!
+                orderHistory.orderDate = orderDetails.orderDate!!
+                for (orderProduct in orderDetailsList) {
+                    if (orderProduct.orderId == orderDetails.id) {
+                        val orderItem = OrderItemDetails()
+                        orderItem.id = orderProduct.id!!
+                        orderItem.price = orderProduct.perProductPrice!!
+                        orderItem.priceDiscount = orderProduct.perProductDiscountPrice!!
+                        orderItem.hasDiscount = orderProduct.hasDiscount!!
+                        orderItem.quantity = orderProduct.quantity!!
+                        val product = productUtils.getByProductId(orderProduct.productId!!)
+                        orderItem.name = product.name
+                        orderHistory.itemList.add(orderItem)
+
+                    }
+                }
+
+                orderHistory.deliveryAddress = userAddressUtils.getUserAddressById(orderDetails.addressId!!)!!
+
+                allOrderList.add(orderHistory)
+
+
+
+                response.result = allOrderList
+                response.isSuccessful = true
+                response.isResultAvailable = true
+
+                return response
+            }else{
+                response.result = allOrderList
+                response.isSuccessful = false
+                response.isResultAvailable = false
+            }
+        } catch (e: Exception) {
+            response.result = allOrderList
+            response.isSuccessful = false
+            response.isResultAvailable = false
+        }
+
+        return response
+    }
 }

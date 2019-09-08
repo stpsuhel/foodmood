@@ -4,9 +4,6 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
 import org.springframework.stereotype.Service
-import java.util.*
-
-
 
 
 @Service
@@ -24,7 +21,7 @@ class GlobalUtils {
         return str.toIntOrNull()
     }
 
-    fun getCurrentDate(): Int?{
+    fun getCurrentDate(): Int? {
         val date = LocalDate.now()
         /**
          * Date Format should be yyyyMMdd.
@@ -35,7 +32,7 @@ class GlobalUtils {
         return str.toIntOrNull()
     }
 
-    fun getCurrentTime(): Int?{
+    fun getCurrentTime(): Int? {
         val time = LocalTime.now()
         val fmt = DateTimeFormat.forPattern("hhmm")
         val str = time.toString(fmt)
@@ -43,7 +40,7 @@ class GlobalUtils {
         return str.toIntOrNull()
     }
 
-    fun getDateInInteger(date: String): Int{
+    fun getDateInInteger(date: String): Int {
         val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
         val dateTime = fmt.parseDateTime(date)
 
@@ -61,5 +58,12 @@ class GlobalUtils {
         val str = beforeSevenDays.toString(fmt)
 
         return str.toIntOrNull()
+    }
+
+    fun formatDate(date: Int, format: String): String? {
+        val dtf = DateTimeFormat.forPattern("yyyyMMdd")
+        val jodatime = dtf.parseDateTime(date.toString())
+        val dtfOut = DateTimeFormat.forPattern(format)
+        return dtfOut.print(jodatime)
     }
 }

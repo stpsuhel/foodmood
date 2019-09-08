@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException
 class NotificationUtils(val androidPushNotificationsService: AndroidPushNotificationsService) {
 
 
-    fun sendOrderAcceptNotification( message: String, to: String, orderId: Long): ResponseEntity<String> {
+    fun sendOrderAcceptNotification(message: String, to: String, orderId: Long, orderStatus: Int): ResponseEntity<String> {
 
         val body = JSONObject();
         body.put("to", to);
@@ -26,7 +26,7 @@ class NotificationUtils(val androidPushNotificationsService: AndroidPushNotifica
 
         val data = JSONObject();
         data.put("orderId", orderId);
-        data.put("OrderStatus", "Order Notification");
+        data.put("orderStatus", orderStatus);
 
         body.put("notification", notification);
         body.put("data", data);

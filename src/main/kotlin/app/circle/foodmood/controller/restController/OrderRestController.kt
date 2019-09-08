@@ -285,7 +285,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                     }
                 }
                 order.orderStatus = updateOrderStatusRequestBody.orderStatus!!
-                orderRepository.save(order)
+               var updatedOrder = orderRepository.save(order)
 
 
                 val userId = order.userId
@@ -293,7 +293,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
                 val userDetails = userUtils.getUserById(userId!!)
 
-                val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted by ", userDetails!!.fcmToken!!, order.id!!)
+                val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted by ", userDetails!!.fcmToken!!, order.id!! , updatedOrder.orderStatus!!)
 
 
                 if (sendOrderAcceptNotification.statusCode == HttpStatus.OK) {

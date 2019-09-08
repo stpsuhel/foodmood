@@ -27,7 +27,8 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
 
 
         var allOrderList = arrayListOf<OrderHistory>()
-        val todaysOderList = orderUtils.getOrderByDate(globalUtils.getCurrentDate()!!)
+        val todaysDate = globalUtils.getCurrentDate()!!
+        val todaysOderList = orderUtils.getOrderByDate(todaysDate)
 
         val allCompanyStore = storeUtils.getAllCompanyStore(userPrinciple.companyId)
 
@@ -80,6 +81,7 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
         model.addAttribute("fraudOrder", OrderStatus.FRAUD_ORDER.value)
         model.addAttribute("pickedUpByDeliveryMan", OrderStatus.PICK_UP_BY_DELIVERY_MAN.value)
         model.addAttribute("rejectedByRestaurant", OrderStatus.ORDER_CANCELED.value)
+        model.addAttribute("date", globalUtils.formatDate(todaysDate,"dd MMMM YYYY (EEEE)"))
 
         return "order/liveOrder"
     }

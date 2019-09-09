@@ -181,6 +181,7 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-cache:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.1.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20190722" level="project" />
     <orderEntry type="library" name="Maven: de.codecentric:spring-boot-admin-starter-client:2.1.4" level="project" />
     <orderEntry type="library" name="Maven: de.codecentric:spring-boot-admin-client:2.1.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-actuator:2.1.7.RELEASE" level="project" />

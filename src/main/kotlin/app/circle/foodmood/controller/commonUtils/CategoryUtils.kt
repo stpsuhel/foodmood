@@ -23,4 +23,8 @@ class CategoryUtils(val categoryRepository: CategoryRepository) {
     fun deleteAllCategoryList(): Boolean{
         return true
     }
+
+    fun getCategoryById(categoryId: Long): Category{
+        return categoryRepository.getByIdAndStatus(categoryId, Status.Active.value)
+    }
 }

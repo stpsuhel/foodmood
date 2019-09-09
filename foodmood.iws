@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d711f1dc-8120-4f02-88c3-acc9e61673cd" name="Default Changelist" comment="Free Delivery">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/dataModel/TrendingDataModel.kt" afterDir="false" />
+    <list default="true" id="d711f1dc-8120-4f02-88c3-acc9e61673cd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/page/companyUpdateProduct.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foodmood.iml" beforeDir="false" afterPath="$PROJECT_DIR$/foodmood.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foodmood.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/foodmood.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foodmood.iws" beforeDir="false" afterPath="$PROJECT_DIR$/foodmood.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/GlobalUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/GlobalUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/OrderUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/OrderUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/PublicRestController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/PublicRestController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/OrderProductRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/OrderProductRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/OrderRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/OrderRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/Constant.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/Constant.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/CategoryUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/CategoryUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/ImageUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/ImageUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/CompanyController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/CompanyController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/dataModel/ProductItemDataModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/dataModel/ProductItemDataModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/database/ProductItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/database/ProductItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/CategoryRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/CategoryRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/ImageRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/ImageRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/ProcessDataModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/ProcessDataModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/company/updateProduct.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/company/updateProduct.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/product/addUpdateProduct.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/product/addUpdateProduct.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -182,7 +187,17 @@
     <option name="allServicesViewState">
       <serviceView>
         <treeState>
-          <expand />
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@39e7cda2" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@39e7cda2" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@29e9a0f7" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
           <select />
         </treeState>
       </serviceView>
@@ -250,7 +265,11 @@
       <workItem from="1567358649025" duration="4196000" />
       <workItem from="1567401705730" duration="579000" />
       <workItem from="1567411142762" duration="5368000" />
-      <workItem from="1567445088371" duration="12240000" />
+      <workItem from="1567445088371" duration="12565000" />
+      <workItem from="1567830640376" duration="8107000" />
+      <workItem from="1567853422253" duration="9452000" />
+      <workItem from="1567944125403" duration="3722000" />
+      <workItem from="1568015506496" duration="12661000" />
     </task>
     <task id="LOCAL-00001" summary="Save Store">
       <created>1565981370981</created>
@@ -329,7 +348,21 @@
       <option name="project" value="LOCAL" />
       <updated>1567415094819</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Trending Product">
+      <created>1567458571301</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1567458571301</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Get Home page Data">
+      <created>1567862789602</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1567862789602</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -370,7 +403,9 @@
     <MESSAGE value="UserAddress Save Update Delete" />
     <MESSAGE value="Free Delivery" />
     <MESSAGE value="Get Product by category" />
-    <option name="LAST_COMMIT_MESSAGE" value="Get Product by category" />
+    <MESSAGE value="Trending Product" />
+    <MESSAGE value="Get Home page Data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Get Home page Data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -397,7 +432,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt</url>
-          <line>203</line>
+          <line>196</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -406,34 +441,32 @@
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt</url>
-          <line>266</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/UserRestController.kt</url>
           <line>109</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/PublicRestController.kt</url>
-          <line>169</line>
+          <line>202</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/PublicRestController.kt</url>
-          <line>267</line>
+          <line>311</line>
           <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>328</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>453</line>
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="SpringBootApplicationConfigurationType">
-        <watch expression="storeInfo" language="kotlin" />
-        <watch expression="((ProductItem)((java.util.ArrayList)allProductCompany).get(5)).id" custom="app.circle.foodmood.model.database.ProductItem,java.util.ArrayList" />
-        <watch expression="sevenDaysBeforeDate" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />

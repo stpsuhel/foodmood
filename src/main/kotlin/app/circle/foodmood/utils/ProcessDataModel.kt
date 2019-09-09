@@ -99,4 +99,50 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
 
         return orderProductInfo
     }
+
+    fun processCompanyProductItemToCompanyProductItemDataModel(product: ProductItem, image: String): CompanyProductItemDataModel{
+        val productDataModel = CompanyProductItemDataModel()
+
+        try {
+            productDataModel.companyId = product.companyId!!
+            productDataModel.id = product.id!!
+            productDataModel.name = product.name
+            productDataModel.description = product.description
+            productDataModel.price = product.price
+            productDataModel.discountPrice = product.discountPrice
+            productDataModel.isDiscount = product.isDiscount
+            productDataModel.storeId = product.storeId!!
+            productDataModel.categoryId = product.categoryId
+            productDataModel.freeDelivery = product.freeDelivery
+
+            productDataModel.imageURL = image
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+        return productDataModel
+    }
+
+    fun processCompanyProductItemDataModelToCompanyProductItem(product: CompanyProductItemDataModel, imageId: Long): ProductItem{
+        val productDataModel = ProductItem()
+
+        try {
+            productDataModel.companyId = product.companyId!!
+            productDataModel.id = product.id
+            productDataModel.name = product.name
+            productDataModel.description = product.description
+            productDataModel.price = product.price
+            productDataModel.discountPrice = product.discountPrice
+            productDataModel.isDiscount = product.isDiscount
+            productDataModel.storeId = product.storeId!!
+            productDataModel.categoryId = product.categoryId
+            productDataModel.freeDelivery = product.freeDelivery
+
+            productDataModel.primaryImageId = imageId
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+        return productDataModel
+    }
 }

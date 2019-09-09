@@ -1,25 +1,17 @@
 package app.circle.foodmood.controller.webController
 
-import app.circle.foodmood.controller.commonUtils.CategoryUtils
-import app.circle.foodmood.controller.commonUtils.ProductUtils
-import app.circle.foodmood.controller.commonUtils.RoleUtils
-import app.circle.foodmood.controller.commonUtils.StoreUtils
+import app.circle.foodmood.controller.commonUtils.*
 import app.circle.foodmood.model.dataModel.CompanyDataModel
+import app.circle.foodmood.model.dataModel.CompanyProductItemDataModel
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
 import app.circle.foodmood.model.dataModel.UserDataModel
-import app.circle.foodmood.model.database.Category
-import app.circle.foodmood.model.database.Company
-import app.circle.foodmood.model.database.CompanyPermission
-import app.circle.foodmood.model.database.ProductItem
+import app.circle.foodmood.model.database.*
 import app.circle.foodmood.repository.CompanyPermissionRepository
 import app.circle.foodmood.repository.CompanyRepository
 import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
-import app.circle.foodmood.utils.PrimaryRole
-import app.circle.foodmood.utils.ProcessDataModel
-import app.circle.foodmood.utils.SIZE_EMPTY
-import app.circle.foodmood.utils.Status
+import app.circle.foodmood.utils.*
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
@@ -31,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.lang.StringBuilder
 
 
 @Controller
@@ -38,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class CompanyManagementWebController(val companyRepository: CompanyRepository, val processDataModel: ProcessDataModel,
                                      val categoryUtils: CategoryUtils, val userRepository: UserRepository,
                                      val companyPermissionRepository: CompanyPermissionRepository,
-                                     val roleUtils: RoleUtils, val encoder: PasswordEncoder,
+                                     val roleUtils: RoleUtils, val encoder: PasswordEncoder, val imageUtils: ImageUtils,
                                      val productUtils: ProductUtils, val storeUtils: StoreUtils) {
 
     @RequestMapping("company-registration", method = [RequestMethod.GET])
@@ -245,13 +238,22 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
             val productInfo = productUtils.getByProductId(id)
             val companyInfo = companyRepository.getCompanyByIdAndStatus(productInfo.companyId!!, Status.Active.value)
-            val storeInfo = storeUtils.getStoreById(productInfo.storeId!!)
             val storeList = storeUtils.getAllCompanyStore(companyInfo.id!!)
+            val categoryList = categoryUtils.getAllCategoryList()
 
-            model.addAttribute("product", productInfo)
+            val imageList = imageUtils.getImageBySourceIdAndSourceType(productInfo.id!!, ImageSourceType.PRODUCT_IMAGE.value)
+
+            val stringBuilder = StringBuilder()
+            imageList.forEach{
+                stringBuilder.append(it.imageURL).append(",")
+            }
+
+            val companyProductItemDataModel = processDataModel.processCompanyProductItemToCompanyProductItemDataModel(productInfo, stringBuilder.toString())
+
+            model.addAttribute("product", companyProductItemDataModel)
             model.addAttribute("company", companyInfo)
             model.addAttribute("storeList", storeList)
-            model.addAttribute("store", storeInfo)
+            model.addAttribute("categoryList", categoryList)
 
             return "company/updateProduct"
         } else {
@@ -260,9 +262,15 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
     }
 
     @RequestMapping(value = ["update-product"], method = [RequestMethod.POST])
-    fun getSaveUpdateProduct(@RequestParam("id", required = false) id: String? = null,
-                             @Validated @ModelAttribute("product") product: ProductItem, bindingResult: BindingResult,
+    fun getSaveUpdateProduct(@RequestParam("id", required = false) id: Long? = null,
+                             @Validated @ModelAttribute("product") product: CompanyProductItemDataModel, bindingResult: BindingResult,
                              model: Model, redirectAttributes: RedirectAttributes): String {
+
+        /*if(id != null) {
+            val productInfo = productUtils.getByProductId(id)
+            product.categoryId = productInfo.categoryId
+            product.createdAt = productInfo.createdAt
+        }*/
 
         if(product.storeId == null){
             bindingResult.rejectValue("storeId", "500", "Please Select a Store")
@@ -270,10 +278,14 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         if(product.price == null || product.price == 0){
             bindingResult.rejectValue("price", "500", "Product price must be greater then Zero")
         }
+        if(product.imageURL.isNullOrEmpty()){
+            bindingResult.rejectValue("imageURL", "500", "give a image URL")
+        }
         if(bindingResult.hasErrors()){
             model.addAttribute("storeList", storeUtils.getAllCompanyStore(product.companyId!!))
-            return "product/addUpdateProduct"
+            return "company/updateProduct"
         }
+
         product.discountPrice?.let {
             if(it > 0){
                 product.isDiscount = true
@@ -282,9 +294,32 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
             }
         }
 
-        productUtils.saveUpdateProduct(product)
-        productUtils.deleteAllProductByCompanyCache(product.companyId!!)
+        val imageURLList = product.imageURL.split(",")
+        val firstImage = imageURLList[0]
+
+        var primaryImageId: Long? = null
+
+        imageURLList.forEach {
+            val imageItem = SourceImage()
+            if(it.isNotEmpty()) {
+                imageItem.imageURL = it
+                imageItem.sourceType = ImageSourceType.PRODUCT_IMAGE.value
+                imageItem.sourceId = product.id
+                imageItem.companyId = product.companyId
+
+                val saveImage = imageUtils.saveSourceImage(imageItem)
+                if (it == firstImage) {
+                    primaryImageId = saveImage.id
+                }
+            }
+        }
+
+        val productItem = processDataModel.processCompanyProductItemDataModelToCompanyProductItem(product, primaryImageId!!)
+
+        productUtils.saveUpdateProduct(productItem)
+        productUtils.deleteAllProductByCompanyCache(product.companyId)
         productUtils.deleteAllProductCache()
+        imageUtils.deleteImageBySourceIdAndSourceType()
 
         return "redirect:./all-product-information"
     }

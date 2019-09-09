@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface ImageRepository : JpaRepository<SourceImage, Long> {
 
     fun getByCompanyIdAndIdAndStatus(companyId: Long, id: Long, status: Int): SourceImage
+
+    fun getAllBySourceIdAndSourceTypeAndStatus(sourceId: Long, sourceType: Int, status: Int): ArrayList<SourceImage>
 }

@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface CategoryRepository: JpaRepository<Category, Long> {
     fun getAllByStatusOrderByNameAsc(status: Int): ArrayList<Category>
+
+    fun getByIdAndStatus(id: Long, status: Int): Category
 }

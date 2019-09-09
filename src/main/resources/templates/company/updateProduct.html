@@ -22,7 +22,7 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <a href="#">Product</a>
+                            <a href="#">Company</a>
                         </li>
                         <li class="separator">
                             <i class="flaticon-right-arrow"></i>
@@ -112,7 +112,6 @@
                                                     <small class="form-text text-muted"></small>
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div class="col-md-12 col-lg-6">
@@ -135,6 +134,24 @@
 
                                         <div class="col-md-12 col-lg-6">
                                             <div class="form-group">
+                                                <label for="category">Category<a
+                                                        class="text-danger">*</a></label>
+                                                <select class="select2-class disableProductInfo" id="category"
+                                                        disabled th:field="*{categoryId}">
+
+                                                    <option th:each="categoryItem : ${categoryList}"
+                                                            th:value="${categoryItem.getId()}"
+                                                            th:text="${categoryItem.getName()}">
+                                                    </option>
+                                                    <small th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"
+                                                           class="form-text text-danger text-capitalize text-muted"></small>
+                                                </select>
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
                                                 <label for="company">Company Name<a
                                                         class="text-danger">*</a></label>
                                                 <select class="select2-class disableProductInfo" id="company"
@@ -146,6 +163,18 @@
                                                     <small class="form-text text-danger text-capitalize text-muted"></small>
                                                 </select>
                                                 <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="imageUrl">Image URL</label>
+                                                <textarea class="form-control disableProductInfo" id="imageUrl" rows="5"
+                                                          th:name="imageURL" th:field="*{imageURL}" disabled>
+												</textarea>
+
+                                                <small th:if="${#fields.hasErrors('imageURL')}" th:errors="*{imageURL}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -167,40 +196,8 @@
 </div>
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
 
+<script th:src="@{/page/companyUpdateProduct.js}"></script>
 <script>
-    let productId = $(".checkProduct").attr("id");
-    console.log(productId);
-    if(productId==null){
-        $('.disableProductInfo').prop('disabled', false);
-        $('#updateProduct').hide();
-    }else{
-        $('.hideSaveButton').hide();
-    }
-
-    $(".select2-class").select2({
-        closeOnSelect: true,
-        placeholder: "Select Store",
-        width: '100%',
-        dropdownAutoWidth: true
-    });
-
-
-    $("#cancel-button").click(function () {
-
-        if(productId==null){
-            $(location).attr('href', './product-information');
-        }else{
-            $('.hideSaveButton').hide();
-            $('.disableProductInfo').prop('disabled', true);
-        }
-
-    });
-
-    $('#updateProduct').click(function () {
-        $('.hideSaveButton').show();
-        $('.disableProductInfo').prop('disabled', false);
-    })
-
 </script>
 </body>
 </html>

@@ -18,12 +18,10 @@ class ImageUtils(val imageRepository: ImageRepository) {
         return imageRepository.getByCompanyIdAndIdAndStatus(companyId, id, Status.Active.value)
     }
 
-    @Cacheable("all-image-by-source-type")
     fun getImageBySourceIdAndSourceType(sourceId: Long, sourceType: Int): ArrayList<SourceImage>{
         return imageRepository.getAllBySourceIdAndSourceTypeAndStatus(sourceId, sourceType, Status.Active.value)
     }
 
-    @CacheEvict("all-image-by-source-type")
     fun deleteImageBySourceIdAndSourceType(): Boolean{
         return true
     }

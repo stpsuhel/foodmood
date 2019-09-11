@@ -12,6 +12,7 @@ import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.*
+import app.circle.foodmood.utils.RoleConstant.Companion.ROLE_DELIVERY_MAN
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
@@ -380,5 +381,91 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         imageUtils.deleteImageBySourceIdAndSourceType()
 
         return "redirect:./all-product-information"
+    }
+
+    @RequestMapping("delivery-man-registration")
+    fun getDeliveryMan(@RequestParam("id", required = false) id: Long? = null, model: Model): String{
+
+        if(id == null) {
+            model.addAttribute("user", UserDataModel())
+        }else{
+            val deliveryManInfo = userRepository.findById(id)
+
+            if(deliveryManInfo.isPresent){
+
+                val deliveryUserDataModel = processDataModel.processUserToUserDataModel(deliveryManInfo.get())
+                model.addAttribute("user", deliveryUserDataModel)
+            }
+        }
+        return "company/companyDeliveryManRegistration"
+    }
+
+    @RequestMapping("delivery-man-registration", method = [RequestMethod.POST])
+    fun saveDeliveryMan(@Validated @ModelAttribute userDataModel: UserDataModel, @RequestParam("id", required = false) id: Long? = null, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String {
+
+        if(id == null) {
+            if (userDataModel.name!!.isNotEmpty() && userDataModel.phone.isNotEmpty() && userDataModel.userName!!.isNotEmpty() && userDataModel.password!!.isNotEmpty() && userDataModel.confirmPassword!!.isNotEmpty()) {
+                if (userDataModel.password == userDataModel.confirmPassword) {
+
+                    if (userRepository.existsByUsername(userDataModel.userName)!!) {
+                        return ""
+                    }
+
+                    if (userRepository.existsByEmail(userDataModel.email)!!) {
+                        return ""
+                    }
+                    val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+                    val user = User(userDataModel.name, userDataModel.userName, userDataModel.email, encoder.encode(userDataModel.password), userPrinciple.companyId);
+
+                    val permission = roleUtils.getRoleListByPermission(arrayListOf(ROLE_DELIVERY_MAN))
+                    user.roles = HashSet(permission)
+
+                    user.primaryRole = PrimaryRole.CompanyDeliveryMan
+
+                    val savedUser = userRepository.save(user)
+
+                } else {
+                    throw Exception("Password is not matched")
+                }
+            } else {
+                throw  Exception("Mandatory Field is empty")
+            }
+        }else{
+            if (userRepository.existsByUsername(userDataModel.userName)!!) {
+                return ""
+            }
+
+            if (userRepository.existsByEmail(userDataModel.email)!!) {
+                return ""
+            }
+            val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+            val user = userRepository.findById(id).get()
+
+            user.phone = userDataModel.phone
+            user.name = userDataModel.name
+
+//            val user = User(userDataModel.name, userDataModel.userName, userDataModel.email, encoder.encode(userDataModel.password), userPrinciple.companyId);
+
+            val permission = roleUtils.getRoleListByPermission(arrayListOf(ROLE_DELIVERY_MAN))
+            user.roles = HashSet(permission)
+
+            user.primaryRole = PrimaryRole.CompanyDeliveryMan
+
+            val savedUser = userRepository.save(user)
+        }
+
+        return "redirect:./delivery-man-information"
+    }
+
+    @RequestMapping("delivery-man-information")
+    fun getDeliveryManInformation(model: Model): String{
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val deliveryManList = userRepository.getAllByCompanyIdAndPrimaryRole(userPrinciple.companyId, PrimaryRole.CompanyDeliveryMan)
+
+        model.addAttribute("deliveryManList", deliveryManList)
+
+        return "company/companyDeliveryManInformation"
     }
 }

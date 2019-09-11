@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Delivery Man Registration</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Company</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Delivery Man Registration</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form method="post" th:action="@{/admin/delivery-man-registration}" th:object="${user}">
+                                <div class="card-header">
+                                    <div class="card-title">Delivery Man Info</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="fullName">Full Name <a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="fullName"
+                                                       placeholder="Enter Full Name"
+                                                       th:name="fullName"
+                                                       th:field="*{name}" type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="userName">User Name <a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="userName"
+                                                       placeholder="Enter User Name"
+                                                       th:name="userName"
+                                                       th:field="*{userName}"
+                                                       type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="email">Email<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="email"
+                                                       placeholder="Enter User Email"
+                                                       th:name="email"
+                                                       th:field="*{email}"
+                                                       type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="phoneNumber">Phone Number<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="phoneNumber"
+                                                       placeholder="Enter Phone Number"
+                                                       th:name="phoneNumber"
+                                                       th:field="*{phone}"
+                                                       type="number">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="email">Password<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="password"
+                                                       placeholder="Enter User Password"
+                                                       th:name="password"
+                                                       th:field="*{password}"
+                                                       type="password">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="confirmPassword">Confirm Password<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="confirmPassword"
+                                                       placeholder="Enter User Password Again"
+                                                       th:name="confirmPassword"
+                                                       th:field="*{confirmPassword}"
+                                                       type="password">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary" type="submit"/>
+                                    <button class="btn btn-danger">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+
+<script>
+    $(".select2-class").select2({
+        closeOnSelect: true,
+        placeholder: "Grade",
+        width: '100%',
+        dropdownAutoWidth: true
+    });
+</script>
+</body>
+</html>

@@ -5,5 +5,6 @@ public enum PrimaryRole {
     RestaurantManager,
     RestaurantEmployee,
     RestaurantOwner,
+    CompanyDeliveryMan,
     User,
 }

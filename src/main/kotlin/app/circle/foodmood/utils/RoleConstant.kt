@@ -13,7 +13,7 @@ class RoleConstant {
         const val ROLE_COMPANY_MANAGER = "ROLE_COMPANY_MANAGER"
         const val ROLE_COMPANY_USEREMPLOYEE = "ROLE_COMPANY_USEREMPLOYEE"
 
-        const val ROLE_DELEVERY_MAN = "ROLE_DELEVERY_MAN"
+        const val ROLE_DELIVERY_MAN = "ROLE_DELIVERY_MAN"
 
         const val INVENTORY_READ = "INVENTORY_READ"
         const val INVENTORY_WRITE = "INVENTORY_WRITE"

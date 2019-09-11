@@ -127,7 +127,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         val productDataModel = ProductItem()
 
         try {
-            productDataModel.companyId = product.companyId!!
+            productDataModel.companyId = product.companyId
             productDataModel.id = product.id
             productDataModel.name = product.name
             productDataModel.description = product.description

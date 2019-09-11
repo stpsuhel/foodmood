@@ -36,7 +36,6 @@ $(document).ready(function () {
         $('.disableProductInfo').prop('disabled', false);
         $('#updateDeliveryMan').hide();
     })
-
 })
 
 

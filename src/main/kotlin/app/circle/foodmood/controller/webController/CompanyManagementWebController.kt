@@ -274,9 +274,6 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         if(product.price == null || product.price == 0){
             bindingResult.rejectValue("price", "500", "Product price must be greater then Zero")
         }
-        if(product.imageURL.isNullOrEmpty()){
-            bindingResult.rejectValue("imageURL", "500", "give a image URL")
-        }
         if(bindingResult.hasErrors()){
             model.addAttribute("storeList", storeUtils.getAllCompanyStore(product.companyId!!))
             return "company/updateProduct"
@@ -290,82 +287,85 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
             }
         }
 
-        val imageURLList = product.imageURL.split(",")
 
-        var firstImage: String? = null
-        if(imageURLList.isNotEmpty()) {
-            firstImage = imageURLList[0]
-        }
-
-        val imageSourceList = imageUtils.getImageBySourceIdAndSourceType(id!!, ImageSourceType.PRODUCT_IMAGE.value)
         var primaryImageId: Long? = null
 
-        val isNewImageURL = ArrayList<String>()
-        imageURLList.forEach {
+        if(product.imageURL.isNotEmpty()) {
 
-            if(it.isNotBlank() && it.isNotEmpty()) {
-                isNewImageURL.add(it)
+            val imageURLList = product.imageURL.split(",")
+            val firstImage: String? = imageURLList[0]
 
-                if(imageSourceList.isNotEmpty()) {
-                    for (image in imageSourceList) {
+            val imageSourceList = imageUtils.getImageBySourceIdAndSourceType(id!!, ImageSourceType.PRODUCT_IMAGE.value)
 
-                        if(image.imageURL == it){
-                            isNewImageURL.remove(it)
-                            break
-                        }
-                    }
-                }
-            }
-        }
+            val isNewImageURL = ArrayList<String>()
+            imageURLList.forEach {
 
-        val isDeleteImageItem = ArrayList<SourceImage>()
-        imageSourceList.forEach {
+                if (it.isNotBlank() && it.isNotEmpty()) {
+                    isNewImageURL.add(it)
 
-            println(it.imageURL)
-            try {
-                if (imageSourceList.isNotEmpty()) {
-                    isDeleteImageItem.add(it)
+                    if (imageSourceList.isNotEmpty()) {
+                        for (image in imageSourceList) {
 
-                    if(imageURLList.isNotEmpty()){
-
-                        for (image in imageURLList) {
-
-                            if (image == it.imageURL) {
-                                isDeleteImageItem.remove(it)
+                            if (image.imageURL == it) {
+                                isNewImageURL.remove(it)
                                 break
                             }
                         }
                     }
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
-        }
 
-        isDeleteImageItem.forEach {
-            it.status = Status.Deleted.value
-            imageUtils.saveSourceImage(it)
-        }
+            val isDeleteImageItem = ArrayList<SourceImage>()
+            imageSourceList.forEach {
 
-        isNewImageURL.forEach {
-            val imageItem = SourceImage()
+                println(it.imageURL)
+                try {
+                    if (imageSourceList.isNotEmpty()) {
+                        isDeleteImageItem.add(it)
 
-            imageItem.imageURL = it
-            imageItem.sourceType = ImageSourceType.PRODUCT_IMAGE.value
-            imageItem.sourceId = product.id
-            imageItem.companyId = product.companyId
+                        if (imageURLList.isNotEmpty()) {
 
-            imageUtils.saveSourceImage(imageItem)
-        }
+                            for (image in imageURLList) {
 
-        val allImageList = imageUtils.getImageBySourceIdAndSourceType(product.id, ImageSourceType.PRODUCT_IMAGE.value)
-
-        for(imageItem in allImageList){
-
-            if(firstImage != null && firstImage == imageItem.imageURL){
-                primaryImageId = imageItem.id
-                break
+                                if (image == it.imageURL) {
+                                    isDeleteImageItem.remove(it)
+                                    break
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
+
+            isDeleteImageItem.forEach {
+                it.status = Status.Deleted.value
+                imageUtils.saveSourceImage(it)
+            }
+
+            isNewImageURL.forEach {
+                val imageItem = SourceImage()
+
+                imageItem.imageURL = it
+                imageItem.sourceType = ImageSourceType.PRODUCT_IMAGE.value
+                imageItem.sourceId = product.id
+                imageItem.companyId = product.companyId
+
+                imageUtils.saveSourceImage(imageItem)
+            }
+
+            val allImageList = imageUtils.getImageBySourceIdAndSourceType(product.id, ImageSourceType.PRODUCT_IMAGE.value)
+
+            for (imageItem in allImageList) {
+
+                if (firstImage != null && firstImage == imageItem.imageURL) {
+                    primaryImageId = imageItem.id
+                    break
+                }
+            }
+        }else{
+            primaryImageId = -1
         }
 
         val productItem = processDataModel.processCompanyProductItemDataModelToCompanyProductItem(product, primaryImageId!!)

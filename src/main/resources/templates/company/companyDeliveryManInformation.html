@@ -38,13 +38,21 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Delivery Man List</h4>
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Delivery Man List</h4>
+                                    <button id="company-delivery-man-registration"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Add Delivery Man
+                                    </button>
+                                </div>
                             </div>
+
                             <div class="card-body">
 
                                 <div class="table-responsive">
                                     <div class="table-responsive">
-                                        <table id="company-table"
+                                        <table id="company-delivery-man-table"
                                                class="display table table-head-bg-primary table-striped table-hover"
                                                cellspacing="0" width="100%">
                                             <thead>
@@ -88,7 +96,11 @@
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
 
 <script>
-    $("#company-table").DataTable()
+    $("#company-delivery-man-table").DataTable()
+
+    $("#company-delivery-man-registration").click(function (e) {
+        $(location).attr('href', './delivery-man-registration')
+    })
 
 </script>
 </body>

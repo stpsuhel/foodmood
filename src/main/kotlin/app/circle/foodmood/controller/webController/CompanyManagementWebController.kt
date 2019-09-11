@@ -423,7 +423,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
                     user.primaryRole = PrimaryRole.CompanyDeliveryMan
 
-                    val savedUser = userRepository.save(user)
+                    userRepository.save(user)
 
                 } else {
                     throw Exception("Password is not matched")
@@ -431,29 +431,28 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
             } else {
                 throw  Exception("Mandatory Field is empty")
             }
-        }else{
-            if (userRepository.existsByUsername(userDataModel.userName)!!) {
-                return ""
+        }else {
+            if (userDataModel.name!!.isNotEmpty() && userDataModel.phone.isNotEmpty() && userDataModel.userName!!.isNotEmpty()) {
+
+                val user = userRepository.findById(id).get()
+
+                if (user.username != userDataModel.userName && userRepository.existsByUsername(userDataModel.userName)!!) {
+                    return ""
+                }
+
+                if (user.email != userDataModel.email && userRepository.existsByEmail(userDataModel.email)!!) {
+                    return ""
+                }
+
+                user.phone = userDataModel.phone
+                user.name = userDataModel.name
+                user.username = userDataModel.userName
+                user.email = userDataModel.email
+
+                userRepository.save(user)
+            }else {
+                throw  Exception("Mandatory Field is empty")
             }
-
-            if (userRepository.existsByEmail(userDataModel.email)!!) {
-                return ""
-            }
-            val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
-
-            val user = userRepository.findById(id).get()
-
-            user.phone = userDataModel.phone
-            user.name = userDataModel.name
-
-//            val user = User(userDataModel.name, userDataModel.userName, userDataModel.email, encoder.encode(userDataModel.password), userPrinciple.companyId);
-
-            val permission = roleUtils.getRoleListByPermission(arrayListOf(ROLE_DELIVERY_MAN))
-            user.roles = HashSet(permission)
-
-            user.primaryRole = PrimaryRole.CompanyDeliveryMan
-
-            val savedUser = userRepository.save(user)
         }
 
         return "redirect:./delivery-man-information"

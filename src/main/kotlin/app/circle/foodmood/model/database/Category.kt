@@ -11,4 +11,7 @@ class Category : AuditModel() {
     @Size(min = 3, max = 20)
     @NotNull
     var name: String? = null
+
+    @NotNull
+    var imageURl: String? = null
 }

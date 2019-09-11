@@ -45,7 +45,7 @@ enum class OrderStatus(val value: Int) {
     START_DELIVERY(7),
     NEAR_DELIVERY_ADDRESS(8),
     DELIVERED_SUCCESSFULLY(9),
-    ORDER_CANCELED(10),
+    ORDER_CANCELED(10 ),
 
 }
 

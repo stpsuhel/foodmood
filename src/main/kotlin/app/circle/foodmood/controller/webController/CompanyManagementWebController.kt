@@ -228,7 +228,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
     fun getSaveUpdateCategory(@Validated @ModelAttribute("productCategory") category: Category, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String{
 
         categoryUtils.saveUpdateCategory(category)
-        categoryUtils.deleteAllCategoryList()
+        categoryUtils.deleteAllCategoryList ()
 
         return "redirect:./all-category-information"
     }
@@ -267,11 +267,6 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                              @Validated @ModelAttribute("product") product: CompanyProductItemDataModel, bindingResult: BindingResult,
                              model: Model, redirectAttributes: RedirectAttributes): String {
 
-        /*if(id != null) {
-            val productInfo = productUtils.getByProductId(id)
-            product.categoryId = productInfo.categoryId
-            product.createdAt = productInfo.createdAt
-        }*/
 
         if(product.storeId == null){
             bindingResult.rejectValue("storeId", "500", "Please Select a Store")

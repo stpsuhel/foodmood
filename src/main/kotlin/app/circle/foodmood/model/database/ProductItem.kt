@@ -10,7 +10,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @Table(indexes = [Index(name = "product", columnList = "storeId,companyId")])
-open class ProductItem : AuditModel() {
+ class ProductItem : AuditModel() {
 
     @NotNull
     @Size(min = 3, max = 50, message = "Product Name cannot be Empty or less then three")

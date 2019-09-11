@@ -14,8 +14,8 @@ class ImageUtils(val imageRepository: ImageRepository) {
         return imageRepository.save(sourceImage)
     }
 
-    fun getImageById(companyId: Long, id: Long): SourceImage{
-        return imageRepository.getByCompanyIdAndIdAndStatus(companyId, id, Status.Active.value)
+    fun getImageById(id: Long): SourceImage{
+        return imageRepository.getByIdAndStatus(id, Status.Active.value)
     }
 
     fun getImageBySourceIdAndSourceType(sourceId: Long, sourceType: Int): ArrayList<SourceImage>{

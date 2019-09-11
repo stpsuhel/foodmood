@@ -8,4 +8,5 @@ class CategoryDataModel : AuditModel() {
     @NotEmpty
     var name = ""
     var totalItem: Int = 0
+    var imageURL: String = ""
 }

@@ -10,6 +10,7 @@ import app.circle.foodmood.model.database.UserToken
 import app.circle.foodmood.repository.UserTokenRepository
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.ID_NOT_FOUND
+import app.circle.foodmood.utils.ImageSourceType
 import app.circle.foodmood.utils.Status
 import app.circle.foodmood.utils.TOP_TRENDING
 import org.joda.time.LocalDate
@@ -20,7 +21,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("public")
-class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils,
+class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils, val imageUtils: ImageUtils,
                            val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val userTokenRepository: UserTokenRepository) {
 
     @GetMapping("all-product")
@@ -33,21 +34,40 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
 
             val allStore = storeUtils.getAllStore()
 
-            allProduct.forEach {
+            allProduct.forEach { productITem ->
+                var allImage = arrayListOf<String>()
                 val productItemDataModel = ProductItemDataModel()
-                productItemDataModel.companyId = it.companyId!!
-                productItemDataModel.id = it.id!!
-                productItemDataModel.name = it.name
-                productItemDataModel.price = it.price!!
-                productItemDataModel.storeId = it.storeId!!
-                productItemDataModel.description = it.description
-                productItemDataModel.status = it.status
-                productItemDataModel.discountPrice = it.discountPrice
-                productItemDataModel.isDiscount = it.isDiscount
+                productItemDataModel.companyId = productITem.companyId!!
+                productItemDataModel.id = productITem.id!!
+                productItemDataModel.name = productITem.name
+                productItemDataModel.price = productITem.price!!
+                productItemDataModel.storeId = productITem.storeId!!
+                productItemDataModel.description = productITem.description
+                productItemDataModel.status = productITem.status
+                productItemDataModel.discountPrice = productITem.discountPrice
+                productItemDataModel.isDiscount = productITem.isDiscount
+                productItemDataModel.isFreeDelivery= productITem.freeDelivery
+
+
+
+                if (productITem.primaryImageId != ID_NOT_FOUND) {
+                    val imageSource = imageUtils.getImageById(productITem.primaryImageId)
+                    productItemDataModel.primaryImageUrl = imageSource?.imageURL!!
+                }
+
+
+                val imageBySourceIdAndSourceType = imageUtils.getImageBySourceIdAndSourceType(productITem.id!!, ImageSourceType.PRODUCT_IMAGE.value)
+
+
+                imageBySourceIdAndSourceType.forEach {
+                    allImage.add(it.imageURL!!)
+                }
+
+                productItemDataModel.imageList = allImage
 
 
                 for (store in allStore) {
-                    if (store.id == it.storeId) {
+                    if (store.id == productITem.storeId) {
                         productItemDataModel.storeName = store.name!!
                         break
                     }
@@ -122,10 +142,10 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             productItem.categoryId?.let {
 
                 if (categoryCount.containsKey(it)) {
-                    var existingCount = categoryCount.get(it)!!
-                    categoryCount.put(it, ++existingCount)
+                    var existingCount = categoryCount[it]!!
+                    categoryCount[it] = ++existingCount
                 } else {
-                    categoryCount.put(it, 1)
+                    categoryCount[it] = 1
 
                 }
             }
@@ -136,7 +156,8 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
                 itemDataModel.id = it.id!!
                 itemDataModel.companyId = it.companyId!!
                 itemDataModel.name = it.name!!
-                itemDataModel.totalItem = categoryCount.get(it.id!!)!!
+                itemDataModel.imageURL = it.imageURl!!
+                itemDataModel.totalItem = categoryCount[it.id!!]!!
                 itemDataModel.status = Status.Active.value
                 categoryList.add(itemDataModel)
             }
@@ -159,22 +180,40 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             val allProduct = productUtils.getProductByDiscount(userPrinciple.companyId)
             val allStore = storeUtils.getAllStore()
 
-            allProduct.forEach {
+            allProduct.forEach { productItem ->
                 try {
-                    val productItemDataModel = ProductItemDataModel()
-                    productItemDataModel.companyId = it.companyId!!
-                    productItemDataModel.id = it.id!!
-                    productItemDataModel.name = it.name
-                    productItemDataModel.price = it.price!!
-                    productItemDataModel.storeId = it.storeId!!
-                    productItemDataModel.description = it.description
-                    productItemDataModel.status = it.status
-                    productItemDataModel.discountPrice = it.discountPrice
-                    productItemDataModel.isDiscount = it.isDiscount
 
+                    val allImage = arrayListOf<String>()
+
+                    val productItemDataModel = ProductItemDataModel()
+                    productItemDataModel.companyId = productItem.companyId!!
+                    productItemDataModel.id = productItem.id!!
+                    productItemDataModel.name = productItem.name
+                    productItemDataModel.price = productItem.price!!
+                    productItemDataModel.storeId = productItem.storeId!!
+                    productItemDataModel.description = productItem.description
+                    productItemDataModel.status = productItem.status
+                    productItemDataModel.discountPrice = productItem.discountPrice
+                    productItemDataModel.isDiscount = productItem.isDiscount
+
+
+                    if (productItem.primaryImageId != ID_NOT_FOUND) {
+                        val imageSource = imageUtils.getImageById(productItem.primaryImageId)
+                        productItemDataModel.primaryImageUrl = imageSource?.imageURL!!
+                    }
+
+
+                    val imageBySourceIdAndSourceType = imageUtils.getImageBySourceIdAndSourceType(productItem.id!!, ImageSourceType.PRODUCT_IMAGE.value)
+
+
+                    imageBySourceIdAndSourceType.forEach {
+                        allImage.add(it.imageURL!!)
+                    }
+
+                    productItemDataModel.imageList = allImage
 
                     for (store in allStore) {
-                        if (store.id == it.storeId) {
+                        if (store.id == productItem.storeId) {
                             productItemDataModel.storeName = store.name!!
                             break
                         }
@@ -215,22 +254,39 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             val allProduct = productUtils.getProductByCategory(userPrinciple.companyId, categoryId!!)
             val allStore = storeUtils.getAllStore()
 
-            allProduct.forEach {
+            allProduct.forEach { productItem ->
                 try {
                     val productItemDataModel = ProductItemDataModel()
-                    productItemDataModel.companyId = it.companyId!!
-                    productItemDataModel.id = it.id!!
-                    productItemDataModel.name = it.name
-                    productItemDataModel.price = it.price!!
-                    productItemDataModel.storeId = it.storeId!!
-                    productItemDataModel.description = it.description
-                    productItemDataModel.status = it.status
-                    productItemDataModel.discountPrice = it.discountPrice
-                    productItemDataModel.isDiscount = it.isDiscount
+                    val allImage = arrayListOf<String>()
 
+                    productItemDataModel.companyId = productItem.companyId!!
+                    productItemDataModel.id = productItem.id!!
+                    productItemDataModel.name = productItem.name
+                    productItemDataModel.price = productItem.price!!
+                    productItemDataModel.storeId = productItem.storeId!!
+                    productItemDataModel.description = productItem.description
+                    productItemDataModel.status = productItem.status
+                    productItemDataModel.discountPrice = productItem.discountPrice
+                    productItemDataModel.isDiscount = productItem.isDiscount
+
+
+                    if (productItem.primaryImageId != ID_NOT_FOUND) {
+                        val imageSource = imageUtils.getImageById(productItem.primaryImageId)
+                        productItemDataModel.primaryImageUrl = imageSource?.imageURL!!
+                    }
+
+
+                    val imageBySourceIdAndSourceType = imageUtils.getImageBySourceIdAndSourceType(productItem.id!!, ImageSourceType.PRODUCT_IMAGE.value)
+
+
+                    imageBySourceIdAndSourceType.forEach {
+                        allImage.add(it.imageURL!!)
+                    }
+
+                    productItemDataModel.imageList = allImage
 
                     for (store in allStore) {
-                        if (store.id == it.storeId) {
+                        if (store.id == productItem.storeId) {
                             productItemDataModel.storeName = store.name!!
                             break
                         }

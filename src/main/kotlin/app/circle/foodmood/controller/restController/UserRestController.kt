@@ -105,6 +105,7 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
         return response
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("update-fcm-token")
     fun updateFcmToken(@RequestBody updateTokenDataModel: UpdateTokenDataModel): Response<String>{
         val response = Response<String>()

@@ -56,14 +56,20 @@
                                             <thead>
                                             <tr>
                                                 <th style="width: 10%" scope="col">Id</th>
+                                                <th scope="col" style="width: 10%">Image</th>
                                                 <th scope="col">Name</th>
                                             </tr>
                                             </thead>
 
                                             <tbody>
-                                                 <tr class="row-store" th:id="${categoryItem.id}" style="cursor: pointer"
+                                                 <tr class="row-category" th:id="${categoryItem.id}" style="cursor: pointer"
                                                      th:each="categoryItem : ${allCategoryList}">
                                                      <td th:text="${categoryItem.id}"></td>
+                                                     <td>
+                                                         <div class="avatar">
+                                                             <img th:src="${categoryItem.imageURl}" alt="..." class="avatar-img rounded">
+                                                         </div>
+                                                     </td>
                                                      <td th:text="${categoryItem.name}"></td>
                                                  </tr>
                                             </tbody>
@@ -88,11 +94,10 @@
 
       $("#category-table").DataTable({
       });
-/*
-    $(".row-store").click(function (e) {
-        var storeId = $(this).attr("id");
-        $(location).attr('href', './category-details?id=' + storeId)
-    })*/
+    $(".row-category").click(function (e) {
+        var category = $(this).attr("id");
+        $(location).attr('href', './category-details?id=' + category)
+    })
 
 
     $("#add-category").click(function (e) {

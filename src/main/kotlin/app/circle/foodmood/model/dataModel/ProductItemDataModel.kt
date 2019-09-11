@@ -1,6 +1,5 @@
 package app.circle.foodmood.model.dataModel
 
-import app.circle.foodmood.model.database.ProductItem
 import app.circle.foodmood.utils.ID_NOT_FOUND
 import app.circle.foodmood.utils.ID_NOT_FOUND_INT
 import javax.validation.constraints.NotNull
@@ -20,6 +19,8 @@ class ProductItemDataModel {
     var storeName: String = ""
     var status: Int = ID_NOT_FOUND_INT
     val categoryList: Array<Long> = arrayOf()
+    var imageList: ArrayList<String> = arrayListOf()
+    var primaryImageUrl: String = ""
 
 }
 

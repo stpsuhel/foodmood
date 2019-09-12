@@ -28,5 +28,8 @@ interface OrderRepository : JpaRepository<Order, Long> {
     fun getAllByIdInAndOrderDateAndStatus(idList: ArrayList<Long>, toDaysDate: Int, status: Int): ArrayList<Order>
 
     fun getAllByIdInAndStatus(idList: ArrayList<Long>, status: Int): ArrayList<Order>
+
+    fun existsByIdAndStatus(id: Long, status: Int): Boolean
+
 }
 

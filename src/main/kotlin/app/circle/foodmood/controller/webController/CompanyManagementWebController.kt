@@ -8,6 +8,7 @@ import app.circle.foodmood.model.dataModel.UserDataModel
 import app.circle.foodmood.model.database.*
 import app.circle.foodmood.repository.CompanyPermissionRepository
 import app.circle.foodmood.repository.CompanyRepository
+import app.circle.foodmood.repository.DeliveryManRepository
 import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
@@ -33,7 +34,8 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                                      val categoryUtils: CategoryUtils, val userRepository: UserRepository,
                                      val companyPermissionRepository: CompanyPermissionRepository,
                                      val roleUtils: RoleUtils, val encoder: PasswordEncoder, val imageUtils: ImageUtils,
-                                     val productUtils: ProductUtils, val storeUtils: StoreUtils) {
+                                     val productUtils: ProductUtils, val storeUtils: StoreUtils,
+                                     val deliveryManRepository: DeliveryManRepository) {
 
     @RequestMapping("company-registration", method = [RequestMethod.GET])
     fun companyRegistration(model: Model): String {
@@ -289,13 +291,13 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
 
         var primaryImageId: Long? = null
+        val imageSourceList = imageUtils.getImageBySourceIdAndSourceType(id!!, ImageSourceType.PRODUCT_IMAGE.value)
+        val imageURLList = product.imageURL.split(",")
+        val isDeleteImageItem = ArrayList<SourceImage>()
 
         if(product.imageURL.isNotEmpty()) {
 
-            val imageURLList = product.imageURL.split(",")
             val firstImage: String? = imageURLList[0]
-
-            val imageSourceList = imageUtils.getImageBySourceIdAndSourceType(id!!, ImageSourceType.PRODUCT_IMAGE.value)
 
             val isNewImageURL = ArrayList<String>()
             imageURLList.forEach {
@@ -315,7 +317,6 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                 }
             }
 
-            val isDeleteImageItem = ArrayList<SourceImage>()
             imageSourceList.forEach {
 
                 println(it.imageURL)
@@ -366,6 +367,34 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
             }
         }else{
             primaryImageId = -1
+
+            imageSourceList.forEach {
+
+                println(it.imageURL)
+                try {
+                    if (imageSourceList.isNotEmpty()) {
+                        isDeleteImageItem.add(it)
+
+                        if (imageURLList.isNotEmpty()) {
+
+                            for (image in imageURLList) {
+
+                                if (image == it.imageURL) {
+                                    isDeleteImageItem.remove(it)
+                                    break
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            isDeleteImageItem.forEach {
+                it.status = Status.Deleted.value
+                imageUtils.saveSourceImage(it)
+            }
         }
 
         val productItem = processDataModel.processCompanyProductItemDataModelToCompanyProductItem(product, primaryImageId!!)
@@ -418,8 +447,15 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
                     user.primaryRole = PrimaryRole.CompanyDeliveryMan
 
-                    userRepository.save(user)
+                    val saveUser = userRepository.save(user)
 
+                    val deliveryMan = DeliveryMan()
+
+                    deliveryMan.userId = saveUser.id
+                    deliveryMan.companyId = saveUser.companyId
+                    deliveryMan.deliveryStatus = DeliveryManStatus.FREE_NOW.value
+
+                    deliveryManRepository.save(deliveryMan)
                 } else {
                     throw Exception("Password is not matched")
                 }

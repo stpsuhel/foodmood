@@ -5,17 +5,14 @@ import app.circle.foodmood.model.OrderDetailsSnippet
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.*
 import app.circle.foodmood.model.database.Order
+import app.circle.foodmood.model.database.OrderDelivery
 import app.circle.foodmood.model.database.OrderProduct
 import app.circle.foodmood.model.request.OrderDetailsRB
 import app.circle.foodmood.model.request.OrderRB
 import app.circle.foodmood.model.request.UpdateOrderStatusRequestBody
-import app.circle.foodmood.repository.OrderProductRepository
-import app.circle.foodmood.repository.OrderRepository
-import app.circle.foodmood.repository.ProductRepository
+import app.circle.foodmood.repository.*
 import app.circle.foodmood.security.services.UserPrinciple
-import app.circle.foodmood.utils.APP
-import app.circle.foodmood.utils.ProcessDataModel
-import app.circle.foodmood.utils.tokenEqualText
+import app.circle.foodmood.utils.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
@@ -29,7 +26,9 @@ import org.springframework.web.bind.annotation.*
 class OrderRestController(val productUtils: ProductUtils, val orderRepository: OrderRepository, val userAddressUtils: UserAddressUtils, val userUtils: UserUtils,
                           val productRepository: ProductRepository, val orderProductRepository: OrderProductRepository, val storeUtils: StoreUtils,
                           val globalUtils: GlobalUtils, val orderUtils: OrderUtils, val processDataModel: ProcessDataModel,
-                          val notificationUtils: NotificationUtils, val homeUtils: HomeUtils) {
+                          val deliveryManRepository: DeliveryManRepository, val notificationUtils: NotificationUtils,
+                          val homeUtils: HomeUtils, val userAddressRepository: UserAddressRepository,
+                          val orderDeliveryRepository: OrderDeliveryRepository) {
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -450,6 +449,35 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
             response.isSuccessful = false
             response.isResultAvailable = false
         }
+
+        return response
+    }
+
+    @PostMapping("assign-order-delivery-man")
+    fun assignOrderToDeliveryMan(@Validated @RequestBody orderDelivery: OrderDelivery): Response<OrderDelivery>{
+        val response = Response<OrderDelivery>()
+
+        if (!orderRepository.existsByIdAndStatus(orderDelivery.orderId!!, Status.Active.value)){
+            response.message = arrayOf("Order Details Not Found!!")
+            return response
+        }
+
+        val orderInfo = orderRepository.getOrderById(orderDelivery.orderId!!)
+        if (!userAddressRepository.existsByIdAndStatus(orderInfo!!.addressId!!, Status.Active.value)){
+            response.message = arrayOf("Order Address is Not Found!!")
+            return response
+        }
+
+        if (!deliveryManRepository.existsByUserIdAndDeliveryStatusAndStatus(orderDelivery.deliveryManId!!, DeliveryManStatus.FREE_NOW.value, Status.Active.value)){
+            response.message = arrayOf("Delivery Man Not Found!!")
+            return response
+        }
+
+        val saveOrderDelivery = orderDeliveryRepository.save(orderDelivery)
+
+        response.isSuccessful = true
+        response.isResultAvailable = true
+        response.result = saveOrderDelivery
 
         return response
     }

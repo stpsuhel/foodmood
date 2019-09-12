@@ -69,3 +69,8 @@ enum class DeliveryType(val value: Int) {
     FREE_DELIVERY(5),
     PAID_DELIVERY(6),
 }
+
+enum class DeliveryManStatus(val value: Int) {
+    ON_DELIVERY(1),
+    FREE_NOW(0),
+}

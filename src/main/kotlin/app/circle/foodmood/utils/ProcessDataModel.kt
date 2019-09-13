@@ -145,4 +145,32 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
 
         return productDataModel
     }
+
+    fun processProductOfferDataModelToProductOffer(offerDataModel: OfferDataModel): Offer{
+        val offer = Offer()
+
+        offer.offerTitle = offerDataModel.offerTitle
+        offer.offerDescription = offerDataModel.offerDescription
+        offer.productId = offerDataModel.productId
+        offer.startDate = globalUtils.getDateInInteger(offerDataModel.startDate!!)
+        offer.endDate = globalUtils.getDateInInteger(offerDataModel.endDate!!)
+        offer.offerPrice = offerDataModel.offerPrice
+
+        return offer
+    }
+
+    fun processProductOfferToProductOfferDataModel(offer: Offer): OfferDataModel{
+        val productOfferDataModel = OfferDataModel()
+
+        productOfferDataModel.id = offer.id
+        productOfferDataModel.createdBy = offer.createdBy
+        productOfferDataModel.endDate = globalUtils.getDateInString(offer.endDate!!)
+        productOfferDataModel.startDate = globalUtils.getDateInString(offer.startDate!!)
+        productOfferDataModel.offerDescription = offer.offerDescription
+        productOfferDataModel.offerTitle = offer.offerTitle
+        productOfferDataModel.offerPrice = offer.offerPrice
+        productOfferDataModel.productId = offer.productId
+
+        return productOfferDataModel
+    }
 }

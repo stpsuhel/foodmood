@@ -66,4 +66,22 @@ class GlobalUtils {
         val dtfOut = DateTimeFormat.forPattern(format)
         return dtfOut.print(jodatime)
     }
+
+    fun getDateForInputField(date: Int): String {
+        val dateString = date.toString()
+        val fmt = DateTimeFormat.forPattern("yyyyMMdd")
+        val dateTime = fmt.parseDateTime(dateString)
+
+        val myFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
+        return myFormat.print(dateTime)
+    }
+
+    fun getDateInString(date: Int): String {
+        val dateString = date.toString()
+        val fmt = DateTimeFormat.forPattern("yyyyMMdd")
+        val dateTime = fmt.parseDateTime(dateString)
+
+        val myFormat = DateTimeFormat.forPattern("dd MMMM, YYYY")
+        return myFormat.print(dateTime)
+    }
 }

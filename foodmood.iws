@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d711f1dc-8120-4f02-88c3-acc9e61673cd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/OfferUtils.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/OfferWebController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/dataModel/OfferDataModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/database/Offer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/database/ProductOffer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/OfferRepository.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/ProductOfferRepository.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/page/offerDetails.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/product/addUpdateOffer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/product/offerInformation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderDeliveryRestController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/OrderDeliveryWebController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/company/deliveryManDashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foodmood.iws" beforeDir="false" afterPath="$PROJECT_DIR$/foodmood.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/GlobalUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/GlobalUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/ProcessDataModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/ProcessDataModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragment/component/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragment/component/sidebar.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -142,24 +133,27 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/page" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates/company" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Subversion.SSH" />
   </component>
+  <component name="ReadonlyStatusHandler">
+    <option name="SHOW_DIALOG" value="false" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="app.circle.foodmood.controller.webController" />
+      <recent name="app.circle.foodmood.controller.restController" />
       <recent name="app.circle.foodmood.controller.commonUtils" />
       <recent name="app.circle.foodmood.repository" />
       <recent name="app.circle.foodmood.model.dataModel" />
-      <recent name="app.circle.foodmood.controller.webController" />
-      <recent name="app.circle.foodmood.model.database" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\templates\company" />
       <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\static\page" />
       <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\templates\product" />
-      <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\templates\company" />
       <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\templates\administration" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
@@ -275,7 +269,9 @@
       <workItem from="1568222981868" duration="2373000" />
       <workItem from="1568266488036" duration="6393000" />
       <workItem from="1568308847779" duration="9323000" />
-      <workItem from="1568345107461" duration="4500000" />
+      <workItem from="1568345107461" duration="5396000" />
+      <workItem from="1568353880804" duration="18000" />
+      <workItem from="1568374571773" duration="4877000" />
     </task>
     <task id="LOCAL-00001" summary="Save Store">
       <created>1565981370981</created>
@@ -410,7 +406,14 @@
       <option name="project" value="LOCAL" />
       <updated>1568298002519</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fix html page">
+      <created>1568350309554</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1568350309554</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,7 +459,8 @@
     <MESSAGE value="add image" />
     <MESSAGE value="Delivery Man Registration" />
     <MESSAGE value="Assign Order TO Delivery Man" />
-    <option name="LAST_COMMIT_MESSAGE" value="Assign Order TO Delivery Man" />
+    <MESSAGE value="Fix html page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix html page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

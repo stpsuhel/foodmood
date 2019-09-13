@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head  th:replace="fragment/component/header :: application-head"></head>
+
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="panel-header bg-primary-gradient">
+                <div class="page-inner py-5">
+                </div>
+            </div>
+            <div class="page-inner mt--5">
+                <div class="row mt--2">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-9" style="height: 600px">
+                        <div class="h-100" id="map"></div>
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+
+
+<script>
+
+    let map;
+    function initMap() {
+        let defaultLatitude = 24.757352
+        let defaultLongitude = 90.406580
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: defaultLatitude, lng: defaultLongitude},
+            zoom: 16
+        });
+        let marker = new google.maps.Marker({
+            position: {lat: defaultLatitude, lng: defaultLongitude},
+            map
+        })
+    }
+
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpHTSv4ccs7Tu7ClWQXr999z17hqcein8&callback=initMap"
+        type="text/javascript"></script>
+</body>
+</html>

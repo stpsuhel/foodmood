@@ -173,4 +173,17 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
 
         return productOfferDataModel
     }
+
+    fun processDeliveryManToDeliveryManDataModel(deliveryMan: DeliveryMan, user: User): DeliveryManDataModel{
+        val deliveryManDataModel = DeliveryManDataModel()
+
+        deliveryManDataModel.id = deliveryMan.userId
+        deliveryManDataModel.companyId = deliveryMan.companyId
+        deliveryManDataModel.deliveryStatus = deliveryMan.deliveryStatus!!
+        deliveryManDataModel.name = user.name
+        deliveryManDataModel.latitude = deliveryMan.latitude
+        deliveryManDataModel.longitude = deliveryMan.longitude
+
+        return deliveryManDataModel
+    }
 }

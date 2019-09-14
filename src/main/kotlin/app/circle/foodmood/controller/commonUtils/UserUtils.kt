@@ -3,6 +3,7 @@ package app.circle.foodmood.controller.commonUtils
 import app.circle.foodmood.repository.AdministrationRepository
 import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
+import app.circle.foodmood.utils.PrimaryRole
 import app.circle.foodmood.utils.STUDENT_PASSWORD_CONSTANT
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -32,6 +33,10 @@ class  UserUtils(val administrationRepository: AdministrationRepository , var us
 
     fun getUserById(userId:Long): User ?{
         return userRepository.findById(userId).get()
+    }
+
+    fun getUserByCompanyIdAndIdAndPrimaryRole(companyId: Long, id: Long): User{
+        return administrationRepository.findByCompanyIdAndIdAndPrimaryRole(companyId, id, PrimaryRole.CompanyDeliveryMan)
     }
     
 }

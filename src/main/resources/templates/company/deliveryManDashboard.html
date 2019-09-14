@@ -27,7 +27,6 @@
                         </div>
                     </div>
                     <div class="col-md-5">
-
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -43,8 +42,6 @@
 
                                             <tbody>
                                             <tr class="row-store" style="cursor: pointer"
-                                                th:data-lat="${deliveryMan.latitude}"
-                                                th:data-long="${deliveryMan.longitude}"
                                                 th:each="deliveryMan: ${deliveryManList}">
                                                 <td th:text="${deliveryMan.name}"></td>
                                                 <td th:text="${deliveryMan.deliveryStatus==0?'Free':'On Delivery'}"></td>
@@ -57,6 +54,54 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table class="display table table-striped table-hover dataTable" id="order-delivery-table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">Order By</th>
+                                                <th scope="col">Order Details</th>
+                                                <th scope="col">Order Address</th>
+                                                <th scope="col">Order Time</th>
+                                                <th scope="col">Order Status</th>
+                                                <th scope="col">Delivery Man List</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr class="row-store" style="cursor: pointer">
+                                                <td id="orderId"></td>
+                                                <td id="orderBy"></td>
+                                                <td id="orderDetails"></td>
+                                                <td id="orderAddress"></td>
+                                                <td id="orderTime"></td>
+                                                <td id="orderStatus"></td>
+                                                <td>
+                                                    <select class="select2-class">
+                                                        <option th:each="deliveryMan: ${deliveryManList}"
+                                                                th:value="${deliveryMan.id}"
+                                                                th:text="${deliveryMan.name}">
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>

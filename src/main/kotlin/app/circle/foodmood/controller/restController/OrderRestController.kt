@@ -374,6 +374,9 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
                 orderHistory.deliveryAddress = userAddressUtils.getUserAddressById(it.addressId!!)!!
 
+                val userInfo = userUtils.getUserById(orderHistory.deliveryAddress!!.userId!!)
+                orderHistory.orderBy = userInfo!!.phone
+
                 allOrderList.add(orderHistory)
             }
 

@@ -19,16 +19,54 @@ function initMap() {
 
 $(document).ready(function () {
 
+    $(".select2-class").select2({
+        closeOnSelect: true,
+        placeholder: "Select Store",
+        width: '100%',
+        dropdownAutoWidth: true
+    });
+
     $("#map-delivery-table").DataTable({});
 
     $(".row-store").click(function () {
 
-        latitude = $(this).data("lat");
-        longitude = $(this).data("long")
     })
 
-
-
+    // getTodeysOrder.deliveryDashboard()
 })
 
+let getTodeysOrder = {
+    deliveryDashboard: function() {
+        let settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "../order/todays-order-list",
+            "method": "GET",
+            "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache",
+            }
+        }
+
+        $.ajax(settings).done(function (response) {
+            console.log(response.result)
+            if(response.isResultAvailable && response.isSuccessful) {
+
+                $("#order-delivery-table").DataTable({
+                    data: response.result,
+                    columns: [
+                        { data: 'orderId' },
+                        { data: 'orderBy' },
+                        {},
+                        { data: 'deliveryAddress.addressLineOne' },
+                        { data: 'orderDate' },
+                        { data: 'orderStatus' },
+                        {},
+                        {}
+                        ]
+                });
+            }
+        });
+    }
+}
 

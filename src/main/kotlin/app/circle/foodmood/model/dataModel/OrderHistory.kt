@@ -15,6 +15,7 @@ class OrderHistory {
     var deliveryPrice: Int = 0
     var orderStatus: Int = OrderStatus.PENDING_FOR_APPROVAL.value
     var orderDate: Int? = null
+    var orderBy: String = ""
 
     var deliveryAddress: UserAddress? = null
     var itemList: ArrayList<OrderItemDetails> = arrayListOf()

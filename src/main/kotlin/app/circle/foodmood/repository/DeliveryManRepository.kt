@@ -10,4 +10,6 @@ interface DeliveryManRepository: JpaRepository<DeliveryMan, Long> {
     fun existsByUserIdAndDeliveryStatusAndStatus(userId: Long, deliveryStatus: Int, status: Int): Boolean
 
     fun getAllByCompanyIdAndStatus(companyId: Long, status: Int): ArrayList<DeliveryMan>
+
+    fun getAllByStatus(status: Int): ArrayList<DeliveryMan>
 }

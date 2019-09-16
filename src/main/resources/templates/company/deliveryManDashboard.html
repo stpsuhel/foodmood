@@ -76,22 +76,36 @@
                                             </thead>
 
                                             <tbody>
-                                            <tr class="row-store" style="cursor: pointer">
-                                                <td id="orderId"></td>
-                                                <td id="orderBy"></td>
-                                                <td id="orderDetails"></td>
-                                                <td id="orderAddress"></td>
-                                                <td id="orderTime"></td>
-                                                <td id="orderStatus"></td>
+                                            <tr class="row-store" style="cursor: pointer"
+                                                th:each="orderItem: ${allOrderList}">
+
+                                                <td th:text="${orderItem.orderId}"></td>
+                                                <td th:text="${orderItem.orderBy}"></td>
                                                 <td>
-                                                    <select class="select2-class">
+                                                    <span th:each="order: ${orderItem.itemList}">
+                                                        <span th:text="${order}+','"></span>
+                                                    </span>
+                                                </td>
+                                                <td th:text="${orderItem.deliveryAddress}"></td>
+                                                <td th:text="${orderItem.orderDate}"></td>
+                                                <td th:text="${orderItem.orderStatus}"></td>
+                                                <td th:if="${orderItem.deliveryMan}==-1L">
+                                                    <select class="select2-class" id="deliveryMan">
                                                         <option th:each="deliveryMan: ${deliveryManList}"
                                                                 th:value="${deliveryMan.id}"
                                                                 th:text="${deliveryMan.name}">
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td></td>
+                                                <td th:else th:text="${orderItem.deliveryMan}"></td>
+                                                <td>
+                                                    <button th:id="${orderItem.orderId}"
+                                                            th:classappend="${orderItem.deliveryMan!=-1?'disabled':''}"
+                                                            class="btn btn-primary btn-sm ml-auto assignDeliveryMan">
+                                                        <i class="fas fa-save"></i>
+                                                        Assign
+                                                    </button>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>

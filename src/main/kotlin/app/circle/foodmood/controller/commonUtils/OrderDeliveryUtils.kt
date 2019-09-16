@@ -18,4 +18,7 @@ class OrderDeliveryUtils(val deliveryManRepository: DeliveryManRepository) {
         return deliveryManRepository.getAllByCompanyIdAndStatus(companyId, Status.Active.value)
     }
 
+    fun getAllDeliveryMan(): ArrayList<DeliveryMan>{
+        return deliveryManRepository.getAllByStatus(Status.Active.value)
+    }
 }

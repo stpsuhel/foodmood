@@ -11,4 +11,6 @@ interface AdministrationRepository : JpaRepository<User, Long> {
     fun findByCompanyIdAndId(companyId: Long, id: Long): User?
 
     fun findByCompanyIdAndIdAndPrimaryRole(companyId: Long, id: Long, primaryRole: PrimaryRole): User
+
+    fun findByIdAndPrimaryRole(id: Long, primaryRole: PrimaryRole): User
 }

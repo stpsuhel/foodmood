@@ -41,4 +41,6 @@ class Order : AuditModel() {
 
     @NotNull
     var orderTime: Int? = null
+
+    var deliveryManId: Long = -1L
 }

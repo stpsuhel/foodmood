@@ -38,5 +38,8 @@ class  UserUtils(val administrationRepository: AdministrationRepository , var us
     fun getUserByCompanyIdAndIdAndPrimaryRole(companyId: Long, id: Long): User{
         return administrationRepository.findByCompanyIdAndIdAndPrimaryRole(companyId, id, PrimaryRole.CompanyDeliveryMan)
     }
-    
+
+    fun getUserByIdAndPrimaryRole(id: Long): User{
+        return administrationRepository.findByIdAndPrimaryRole(id, PrimaryRole.CompanyDeliveryMan)
+    }
 }

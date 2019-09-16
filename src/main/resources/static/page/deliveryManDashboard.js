@@ -28,45 +28,43 @@ $(document).ready(function () {
 
     $("#map-delivery-table").DataTable({});
 
+    $("#order-delivery-table").DataTable({});
+
     $(".row-store").click(function () {
 
-    })
+    });
 
-    // getTodeysOrder.deliveryDashboard()
-})
+    $('.assignDeliveryMan').click(function () {
+        let orderId = $(this).attr('id');
+        let deliveryManId = $('#deliveryMan').val();
 
-let getTodeysOrder = {
-    deliveryDashboard: function() {
-        let settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "../order/todays-order-list",
-            "method": "GET",
-            "headers": {
-                "content-type": "application/json",
-                "cache-control": "no-cache",
-            }
+        console.log(orderId+', '+deliveryManId)
+
+        let body = {
+            orderId, deliveryManId
         }
 
-        $.ajax(settings).done(function (response) {
-            console.log(response.result)
-            if(response.isResultAvailable && response.isSuccessful) {
+        assign.deliveryMan(body)
+    })
+})
 
-                $("#order-delivery-table").DataTable({
-                    data: response.result,
-                    columns: [
-                        { data: 'orderId' },
-                        { data: 'orderBy' },
-                        {},
-                        { data: 'deliveryAddress.addressLineOne' },
-                        { data: 'orderDate' },
-                        { data: 'orderStatus' },
-                        {},
-                        {}
-                        ]
-                });
+let assign = {
+    deliveryMan: function(deliveryMan) {
+        $.ajax({
+            url: '../order-delivery/assign-delivery-man-order',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(deliveryMan),
+            success: function (data, textStatus, jQxhr) {
+                if (data.resultAvailable && data.successful) {
+                    window.location.reload(true);
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
             }
         });
     }
 }
+
 

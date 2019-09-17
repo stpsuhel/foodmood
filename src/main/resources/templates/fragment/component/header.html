@@ -2,11 +2,11 @@
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="application-head">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>FoodMood | Admin Panel | CirleIT Ltd.</title>
+    <title>FoodMood | Online Food Delivery App</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
     <meta th:id="isAdmin" th:content="${true}"
           sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)"/>
-    <link rel="icon" th:href="@{/img/icon.ico}" type="image/x-icon"/>
+    <link rel="icon" th:href="@{https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/white_fm_logo_banner.png}" type="image/x-icon"/>
     <script th:src="@{/js/plugin/webfont/webfont.min.js}"></script>
     <script>
         WebFont.load({
@@ -28,10 +28,20 @@
     <script th:src="@{../app.js}"></script>
 
     <style>
-    .btn-hover-green:hover{
-        background-color: #10ff67 !important;
-    }
+        .btn-hover-green:hover {
+            background-color: #10ff67 !important;
+        }
     </style>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YPWS7H4Z6E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YPWS7H4Z6E');
+    </script>
 </head>
 
 <div th:fragment="application-top-header" sec:authorize="isAuthenticated()">

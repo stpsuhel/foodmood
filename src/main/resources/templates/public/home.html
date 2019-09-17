@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/component/header :: application-head"></head>
+
+<body class="bg-dark-gradient">
+
+<div class="container center pt-5">
+    <div class="row justify-content-md-start">
+        <div class="col">
+            <img style="width: 270px"
+                 src="https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/device-2019-09-14-212721.png">
+        </div>
+
+        <div class="col">
+            <img style="width: 270px"
+                 src="https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/device-2019-09-14-213142.png">
+        </div>
+        <div class="col">
+            <img style="width: 270px"
+                 src="https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/device-2019-09-14-212951.png">
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center mt-4">
+
+        <div class="container">
+
+            <div class="row align-items-center">
+                <div class="col">
+
+                </div>
+                <div class="col">
+                    <span class="display-3 font-weight-bold text-right text-white">FoodMood</span>
+
+                </div>
+                <div class="col">
+                    <img width="100px"
+                         src="https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/white_fm_logo_banner.png">
+                </div>
+
+                <div class="col text-center" >
+                    <span class="text-white-50 text-capitalize">Coming Soon in Mymensingh</span>
+                    <img width="200px" src="https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/google-play-badge.png">
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script th:src="@{/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/js/atlantis.min.js}"></script>
+
+<script>
+
+
+    $(".submitButton").click(function () {
+
+        let restaurantName = $("#restaurantName").val()
+        let ownerName = $("#ownerNumber").val()
+        let contactNumber = $("#contactNumber").val()
+
+        if (restaurantName && ownerName && contactNumber) {
+            let settings = {
+                "async": true,
+                "crossDomain": false,
+                "url": "../save/restaurant-info",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "data": JSON.stringify({
+                    restaurantName, ownerName, contactNumber
+                })
+            };
+
+            $.ajax(settings).done(function (response) {
+
+                if (response.isResultAvailable && response.isSuccessful && response.result) {
+                    swal({
+                        title: "FoodMood Message",
+                        text: "আপনার তথ্য সঠিক ভাবে রাখা হয়েছে . ফুডমুড অতিসত্বর আপনার সাথে যোগাযোগ করবে । যেকোনো প্রয়োজনে কল করুন ফুডমুড হেল্পলাইন (০১৭৭৫৬৭৬৭৭৬) এই নাম্বারে ",
+                        icon: "success",
+                    }).then(function () {
+                        $("#restaurantName").val('')
+                        $("#ownerNumber").val('')
+                        $("#contactNumber").val('')
+                    });
+                }
+
+            });
+
+        } else {
+            swal({
+                title: "One or more fields are empty",
+                text: "Please fill all input fields",
+                icon: "error",
+            });
+        }
+    })
+
+</script>
+</body>
+</html>

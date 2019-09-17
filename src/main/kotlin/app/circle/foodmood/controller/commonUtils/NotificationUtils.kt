@@ -22,6 +22,7 @@ class NotificationUtils(val androidPushNotificationsService: AndroidPushNotifica
 
         val notification = JSONObject();
         notification.put("title", "FoodMood - Order Notification");
+        notification.put("sound","default");
         notification.put("body", message);
 
         val data = JSONObject();

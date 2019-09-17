@@ -13,7 +13,9 @@ Circles.create({
 	textClass:    'circles-text',
 	styleWrapper: true,
 	styleText:    true
-})
+});
+
+
 
 //Notify
 $.notify({

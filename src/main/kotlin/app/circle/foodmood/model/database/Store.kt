@@ -40,4 +40,6 @@ class Store : AuditModel() {
     var locationLatitude: Double = 0.0
 
     var locationLongitude: Double = 0.0
+
+    var imageId: Long = -1L
 }

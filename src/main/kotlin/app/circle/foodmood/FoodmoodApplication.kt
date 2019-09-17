@@ -17,6 +17,13 @@ import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
+import java.util.concurrent.TimeUnit
+import org.springframework.http.CacheControl
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
+
+
 
 @SpringBootApplication
 @EnableCaching
@@ -47,6 +54,20 @@ class Config {
         println("JPA Enabled")
     }
 
+}
+
+
+@EnableWebMvc
+class MvcConfig : WebMvcConfigurer {
+    override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
+        registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
+        registry.addResourceHandler("/fonts/**").addResourceLocations("/css/").setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
+        registry.addResourceHandler("/img/**").addResourceLocations("/img/").setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
+
+
+
+    }
 }
 
 

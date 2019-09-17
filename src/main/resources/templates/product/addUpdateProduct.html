@@ -132,6 +132,23 @@
                                                 <small class="form-text text-muted"></small>
                                             </div>
                                         </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="store">Product Category<a
+                                                        class="text-danger">*</a></label>
+                                                <select class="select2-class disableProductInfo" id="category"
+                                                        disabled th:field="*{categoryId}">
+
+                                                    <option th:each="categoryItem : ${categoryList}"
+                                                            th:value="${categoryItem.getId()}"
+                                                            th:text="${categoryItem.getName()}">
+                                                    </option>
+                                                    <small th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"
+                                                           class="form-text text-danger text-capitalize text-muted"></small>
+                                                </select>
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-action">

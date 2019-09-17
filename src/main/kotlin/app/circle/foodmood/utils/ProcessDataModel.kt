@@ -1,6 +1,7 @@
 package app.circle.foodmood.utils
 
 import app.circle.foodmood.controller.commonUtils.GlobalUtils
+import app.circle.foodmood.controller.commonUtils.ImageUtils
 import app.circle.foodmood.model.dataModel.*
 import app.circle.foodmood.model.database.*
 import app.circle.foodmood.security.User
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class ProcessDataModel(val globalUtils: GlobalUtils) {
+class ProcessDataModel(val globalUtils: GlobalUtils, var imageUtils: ImageUtils) {
 
     fun processUserItemToUserDetailsItem(user: UserDetails, userInfo: User): UserDetails {
 
@@ -38,7 +39,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
     }
 
 
-    fun processProductItemToProductItemDataModel(product: ProductItem, store: Store): ProductItemDataModel{
+    fun processProductItemToProductItemDataModel(product: ProductItem, store: Store): ProductItemDataModel {
         val productDataModel = ProductItemDataModel()
 
         try {
@@ -52,14 +53,14 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
             productDataModel.storeId = product.storeId!!
             productDataModel.storeName = store.name!!
             productDataModel.isFreeDelivery = product.freeDelivery!!
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
         return productDataModel
     }
 
-    fun processCouponDataModelToCoupon(couponDataModel: CouponDataModel, coupon: Coupon): Coupon{
+    fun processCouponDataModelToCoupon(couponDataModel: CouponDataModel, coupon: Coupon): Coupon {
 
         coupon.couponText = couponDataModel.couponText
         coupon.maxUse = couponDataModel.maxUse
@@ -69,7 +70,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         return coupon
     }
 
-    fun processOrderToOrderDataModel(order: Order): OrderDataModel{
+    fun processOrderToOrderDataModel(order: Order): OrderDataModel {
         val orderInfo = OrderDataModel()
 
         orderInfo.id = order.id
@@ -85,7 +86,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         return orderInfo
     }
 
-    fun processOrderProductToOrderProductDataModel(orderProduct: OrderProduct): OrderProductDataModel{
+    fun processOrderProductToOrderProductDataModel(orderProduct: OrderProduct): OrderProductDataModel {
         val orderProductInfo = OrderProductDataModel()
 
         orderProductInfo.id = orderProduct.id
@@ -100,7 +101,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         return orderProductInfo
     }
 
-    fun processCompanyProductItemToCompanyProductItemDataModel(product: ProductItem, image: String): CompanyProductItemDataModel{
+    fun processCompanyProductItemToCompanyProductItemDataModel(product: ProductItem, image: String): CompanyProductItemDataModel {
         val productDataModel = CompanyProductItemDataModel()
 
         try {
@@ -116,14 +117,14 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
             productDataModel.freeDelivery = product.freeDelivery
 
             productDataModel.imageURL = image
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
         return productDataModel
     }
 
-    fun processCompanyProductItemDataModelToCompanyProductItem(product: CompanyProductItemDataModel, imageId: Long): ProductItem{
+    fun processCompanyProductItemDataModelToCompanyProductItem(product: CompanyProductItemDataModel, imageId: Long): ProductItem {
         val productDataModel = ProductItem()
 
         try {
@@ -139,14 +140,14 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
             productDataModel.freeDelivery = product.freeDelivery
 
             productDataModel.primaryImageId = imageId
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
         return productDataModel
     }
 
-    fun processProductOfferDataModelToProductOffer(offerDataModel: OfferDataModel): Offer{
+    fun processProductOfferDataModelToProductOffer(offerDataModel: OfferDataModel): Offer {
         val offer = Offer()
 
         offer.offerTitle = offerDataModel.offerTitle
@@ -159,7 +160,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         return offer
     }
 
-    fun processProductOfferToProductOfferDataModel(offer: Offer): OfferDataModel{
+    fun processProductOfferToProductOfferDataModel(offer: Offer): OfferDataModel {
         val productOfferDataModel = OfferDataModel()
 
         productOfferDataModel.id = offer.id
@@ -174,7 +175,7 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         return productOfferDataModel
     }
 
-    fun processDeliveryManToDeliveryManDataModel(deliveryMan: DeliveryMan, user: User): DeliveryManDataModel{
+    fun processDeliveryManToDeliveryManDataModel(deliveryMan: DeliveryMan, user: User): DeliveryManDataModel {
         val deliveryManDataModel = DeliveryManDataModel()
 
         deliveryManDataModel.id = deliveryMan.userId
@@ -185,5 +186,32 @@ class ProcessDataModel(val globalUtils: GlobalUtils) {
         deliveryManDataModel.longitude = deliveryMan.longitude
 
         return deliveryManDataModel
+    }
+
+    fun processStoreToStoreDetails(store: Store): StoreDetails {
+        val storeDetails = StoreDetails()
+        try {
+            storeDetails.id = store.id
+            storeDetails.companyId = store.companyId
+            storeDetails.name = store.name
+            storeDetails.tagline = store.tagline
+            storeDetails.address = store.address
+            storeDetails.area = store.area
+
+
+            val imageById = imageUtils.getImageById(store.imageId)
+            imageById?.let {
+                storeDetails.imageUrl = it.imageURL!!
+            }
+            storeDetails.contactNumber = store.contactNumber
+            storeDetails.openTime = store.openTime
+            storeDetails.closedTime = store.closedTime
+            storeDetails.locationLatitude = store.locationLatitude
+            storeDetails.locationLongitude = store.locationLongitude
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return storeDetails
     }
 }

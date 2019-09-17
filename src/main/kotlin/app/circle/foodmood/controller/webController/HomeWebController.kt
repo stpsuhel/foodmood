@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 class HomeWebController() {
 
-    @RequestMapping(value = [HOME, HOME_PAGE])
+    @RequestMapping(value = [HOME])
     fun getHome(model: Model): String {
 
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple

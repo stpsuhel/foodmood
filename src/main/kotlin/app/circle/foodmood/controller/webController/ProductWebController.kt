@@ -1,5 +1,6 @@
 package app.circle.foodmood.controller.webController
 
+import app.circle.foodmood.controller.commonUtils.CategoryUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
@@ -19,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 
 @Controller
-class ProductWebController(val storeUtils: StoreUtils, val productUtils: ProductUtils, val processDataModel: ProcessDataModel) {
+class ProductWebController(val storeUtils: StoreUtils, val productUtils: ProductUtils, val processDataModel: ProcessDataModel , val categoryUtils: CategoryUtils) {
 
 
     @RequestMapping("product-information")
@@ -43,8 +44,12 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
         if(id.isNullOrEmpty()) {
+            val allCategoryList = categoryUtils.getAllCategoryList()
+
             model.addAttribute("product", ProductItem())
             model.addAttribute("storeList", storeUtils.getAllCompanyStore(userPrinciple.companyId))
+
+            model.addAttribute("categoryList", allCategoryList)
 
         }else{
             val productId = id!!.toLong()
@@ -53,9 +58,12 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
             val storeInfo = storeUtils.getStoreById(productInfo.storeId!!)
             val storeList = storeUtils.getAllCompanyStore(userPrinciple.companyId)
 
+            val allCategoryList = categoryUtils.getAllCategoryList()
+
 
             model.addAttribute("product", productInfo)
             model.addAttribute("storeList", storeList)
+            model.addAttribute("categoryList", allCategoryList)
             model.addAttribute("store", storeInfo)
         }
 
@@ -76,7 +84,11 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
             bindingResult.rejectValue("price", "500", "Product price must be greater then Zero")
         }
         if(bindingResult.hasErrors()){
+            val allCategoryList = categoryUtils.getAllCategoryList()
+
             model.addAttribute("storeList", storeUtils.getAllCompanyStore(userPrinciple.companyId))
+            model.addAttribute("categoryList", allCategoryList)
+
             return "product/addUpdateProduct"
         }
 

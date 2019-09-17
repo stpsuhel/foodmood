@@ -12,13 +12,14 @@ class ProductItemDataModel {
     var price: Int? = null
     var id: Long = ID_NOT_FOUND
     var companyId: Long = ID_NOT_FOUND
+    var categoryId: Long = ID_NOT_FOUND
     var storeId: Long = ID_NOT_FOUND
     var isDiscount: Boolean = false
     var discountPrice: Int? = null
     var isFreeDelivery: Boolean = false
     var storeName: String = ""
     var status: Int = ID_NOT_FOUND_INT
-    val categoryList: Array<Long> = arrayOf()
+    var categoryList: ArrayList<Long> = arrayListOf()
     var imageList: ArrayList<String> = arrayListOf()
     var primaryImageUrl: String = ""
 

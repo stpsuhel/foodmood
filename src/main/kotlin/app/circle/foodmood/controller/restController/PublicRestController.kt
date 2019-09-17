@@ -9,10 +9,7 @@ import app.circle.foodmood.model.dataModel.TrendingDataModel
 import app.circle.foodmood.model.database.UserToken
 import app.circle.foodmood.repository.UserTokenRepository
 import app.circle.foodmood.security.services.UserPrinciple
-import app.circle.foodmood.utils.ID_NOT_FOUND
-import app.circle.foodmood.utils.ImageSourceType
-import app.circle.foodmood.utils.Status
-import app.circle.foodmood.utils.TOP_TRENDING
+import app.circle.foodmood.utils.*
 import org.joda.time.LocalDate
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
@@ -22,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("public")
 class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils, val imageUtils: ImageUtils,
-                           val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val userTokenRepository: UserTokenRepository) {
+                           val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val userTokenRepository: UserTokenRepository, val processDataModel: ProcessDataModel) {
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
@@ -46,8 +43,19 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
                 productItemDataModel.status = productITem.status
                 productItemDataModel.discountPrice = productITem.discountPrice
                 productItemDataModel.isDiscount = productITem.isDiscount
-                productItemDataModel.isFreeDelivery= productITem.freeDelivery
+                productItemDataModel.isFreeDelivery = productITem.freeDelivery
+                productItemDataModel.categoryId = productITem.categoryId!!
 
+
+                val categoryListByProductId = categoryUtils.getCategoryListByProductId(productITem.id!!)
+
+                if (categoryListByProductId.isNotEmpty()) {
+                    categoryListByProductId.forEach {
+                        productItemDataModel.categoryList.add(it.categoryId!!)
+                    }
+                } else {
+                    productItemDataModel.categoryList = arrayListOf(productITem.categoryId!!)
+                }
 
 
                 if (productITem.primaryImageId != ID_NOT_FOUND) {
@@ -103,7 +111,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             storeList.forEach {
                 val storeDataModel = StoreDataModel()
                 val productsByStoreId = storeUtils.getProductsByStoreId(it.id!!)
-                storeDataModel.details = it
+                storeDataModel.details = processDataModel.processStoreToStoreDetails(it)!!
                 storeDataModel.productList = productsByStoreId
 
                 lisOfProductDataModel.add(storeDataModel)
@@ -196,6 +204,19 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
                     productItemDataModel.discountPrice = productItem.discountPrice
                     productItemDataModel.isDiscount = productItem.isDiscount
 
+                    productItemDataModel.categoryId = productItem.categoryId!!
+
+
+                    val categoryListByProductId = categoryUtils.getCategoryListByProductId(productItem.id!!)
+
+                    if (categoryListByProductId.isNotEmpty()) {
+                        categoryListByProductId.forEach {
+                            productItemDataModel.categoryList.add(it.categoryId!!)
+                        }
+                    } else {
+                        productItemDataModel.categoryList = arrayListOf(productItem.categoryId!!)
+                    }
+
 
                     if (productItem.primaryImageId != ID_NOT_FOUND) {
                         val imageSource = imageUtils.getImageById(productItem.primaryImageId)
@@ -268,6 +289,21 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
                     productItemDataModel.status = productItem.status
                     productItemDataModel.discountPrice = productItem.discountPrice
                     productItemDataModel.isDiscount = productItem.isDiscount
+
+
+                    productItemDataModel.categoryId = productItem.categoryId!!
+
+
+                    val categoryListByProductId = categoryUtils.getCategoryListByProductId(productItem.id!!)
+
+                    if (categoryListByProductId.isNotEmpty()) {
+                        categoryListByProductId.forEach {
+                            productItemDataModel.categoryList.add(it.categoryId!!)
+                        }
+                    } else {
+                        productItemDataModel.categoryList = arrayListOf(productItem.categoryId!!)
+                    }
+
 
 
                     if (productItem.primaryImageId != ID_NOT_FOUND) {

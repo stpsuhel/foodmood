@@ -67,6 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/img/**",
                         //URL
                         "/home",
+                        "/",
+                        "/terms-condition",
                         "/swagger-ui.html",
                         "/app.js",
                         "/manifest.json",
@@ -75,11 +77,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login",
                         "/public/**",
                         "/data/**",
-                        "/signup"
+                        "/signup",
+                        "/restaurant/contact-form",
+                        "/save/restaurant-info",
                         //API LIST
-/*
                         "/actuator/**"
-*/
 
                 ).permitAll()
                 .antMatchers("/api/auth/**").permitAll()

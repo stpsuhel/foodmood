@@ -10,7 +10,11 @@ interface AdministrationRepository : JpaRepository<User, Long> {
 
     fun findByCompanyIdAndId(companyId: Long, id: Long): User?
 
-    fun findByCompanyIdAndIdAndPrimaryRole(companyId: Long, id: Long, primaryRole: PrimaryRole): User
+    fun findByCompanyIdAndIdAndPrimaryRole(companyId: Long, id: Long, primaryRole: PrimaryRole): User?
 
-    fun findByIdAndPrimaryRole(id: Long, primaryRole: PrimaryRole): User
+    fun findByIdAndPrimaryRole(id: Long, primaryRole: PrimaryRole): User?
+
+    fun findAllByCompanyIdAndPrimaryRole(companyId: Long, primaryRole: PrimaryRole): ArrayList<User>
+
+    fun findAllByPrimaryRole(primaryRole: PrimaryRole): ArrayList<User>
 }

@@ -76,7 +76,7 @@
                                             </thead>
 
                                             <tbody>
-                                            <tr class="row-store" style="cursor: pointer"
+                                            <tr class="row-store"
                                                 th:each="orderItem: ${allOrderList}">
 
                                                 <td th:text="${orderItem.orderId}"></td>
@@ -89,21 +89,28 @@
                                                 <td th:text="${orderItem.deliveryAddress}"></td>
                                                 <td th:text="${orderItem.orderDate}"></td>
                                                 <td th:text="${orderItem.orderStatus}"></td>
-                                                <td th:if="${orderItem.deliveryMan}==-1L">
-                                                    <select class="select2-class" id="deliveryMan">
+                                                <td th:if="${orderItem.deliveryManId==ID_NOT_FOUND}">
+                                                    <select class="select2-class deliveryMan" th:id="'deliveryMan' + ${orderItem.orderId}">
                                                         <option th:each="deliveryMan: ${deliveryManList}"
                                                                 th:value="${deliveryMan.id}"
                                                                 th:text="${deliveryMan.name}">
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td th:else th:text="${orderItem.deliveryMan}"></td>
-                                                <td>
+                                                <td th:unless="${orderItem.deliveryManId==ID_NOT_FOUND}"
+                                                    th:text="${orderItem.deliveryMan}"></td>
+
+                                                <td th:if="${orderItem.deliveryManId==ID_NOT_FOUND}" style="cursor: pointer">
                                                     <button th:id="${orderItem.orderId}"
-                                                            th:classappend="${orderItem.deliveryMan!=-1?'disabled':''}"
                                                             class="btn btn-primary btn-sm ml-auto assignDeliveryMan">
                                                         <i class="fas fa-save"></i>
                                                         Assign
+                                                    </button>
+                                                </td>
+                                                <td th:unless="${orderItem.deliveryManId==ID_NOT_FOUND}">
+                                                    <button class="btn btn-danger disabled btn-sm ml-auto">
+                                                        <i class="fas fa-save"></i>
+                                                        Assigned
                                                     </button>
                                                 </td>
                                             </tr>

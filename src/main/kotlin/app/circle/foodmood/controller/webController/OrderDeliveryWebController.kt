@@ -9,6 +9,7 @@ import app.circle.foodmood.model.dataModel.OrderHistory
 import app.circle.foodmood.model.dataModel.OrderItemDetails
 import app.circle.foodmood.repository.DeliveryManRepository
 import app.circle.foodmood.security.services.UserPrinciple
+import app.circle.foodmood.utils.ID_NOT_FOUND
 import app.circle.foodmood.utils.ProcessDataModel
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
@@ -23,6 +24,10 @@ class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val
                                  val userAddressUtils: UserAddressUtils, val globalUtils: GlobalUtils,
                                  val deliveryManRepository: DeliveryManRepository) {
 
+    /**
+     * Entering Database too many time
+     */
+
     @RequestMapping("dashboard")
     fun getDeliveryManInformation(model: Model): String{
 
@@ -30,13 +35,14 @@ class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val
         val deliveryManList = orderDeliveryUtils.getAllDeliveryMan()
 
         val deliveryManDataModelList = ArrayList<DeliveryManDataModel>()
-        deliveryManList.forEach {
+        deliveryManList.forEach {deliveryMan ->
 
-            val user = userUtils.getUserByIdAndPrimaryRole(it.userId!!)
+            val user = userUtils.getUserByIdAndPrimaryRole(deliveryMan.userId!!)
 
-            val deliveryManDataModel = processDataModel.processDeliveryManToDeliveryManDataModel(it, user)
-
-            deliveryManDataModelList.add(deliveryManDataModel)
+            user?.let {
+                val deliveryManDataModel = processDataModel.processDeliveryManToDeliveryManDataModel(deliveryMan, user)
+                deliveryManDataModelList.add(deliveryManDataModel)
+            }
         }
 
         val allOrderList = ArrayList<OrderDashboard>()
@@ -62,10 +68,13 @@ class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val
                 val orderDashboard = OrderDashboard()
                 orderDashboard.orderId = it.id!!
                 orderDashboard.orderStatus = it.orderStatus
-                orderDashboard.orderDate = globalUtils.getDateForInputField(it.orderDate!!)
+                orderDashboard.orderDate = globalUtils.getTimeInString(it.orderTime!!)
+                orderDashboard.deliveryManId = it.deliveryManId
 
-                val deliveryManInfo = userUtils.getUserByIdAndPrimaryRole(it.deliveryManId!!)
-                orderDashboard.deliveryMan = deliveryManInfo.name
+                val deliveryManInfo = userUtils.getUserByIdAndPrimaryRole(it.deliveryManId)
+                deliveryManInfo?.let {
+                    orderDashboard.deliveryMan = it.name
+                }
 
                 for (orderProduct in orderDetailsList) {
                     if (orderProduct.orderId == it.id) {
@@ -90,6 +99,7 @@ class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val
 
         model.addAttribute("deliveryManList", deliveryManDataModelList)
         model.addAttribute("allOrderList", allOrderList)
+        model.addAttribute("ID_NOT_FOUND", ID_NOT_FOUND)
 
         return "company/deliveryManDashboard"
     }

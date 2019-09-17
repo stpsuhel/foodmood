@@ -28,7 +28,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                           val globalUtils: GlobalUtils, val orderUtils: OrderUtils, val processDataModel: ProcessDataModel,
                           val deliveryManRepository: DeliveryManRepository, val notificationUtils: NotificationUtils,
                           val homeUtils: HomeUtils, val userAddressRepository: UserAddressRepository,
-                          val orderDeliveryRepository: OrderDeliveryRepository) {
+                          val orderDeliveryRepository: OrderDeliveryRepository, val companyRepository: CompanyRepository) {
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -105,7 +105,9 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
                 var totalQuantity = 0
 
+                var storeId: Long? = null
                 orderRB.cartItemList.forEach { cart ->
+                    storeId = cart.storeId
 
                     val product = productRepository.findByIdOrNull(cart.productId)
                     product?.let {
@@ -125,6 +127,21 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                         totalQuantity += cart.quantity
                     }
                 }
+
+                val storeInfo = storeUtils.getStoreById(storeId!!)
+                val companyAdminUserList = userUtils.getUserByCompanyIdAndPrimaryRole(storeInfo.companyId!!, PrimaryRole.RestaurantManager)
+                val adminUserList = userUtils.getUserByAdminPrimaryRole(PrimaryRole.CompanyManagement)
+
+                adminUserList.forEach {
+                    val companyInfo = companyRepository.getCompanyByIdAndStatus(storeInfo.companyId!!, Status.Active.value)
+                    notificationUtils.sendOrderAcceptNotification("Company ${companyInfo.name} get a order # ${orderData.id}", it.fcmToken!!, orderData.id!! , orderData.orderStatus)
+                }
+
+                companyAdminUserList.forEach {
+                    notificationUtils.sendOrderAcceptNotification("Your Company get a order # ${orderData.id}", it.fcmToken!!, orderData.id!! , orderData.orderStatus)
+                }
+
+
                 response.isResultAvailable = true
                 val orderDetails = OrderDetails()
                 orderDetails.addressId = order.addressId!!
@@ -284,7 +301,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                     }
                 }
                 order.orderStatus = updateOrderStatusRequestBody.orderStatus!!
-               var updatedOrder = orderRepository.save(order)
+               val updatedOrder = orderRepository.save(order)
 
 
                 val userId = order.userId
@@ -456,7 +473,12 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
         return response
     }
 
-    @PostMapping("assign-order-delivery-man")
+
+    /**
+     * Delivery Man er Id asbe UserPrinciple theke
+     * Has Role Permision DeliveryMan
+     */
+    @PostMapping("save-update-order-delivery-man")
     fun assignOrderToDeliveryMan(@Validated @RequestBody orderDelivery: OrderDelivery): Response<OrderDelivery>{
         val response = Response<OrderDelivery>()
 
@@ -476,7 +498,14 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
             return response
         }
 
+//        val deliveryManInfo = deliveryManRepository.getByIdAndStatus(orderDelivery.deliveryManId!!, Status.Active.value)
         val saveOrderDelivery = orderDeliveryRepository.save(orderDelivery)
+
+//        deliveryManInfo?.let {
+//
+//        }
+
+//        notificationUtils.sendOrderAcceptNotification("Your Company get a order # ${orderData.id}", it.fcmToken!!, orderData.id!! , orderData.orderStatus)
 
         response.isSuccessful = true
         response.isResultAvailable = true

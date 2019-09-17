@@ -40,7 +40,7 @@ class OrderUtils(val orderRepository: OrderRepository, val orderProductRepositor
     }
 
 
-    fun getOrderByDate(date:Int): ArrayList<Order> {
+    fun getOrderByDate(date: Int): ArrayList<Order> {
         return orderRepository.getAllByOrderDateAndStatus(date,Status.Active.value)
     }
 
@@ -54,5 +54,9 @@ class OrderUtils(val orderRepository: OrderRepository, val orderProductRepositor
 
     fun getOrderProductByOrderId(orderId: Long): ArrayList<OrderProduct>{
         return orderProductRepository.getByIdAndStatus(orderId, Status.Active.value)
+    }
+
+    fun getAllOrderByOrderDateAndDeliveryManId(deliveryManId: Long): ArrayList<Order> {
+        return orderRepository.getAllByOrderDateAndDeliveryManIdAndStatus(globalUtils.getCurrentDate()!!, deliveryManId, Status.Active.value)
     }
 }

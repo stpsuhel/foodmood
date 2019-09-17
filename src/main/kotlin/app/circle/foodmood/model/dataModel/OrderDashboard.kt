@@ -7,6 +7,7 @@ import app.circle.foodmood.utils.OrderStatus
 
 class OrderDashboard {
 
+    var deliveryManId: Long? = null
     var orderId: Long = ID_NOT_FOUND
     var orderStatus: Int = OrderStatus.PENDING_FOR_APPROVAL.value
     var orderDate: String? = null

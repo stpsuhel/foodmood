@@ -36,7 +36,7 @@ $(document).ready(function () {
 
     $('.assignDeliveryMan').click(function () {
         let orderId = $(this).attr('id');
-        let deliveryManId = $('#deliveryMan').val();
+        let deliveryManId = $('#deliveryMan'+orderId).val();
 
         console.log(orderId+', '+deliveryManId)
 

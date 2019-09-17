@@ -31,5 +31,7 @@ interface OrderRepository : JpaRepository<Order, Long> {
 
     fun existsByIdAndStatus(id: Long, status: Int): Boolean
 
+    fun getAllByOrderDateAndDeliveryManIdAndStatus(orderDate: Int, deliveryManId: Long, status: Int): ArrayList<Order>
+
 }
 

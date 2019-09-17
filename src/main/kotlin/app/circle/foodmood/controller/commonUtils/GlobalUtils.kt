@@ -81,7 +81,22 @@ class GlobalUtils {
         val fmt = DateTimeFormat.forPattern("yyyyMMdd")
         val dateTime = fmt.parseDateTime(dateString)
 
-        val myFormat = DateTimeFormat.forPattern("dd MMMM, YYYY")
+        val myFormat = DateTimeFormat.forPattern("dd MMM, YYYY")
         return myFormat.print(dateTime)
+    }
+
+    fun getTimeInString(time: Int): String {
+        var timeString = time.toString()
+
+        if(timeString.length == 3){
+            timeString = "0$timeString"
+        }
+
+        val fmt = DateTimeFormat.forPattern("hhmm")
+        val str = fmt.parseDateTime(timeString)
+
+        val myTimeFormat = DateTimeFormat.forPattern("hh:mm a")
+
+        return myTimeFormat.print(str)
     }
 }

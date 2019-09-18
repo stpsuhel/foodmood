@@ -7,7 +7,7 @@ interface DeliveryManRepository: JpaRepository<DeliveryMan, Long> {
 
     fun getByUserIdAndStatus(userId: Long, status: Int): DeliveryMan
 
-    fun existsByUserIdAndDeliveryStatusAndStatus(userId: Long, deliveryStatus: Int, status: Int): Boolean
+    fun existsByIdAndDeliveryStatusAndStatus(id: Long, deliveryStatus: Int, status: Int): Boolean
 
     fun getAllByCompanyIdAndStatus(companyId: Long, status: Int): ArrayList<DeliveryMan>
 

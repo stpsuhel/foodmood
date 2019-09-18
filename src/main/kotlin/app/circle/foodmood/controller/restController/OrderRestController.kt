@@ -479,33 +479,44 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
      * Has Role Permision DeliveryMan
      */
     @PostMapping("save-update-order-delivery-man")
-    fun assignOrderToDeliveryMan(@Validated @RequestBody orderDelivery: OrderDelivery): Response<OrderDelivery>{
+    fun assignOrderToDeliveryMan(@Validated @RequestBody orderDeliveryDataModel: OrderDeliveryDataModel): Response<OrderDelivery>{
         val response = Response<OrderDelivery>()
 
-        if (!orderRepository.existsByIdAndStatus(orderDelivery.orderId!!, Status.Active.value)){
+        if (!orderRepository.existsByIdAndStatus(orderDeliveryDataModel.orderId!!, Status.Active.value)){
             response.message = arrayOf("Order Details Not Found!!")
             return response
         }
 
-        val orderInfo = orderRepository.getOrderById(orderDelivery.orderId!!)
+        val orderInfo = orderRepository.getOrderById(orderDeliveryDataModel.orderId!!)
         if (!userAddressRepository.existsByIdAndStatus(orderInfo!!.addressId!!, Status.Active.value)){
             response.message = arrayOf("Order Address is Not Found!!")
             return response
         }
 
-        if (!deliveryManRepository.existsByUserIdAndDeliveryStatusAndStatus(orderDelivery.deliveryManId!!, DeliveryManStatus.FREE_NOW.value, Status.Active.value)){
+        if (!deliveryManRepository.existsByIdAndDeliveryStatusAndStatus(orderDeliveryDataModel.deliveryManId!!, DeliveryManStatus.FREE_NOW.value, Status.Active.value)){
             response.message = arrayOf("Delivery Man Not Found!!")
             return response
         }
 
-//        val deliveryManInfo = deliveryManRepository.getByIdAndStatus(orderDelivery.deliveryManId!!, Status.Active.value)
+        val orderDelivery = OrderDelivery()
+
+        orderDelivery.deliveryDate = orderDeliveryDataModel.deliveryDate
+        orderDelivery.deliveryEndTime = orderDeliveryDataModel.deliveryEndTime
+        orderDelivery.deliveryManId = orderDeliveryDataModel.deliveryManId
+        orderDelivery.deliveryStartTime = orderDeliveryDataModel.deliveryStartTime
+        orderDelivery.orderId = orderDeliveryDataModel.orderId
+
+        val deliveryManInfo = deliveryManRepository.getByIdAndStatus(orderDelivery.deliveryManId!!, Status.Active.value)
         val saveOrderDelivery = orderDeliveryRepository.save(orderDelivery)
 
-//        deliveryManInfo?.let {
-//
-//        }
+        deliveryManInfo?.let { deliveryMan ->
+            val userDeliveryMan = userUtils.getUserByIdAndPrimaryRole(deliveryMan.userId!!)
+            val order = orderUtils.getOrderById(orderDelivery.orderId!!)
 
-//        notificationUtils.sendOrderAcceptNotification("Your Company get a order # ${orderData.id}", it.fcmToken!!, orderData.id!! , orderData.orderStatus)
+            userDeliveryMan?.let{user ->
+                notificationUtils.sendOrderAcceptNotification("Your Company Assign a order # ${orderDelivery.orderId}", user.fcmToken!!, orderDelivery.orderId!! , order?.orderStatus!!)
+            }
+        }
 
         response.isSuccessful = true
         response.isResultAvailable = true

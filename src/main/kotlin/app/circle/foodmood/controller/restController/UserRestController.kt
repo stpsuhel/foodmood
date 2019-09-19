@@ -8,6 +8,7 @@ import app.circle.foodmood.model.dataModel.UpdateTokenDataModel
 import app.circle.foodmood.model.dataModel.UserDetails
 import app.circle.foodmood.model.database.UserAddress
 import app.circle.foodmood.model.database.UserBookmarkProduct
+import app.circle.foodmood.repository.AdministrationRepository
 import app.circle.foodmood.repository.UserAddressRepository
 import app.circle.foodmood.repository.UserBookmarkProductRepository
 import app.circle.foodmood.repository.UserRepository
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*
 class UserRestController(val userAddressRepository: UserAddressRepository, val userAddressUtils: UserAddressUtils,
                          val userBookmarkProductRepository: UserBookmarkProductRepository,
                          val userBookmarkProductUtils: UserBookmarkProductUtils,
-                         val userRepository: UserRepository) {
+                         val userRepository: UserRepository, val administrationRepository: AdministrationRepository) {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("create-update-address")
@@ -133,8 +134,25 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
     @PostMapping("update-user")
     fun updateUserDetails(@RequestBody userDetails: UserDetails): Response<User>{
         val response = Response<User>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+        val userInfo = administrationRepository.findByCompanyIdAndId(userPrinciple.companyId, userDetails.id!!)
 
+        if (userInfo != null){
+            if (userDetails.name?.isNotEmpty()!! && userDetails.phone.isNotEmpty()) {
+                userInfo.name = userDetails.name
+                userInfo.phone = userDetails.phone
 
+                val updateUser = userRepository.save(userInfo)
+
+                response.isSuccessful = true
+                response.isResultAvailable = true
+                response.result = updateUser
+            }else{
+                response.message = arrayOf("Name and Phone number cannot be Empty")
+            }
+        }else{
+            response.message = arrayOf("User not found")
+        }
 
         return  response
     }

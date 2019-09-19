@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="user-profile text-center">
+                                <div class="user-profile text-center getUserId" th:id="${userInfo.id}">
                                     <div class="name" th:text="${userInfo.name}"></div>
                                     <div class="job" th:text="${userInfo.userName}"></div>
                                     <div class="desc" th:text="${userInfo.email}"></div>
@@ -129,7 +129,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <form id="multipleUploadForm" name="multipleUploadForm" class="hideSaveButton d-none">
+                                            <form id="multipleUploadForm" name="multipleUploadForm" class="hideSaveButton">
                                                 <label for="multipleFileUploadInput">Chose Image</label>
                                                 <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple="" required="">
                                             </form>
@@ -139,7 +139,7 @@
                                         <div class="form-group">
                                             <div class="card-head-row">
                                                 <div class="card-tools">
-                                                    <button id="saveUpdateInformation" class="d-none btn btn-primary hideSaveButton">
+                                                    <button id="saveUpdateInformation" class="btn btn-primary hideSaveButton">
                                                         Save
                                                     </button>
                                                 </div>

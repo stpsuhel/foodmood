@@ -1,4 +1,3 @@
-'use strict';
 
 let multipleUploadForm = document.querySelector('#multipleUploadForm');
 let multipleFileUploadInput = document.querySelector('#multipleFileUploadInput');
@@ -42,19 +41,11 @@ $(document).ready(function () {
 
         $('.enableInputField').prop('disabled', false);
 
-        let element = document.getElementsByClassName("hideSaveButton");
-        element.classList.remove("d-none");
+        $('.hideSaveButton').show();
 
-    })
+    });
 
     $("#saveUpdateInformation").click(function () {
-        $('.enableInputField').prop('disabled', true);
-
-        let element = document.getElementsByClassName("hideSaveButton");
-        element.classList.forEach()
-
-        let name = $("#name").val()
-        let phone = $("#phoneNumber").val()
 
         let files = multipleFileUploadInput.files;
         if (files.length === 0) {
@@ -63,11 +54,18 @@ $(document).ready(function () {
         }
         uploadMultipleFiles(files);
 
+        $('.enableInputField').prop('disabled', true);
+        $('.hideSaveButton').hide();
+
+        let name = $("#name").val();
+        let phone = $("#phoneNumber").val();
+        let id = $('.getUserId').attr('id');
+
         let body = {
-            name, phone
+            id, name, phone
         }
 
-        // userUpdate.post(body)
+        userUpdate.post(body)
     })
 
 });

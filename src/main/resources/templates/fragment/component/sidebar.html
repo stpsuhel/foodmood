@@ -88,11 +88,18 @@
                                         <span class="sub-item">Store Information</span>
                                     </a>
                                 </li>
+
+                                <li>
+                                    <a th:href="@{/previous-order}">
+                                        <span class="sub-item">Previous Order</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)">
                         <a data-toggle="collapse" href="#delivery">
                             <i class="fas fa-hotel"></i>
                             <p>Delivery</p>

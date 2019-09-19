@@ -99,4 +99,48 @@ class GlobalUtils {
 
         return myTimeFormat.print(str)
     }
+
+    fun getCurrentMonthDate(): Int? {
+        val date = LocalDate.now()
+        /**
+         * Date Format should be yyyyMMdd.
+         */
+        val fmt = DateTimeFormat.forPattern("yyyyMMdd")
+        val str = date.toString(fmt)
+        val thisMonth = str.take(6) + "01"
+
+        return thisMonth.toIntOrNull()
+    }
+
+    fun getMonthEndDate(month: Int): Int? {
+        val date = LocalDate.now()
+        var monthString = month.toString()
+        if(monthString.length == 1){
+            monthString = "0$monthString"
+        }
+        /**
+         * Date Format should be yyyyMMdd.
+         */
+        val fmt = DateTimeFormat.forPattern("yyyyMMdd")
+        val str = date.toString(fmt)
+        val thisMonth = str.take(4) + monthString + "30"
+
+        return thisMonth.toIntOrNull()
+    }
+
+    fun getMonthStartDate(month: Int): Int? {
+        val date = LocalDate.now()
+        var monthString = month.toString()
+        if(monthString.length == 1){
+            monthString = "0$monthString"
+        }
+        /**
+         * Date Format should be yyyyMMdd.
+         */
+        val fmt = DateTimeFormat.forPattern("yyyyMMdd")
+        val str = date.toString(fmt)
+        val thisMonth = str.take(4) + monthString + "01"
+
+        return thisMonth.toIntOrNull()
+    }
 }

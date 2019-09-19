@@ -17,7 +17,7 @@ import javax.validation.constraints.Size
     var name: String = ""
 
     @NotNull
-    @Size(min = 3, max = 100, message = "Product Description cannot be Empty or less then three")
+    @Size(min = 3, message = "Product Description cannot be Empty or less then three")
     var description: String = ""
 
     @NotNull(message = "")

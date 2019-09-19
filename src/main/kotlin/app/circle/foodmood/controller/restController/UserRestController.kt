@@ -5,11 +5,13 @@ import app.circle.foodmood.controller.commonUtils.UserBookmarkProductUtils
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.AddressDataModel
 import app.circle.foodmood.model.dataModel.UpdateTokenDataModel
+import app.circle.foodmood.model.dataModel.UserDetails
 import app.circle.foodmood.model.database.UserAddress
 import app.circle.foodmood.model.database.UserBookmarkProduct
 import app.circle.foodmood.repository.UserAddressRepository
 import app.circle.foodmood.repository.UserBookmarkProductRepository
 import app.circle.foodmood.repository.UserRepository
+import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
@@ -126,5 +128,14 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
             response.message = arrayOf("User not found!!")
         }
         return response
+    }
+
+    @PostMapping("update-user")
+    fun updateUserDetails(@RequestBody userDetails: UserDetails): Response<User>{
+        val response = Response<User>()
+
+
+
+        return  response
     }
 }

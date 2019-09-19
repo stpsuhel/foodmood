@@ -22,8 +22,8 @@ class OrderUtils(val orderRepository: OrderRepository, val orderProductRepositor
         return orderProductRepository.getAllByCompanyIdAndStatus(companyId, Status.Active.value)
     }
 
-    fun getAllOrderProductOfLastSevenDays(toDay: Int, beforeSevenDay: Int): ArrayList<Order> {
-        return orderRepository.findAllByStatusAndOrderDateGreaterThanAndOrderDateLessThan(Status.Active.value, beforeSevenDay, toDay)
+    fun getAllOrderByPreviousDateToToday(previousDate: Int, toDay: Int): ArrayList<Order> {
+        return orderRepository.findAllByStatusAndOrderDateGreaterThanAndOrderDateLessThanEqual(Status.Active.value, previousDate, toDay)
     }
 
     fun getAllOrderProductByOrderId(orderIdList: ArrayList<Long>): ArrayList<OrderProduct> {

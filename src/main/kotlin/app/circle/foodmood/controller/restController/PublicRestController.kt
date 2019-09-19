@@ -354,7 +354,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         val currentDate = globalUtils.getCurrentDate()
         val oneWeekBeforeDate = globalUtils.getOneWeekBeforeDate(LocalDate.now())
 
-        val allProductOfLastSevenDays = orderUtils.getAllOrderProductOfLastSevenDays(currentDate!!, oneWeekBeforeDate!!)
+        val allProductOfLastSevenDays = orderUtils.getAllOrderByPreviousDateToToday(oneWeekBeforeDate!!, currentDate!!)
 
         val orderIdList = ArrayList<Long>()
         allProductOfLastSevenDays.forEach {

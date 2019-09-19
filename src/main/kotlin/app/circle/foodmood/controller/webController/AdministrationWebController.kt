@@ -1,8 +1,6 @@
 package app.circle.foodmood.controller.webController
 
-import app.circle.foodmood.controller.commonUtils.RoleUtils
-import app.circle.foodmood.controller.commonUtils.StoreUtils
-import app.circle.foodmood.controller.commonUtils.UserUtils
+import app.circle.foodmood.controller.commonUtils.*
 import app.circle.foodmood.model.dataModel.UserDataModel
 import app.circle.foodmood.model.dataModel.UserDetails
 import app.circle.foodmood.model.database.Store
@@ -28,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @Controller
 class AdministrationWebController(val administrationRepository: AdministrationRepository, val userRepository: UserRepository, val encoder: PasswordEncoder,
                                   val userUtils: UserUtils, val processDataModel: ProcessDataModel, val roleUtils: RoleUtils,
-                                  val storeUtils: StoreUtils) {
+                                  val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val storeUtils: StoreUtils,
+                                  val productUtils: ProductUtils, val userAddressUtils: UserAddressUtils) {
 
     @RequestMapping("user-registration", method = [RequestMethod.GET])
     fun getUserRegistration(model: Model): String {
@@ -101,7 +100,7 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
 
         model.addAttribute("userInfo", userDetailsInfo)
 
-        return "userProfile/myProfile"
+        return "profile/myProfile"
     }
 
     @RequestMapping("user-details")
@@ -176,5 +175,10 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
         storeUtils.deleteAllStoreCompanyCache(companyId = userPrinciple.companyId)
 
         return "redirect:./store-information"
+    }
+
+    @RequestMapping("previous-order")
+    fun getPreviousOrderPage(@RequestParam("fromMonth", required = false) fromMonth: String? = null): String {
+        return "administration/orderDetails"
     }
 }

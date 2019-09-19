@@ -13,7 +13,7 @@ interface OrderRepository : JpaRepository<Order, Long> {
 
     fun getAllByCompanyIdAndStatus(companyId: Long, status: Int): ArrayList<Order>
 
-    fun findAllByStatusAndOrderDateGreaterThanAndOrderDateLessThan(status: Int, beforeSevenDay: Int, toDay: Int): ArrayList<Order>
+    fun findAllByStatusAndOrderDateGreaterThanAndOrderDateLessThanEqual(status: Int, beforeSevenDay: Int, toDay: Int): ArrayList<Order>
 
     fun getAllByUserId(userId: Long): ArrayList<Order>
 

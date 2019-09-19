@@ -1,4 +1,39 @@
-/*
+'use strict';
+
+let multipleUploadForm = document.querySelector('#multipleUploadForm');
+let multipleFileUploadInput = document.querySelector('#multipleFileUploadInput');
+let multipleFileUploadError = document.querySelector('#multipleFileUploadError');
+let multipleFileUploadSuccess = document.querySelector('#multipleFileUploadSuccess');
+
+function uploadMultipleFiles(files) {
+    let formData = new FormData();
+    for (let index = 0; index < files.length; index++) {
+        formData.append("files", files[index]);
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://foodmood.app/file-demo-0.0.1-SNAPSHOT/uploadMultipleFiles");
+
+    xhr.onload = function () {
+        console.log(xhr.responseText);
+        let response = JSON.parse(xhr.responseText);
+        if (xhr.status == 200) {
+            multipleFileUploadError.style.display = "none";
+            let content = "<p>All Files Uploaded Successfully</p>";
+            for (let i = 0; i < response.length; i++) {
+                $('.userImage').attr('src', response[i].fileDownloadUri)
+            }
+            multipleFileUploadSuccess.innerHTML = content;
+            multipleFileUploadSuccess.style.display = "block";
+        } else {
+            multipleFileUploadSuccess.style.display = "none";
+            multipleFileUploadError.innerHTML = (response && response.message) || "Some Error Occurred";
+        }
+    }
+
+    xhr.send(formData);
+}
+
 $(document).ready(function () {
 
 
@@ -7,28 +42,33 @@ $(document).ready(function () {
 
         $('.enableInputField').prop('disabled', false);
 
-        let element = document.getElementById("hideSaveButton");
+        let element = document.getElementsByClassName("hideSaveButton");
         element.classList.remove("d-none");
 
     })
 
-    $(".saveUpdateInformation").click(function () {
+    $("#saveUpdateInformation").click(function () {
         $('.enableInputField').prop('disabled', true);
 
-        let element = document.getElementById("hideSaveButton");
-        element.classList.add("d-none");
+        let element = document.getElementsByClassName("hideSaveButton");
+        element.classList.forEach()
 
         let name = $("#name").val()
         let phone = $("#phoneNumber").val()
 
+        let files = multipleFileUploadInput.files;
+        if (files.length === 0) {
+            multipleFileUploadError.innerHTML = "Please select at least one file";
+            multipleFileUploadError.style.display = "block";
+        }
+        uploadMultipleFiles(files);
 
         let body = {
             name, phone
         }
 
-        userUpdate.post(body)
+        // userUpdate.post(body)
     })
-
 
 });
 
@@ -36,7 +76,7 @@ let userUpdate = {
 
     post: function (body) {
         $.ajax({
-            url: './user/update',
+            url: './user/update-user',
             type: 'post',
             contentType: 'application/json',
             data: JSON.stringify(body),
@@ -74,7 +114,7 @@ let userUpdate = {
 
 
 
-        /!*"async": true,
+        /*"async": true,
         "crossDomain": true,
         "url": "./user/update",
         "method": "POST",
@@ -83,10 +123,9 @@ let userUpdate = {
         },
         "processData": false,
         "data": "{\n\t\"\": \"name\",\n\t\"userName\": \"skdjgl\",\n\t\"email\": \"adhzg@gmail.com\",\n\t\"phone\": \"114422556\",\n\t\"id\": 15\n}"
-}*!/
+}*/
 
-/!*$.ajax(userUpdate).done(function (response) {
+/*$.ajax(userUpdate).done(function (response) {
     console.log(response);
-});*!/
+});*/
 
-*/

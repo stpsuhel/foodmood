@@ -27,13 +27,18 @@ class ProcessDataModel(val globalUtils: GlobalUtils, var imageUtils: ImageUtils)
     fun processUserToUserDataModel(userInfo: User): UserDataModel {
         val user = UserDataModel()
 
-        user.id = userInfo.id
-        user.companyId = userInfo.companyId
-        user.email = userInfo.email
-        user.name = userInfo.name
-        user.userName = userInfo.username
-        user.phone = userInfo.phone
-        user.primaryRole = userInfo.primaryRole.name
+        try {
+            user.id = userInfo.id
+            user.companyId = userInfo.companyId
+            user.email = userInfo.email
+            user.name = userInfo.name
+            user.userName = userInfo.username
+            user.phone = userInfo.phone
+            user.primaryRole = userInfo.primaryRole.name
+        } catch (e: Exception) {
+
+            e.printStackTrace()
+        }
 
         return user
     }

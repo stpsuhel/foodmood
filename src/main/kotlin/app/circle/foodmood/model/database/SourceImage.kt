@@ -10,12 +10,8 @@ import javax.validation.constraints.NotNull
 
 
 @Entity
-@Table(indexes = [Index(name = "source_image_data", columnList = "sourceId,sourceType")],  uniqueConstraints = [
-    UniqueConstraint(columnNames = [
-        "imageURL"
-    ])
-    ]
-)
+@Table(indexes = [Index(name = "source_image_data", columnList = "sourceId,sourceType")])
+
 class SourceImage : AuditModel() {
 
     @NotNull

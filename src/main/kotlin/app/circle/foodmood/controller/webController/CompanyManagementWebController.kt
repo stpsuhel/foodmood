@@ -186,7 +186,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
     @RequestMapping("all-product-information")
     fun getAllProductInformation(model: Model): String {
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
-        if (userPrinciple.primaryRole.name == PrimaryRole.ADMIN.name) {
+        if (userPrinciple.primaryRole.name == PrimaryRole.CompanyManagement.name) {
             val allProductCompany = productUtils.getAllProductWithOutStatus()
             val productList = ArrayList<ProductItemDataModel>()
 
@@ -203,7 +203,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
             model.addAttribute("productList", productList)
         } else {
 
-            val data: List<ProductItem> = mutableListOf()
+            val data: List<ProductItemDataModel> = mutableListOf()
             model.addAttribute("productList", data)
         }
 

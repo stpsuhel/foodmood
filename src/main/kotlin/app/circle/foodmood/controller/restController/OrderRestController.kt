@@ -94,6 +94,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                 order.orderBy = userPrinciple.username
                 order.totalDiscountPrice = orderRB.discountPrice
                 order.totalPrice = orderRB.actualPrice
+                order.deliveryCharge = orderRB.deliveryCharge
                 // Order table company represent App Id
                 order.companyId = APP.FOOD_MOOD.value.toLong()
 
@@ -132,28 +133,37 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                 val companyAdminUserList = userUtils.getUserByCompanyIdAndPrimaryRole(storeInfo.companyId!!, PrimaryRole.RestaurantManager)
                 val adminUserList = userUtils.getUserByAdminPrimaryRole(PrimaryRole.CompanyManagement)
 
-                adminUserList.forEach {
-                    val companyInfo = companyRepository.getCompanyByIdAndStatus(storeInfo.companyId!!, Status.Active.value)
-                    notificationUtils.sendOrderAcceptNotification("Company ${companyInfo.name} get a order # ${orderData.id}", it.fcmToken!!, orderData.id!! , orderData.orderStatus)
-                }
+                try {
+                    adminUserList.forEach {
+                        val companyInfo = companyRepository.getCompanyByIdAndStatus(storeInfo.companyId!!, Status.Active.value)
+                        notificationUtils.sendOrderAcceptNotification("Company ${companyInfo.name} get a order # ${orderData.id}", it.fcmToken!!, orderData.id!!, orderData.orderStatus)
+                    }
 
-                companyAdminUserList.forEach {
-                    notificationUtils.sendOrderAcceptNotification("Your Company get a order # ${orderData.id}", it.fcmToken!!, orderData.id!! , orderData.orderStatus)
-                }
+                    companyAdminUserList.forEach {
+                        notificationUtils.sendOrderAcceptNotification("Your Company get a order # ${orderData.id}", it.fcmToken!!, orderData.id!!, orderData.orderStatus)
+                    }
 
+
+
+                    notificationUtils.orderNotification(orderData.id!!,storeInfo.name!!)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 
                 response.isResultAvailable = true
                 val orderDetails = OrderDetails()
                 orderDetails.addressId = order.addressId!!
                 orderDetails.orderStatus = order.orderStatus
-                orderDetails.paymentAmount = order.totalPrice!!
-                orderDetails.discountPaymentAmount = order.totalDiscountPrice!!
+                orderDetails.paymentAmount = order.totalPrice!! + order.deliveryCharge
+                orderDetails.discountPaymentAmount = order.totalDiscountPrice!! + order.deliveryCharge
 
                 orderDetails.totalQuantity = totalQuantity
                 orderDetails.id = order.id!!
 
                 response.result = orderDetails
                 response.successful = true
+
+
             } catch (e: Exception) {
                 response.isResultAvailable = false
                 response.message = arrayOf(e.message)
@@ -301,7 +311,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                     }
                 }
                 order.orderStatus = updateOrderStatusRequestBody.orderStatus!!
-               val updatedOrder = orderRepository.save(order)
+                val updatedOrder = orderRepository.save(order)
 
 
                 val userId = order.userId
@@ -309,7 +319,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
                 val userDetails = userUtils.getUserById(userId!!)
 
-                val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted by ", userDetails!!.fcmToken!!, order.id!! , updatedOrder.orderStatus!!)
+                val sendOrderAcceptNotification = notificationUtils.sendOrderAcceptNotification("Your order # ${order.id} has accepted by ", userDetails!!.fcmToken!!, order.id!!, updatedOrder.orderStatus!!)
 
 
                 if (sendOrderAcceptNotification.statusCode == HttpStatus.OK) {
@@ -479,21 +489,21 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
      * Has Role Permision DeliveryMan
      */
     @PostMapping("save-update-order-delivery-man")
-    fun assignOrderToDeliveryMan(@Validated @RequestBody orderDeliveryDataModel: OrderDeliveryDataModel): Response<OrderDelivery>{
+    fun assignOrderToDeliveryMan(@Validated @RequestBody orderDeliveryDataModel: OrderDeliveryDataModel): Response<OrderDelivery> {
         val response = Response<OrderDelivery>()
 
-        if (!orderRepository.existsByIdAndStatus(orderDeliveryDataModel.orderId!!, Status.Active.value)){
+        if (!orderRepository.existsByIdAndStatus(orderDeliveryDataModel.orderId!!, Status.Active.value)) {
             response.message = arrayOf("Order Details Not Found!!")
             return response
         }
 
         val orderInfo = orderRepository.getOrderById(orderDeliveryDataModel.orderId!!)
-        if (!userAddressRepository.existsByIdAndStatus(orderInfo!!.addressId!!, Status.Active.value)){
+        if (!userAddressRepository.existsByIdAndStatus(orderInfo!!.addressId!!, Status.Active.value)) {
             response.message = arrayOf("Order Address is Not Found!!")
             return response
         }
 
-        if (!deliveryManRepository.existsByIdAndDeliveryStatusAndStatus(orderDeliveryDataModel.deliveryManId!!, DeliveryManStatus.FREE_NOW.value, Status.Active.value)){
+        if (!deliveryManRepository.existsByIdAndDeliveryStatusAndStatus(orderDeliveryDataModel.deliveryManId!!, DeliveryManStatus.FREE_NOW.value, Status.Active.value)) {
             response.message = arrayOf("Delivery Man Not Found!!")
             return response
         }
@@ -513,8 +523,8 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
             val userDeliveryMan = userUtils.getUserByIdAndPrimaryRole(deliveryMan.userId!!)
             val order = orderUtils.getOrderById(orderDelivery.orderId!!)
 
-            userDeliveryMan?.let{user ->
-                notificationUtils.sendOrderAcceptNotification("Your Company Assign a order # ${orderDelivery.orderId}", user.fcmToken!!, orderDelivery.orderId!! , order?.orderStatus!!)
+            userDeliveryMan?.let { user ->
+                notificationUtils.sendOrderAcceptNotification("Your Company Assign a order # ${orderDelivery.orderId}", user.fcmToken!!, orderDelivery.orderId!!, order?.orderStatus!!)
             }
         }
 

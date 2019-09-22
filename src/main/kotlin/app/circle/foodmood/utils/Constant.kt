@@ -54,7 +54,7 @@ enum class ImageSourceType(val value: Int) {
     PRODUCT_IMAGE(1),
     USER_PROFILE_IMAGE(2),
     COMPANY_PROFILE_IMAGE(3),
-    CATEGORY_IMAGE(3)
+    CATEGORY_IMAGE(3),
 }
 
 
@@ -73,4 +73,10 @@ enum class DeliveryType(val value: Int) {
 enum class DeliveryManStatus(val value: Int) {
     ON_DELIVERY(1),
     FREE_NOW(0),
+}
+class Constant {
+    companion object{
+        var ORDER_NOTIFICATION_TOPIC = "foodmood_order_notification"
+
+    }
 }

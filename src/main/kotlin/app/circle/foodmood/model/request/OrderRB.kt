@@ -23,6 +23,8 @@ class OrderRB {
 
     var discountPrice: Int = DISCOUNT_NOT_FOUND_INT
 
+    var deliveryCharge: Int = 0
+
     @NotEmpty
     var cartItemList: List<Cart> = listOf()
 

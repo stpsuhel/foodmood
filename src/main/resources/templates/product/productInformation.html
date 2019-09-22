@@ -51,11 +51,12 @@
                                 <div class="table-responsive">
                                     <div class="table-responsive">
                                         <table id="product-table"
-                                               class="display table table-striped table-hover dataTable">
+                                               class="dataTable display table table-striped table-hover dataTable">
                                             <thead>
                                             <tr>
                                                 <th style="width: 10%" scope="col">Id</th>
                                                 <th scope="col">Name</th>
+                                                <th scope="col"> Price</th>
                                                 <th scope="col">Discount Price</th>
                                                 <th scope="col">Store</th>
                                                 <th scope="col"
@@ -69,8 +70,9 @@
                                                      th:each="productItem : ${productList}">
                                                      <td th:text="${productItem.id}"></td>
                                                      <td th:text="${productItem.name}"></td>
+                                                     <td th:text="${productItem.price}"></td>
                                                      <td th:text="${productItem.discountPrice>0?productItem.discountPrice:''}"></td>
-                                                     <td th:text="${productItem.storeName}"></td>
+                                                     <td th:text="${productItem.getStoreName()}"></td>
                                                      <td class="ignoreClick"
                                                          sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)">
                                                          <ul class="nav nav-pills nav-secondary"
@@ -79,7 +81,7 @@
                                                                  <a class="nav-link ignoreClick"
                                                                     th:classappend="${productItem.isFreeDelivery()==true?'active show':''}"
                                                                     id="pills-home-tab"
-                                                                    data-toggle="pill" role="tab" th:attr="deliveryType=true"
+                                                                    data-toggle="pill" role="tab"  th:attr="deliveryType=true, productId=${productItem.id}"
                                                                     aria-controls="pills-home"
                                                                     aria-selected="true">Yes</a>
                                                              </li>
@@ -87,7 +89,7 @@
                                                              <li class="nav-item submenu">
                                                                  <a class="nav-link ignoreClick"
                                                                     th:classappend="${productItem.isFreeDelivery()==false?'active show':''}"
-                                                                    data-toggle="pill" role="tab" th:attr="deliveryType=false"
+                                                                    data-toggle="pill" role="tab" th:attr="deliveryType=false,productId=${productItem.id}"
                                                                     aria-controls="pills-profile"
                                                                     aria-selected="true">No</a>
                                                              </li>

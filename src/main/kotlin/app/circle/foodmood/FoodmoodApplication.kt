@@ -1,8 +1,11 @@
 package app.circle.foodmood
 
+import app.circle.foodmood.model.database.ApplicationStatus
+import app.circle.foodmood.repository.ApplicationStatusRepository
 import app.circle.foodmood.repository.RoleRepository
 import app.circle.foodmood.security.Role
 import app.circle.foodmood.security.RoleName
+import app.circle.foodmood.utils.Status
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -10,19 +13,18 @@ import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.http.CacheControl
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 import java.util.concurrent.TimeUnit
-import org.springframework.http.CacheControl
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
-
 
 
 @SpringBootApplication
@@ -66,7 +68,6 @@ class MvcConfig : WebMvcConfigurer {
         registry.addResourceHandler("/img/**").addResourceLocations("/img/").setCacheControl(CacheControl.maxAge(7, TimeUnit.DAYS))
 
 
-
     }
 }
 
@@ -77,7 +78,7 @@ fun restTemplate(): RestTemplate {
 }
 
 @Component
-class CommandLineAppStartupRunner(val roleRepository: RoleRepository) : CommandLineRunner {
+class CommandLineAppStartupRunner(val roleRepository: RoleRepository, val applicationStatusRepository: ApplicationStatusRepository) : CommandLineRunner {
     override fun run(vararg args: String?) {
 
         val roleExists = roleRepository.findAll()
@@ -97,6 +98,16 @@ class CommandLineAppStartupRunner(val roleRepository: RoleRepository) : CommandL
         }
 
         roleRepository.saveAll(roleListSave)
+
+
+        val firstBy = applicationStatusRepository.getFirstByStatus(Status.Active.value)
+        if (firstBy == null) {
+            val applicationStatus = ApplicationStatus()
+            applicationStatus.isActive = true
+            applicationStatus.notActiveMessage = ""
+
+            applicationStatusRepository.save(applicationStatus)
+        }
     }
 
 }

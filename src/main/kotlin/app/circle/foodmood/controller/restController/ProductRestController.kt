@@ -32,6 +32,10 @@ class ProductRestController(val productUtils: ProductUtils) {
         response.isResultAvailable = true
         response.result = productInfo
 
+
+        productUtils.deleteAllProductCache()
+        productUtils.deleteAllProductByCompanyCache(userPrinciple.companyId)
+
         return response
     }
 }

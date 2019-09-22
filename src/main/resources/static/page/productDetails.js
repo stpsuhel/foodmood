@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
 
     $(".select2-class").select2({
@@ -9,28 +8,41 @@ $(document).ready(function () {
     });
 
 
-    $("#product-table").DataTable({
+    let table = $("#product-table").DataTable({
+        pageLength : 500,
     });
+
+
+    $('.dataTable').on('click', 'tbody tr td ul li a', function () {
+
+
+
+        let productId = $(this).attr("productId");
+
+        //get textContent of the TD
+        let freeDelivery = $(this).attr("deliveryType");
+        console.log(freeDelivery)
+        let body = {
+            freeDelivery
+        }
+        console.log(body)
+        product.saveDeliveryType(body, productId);
+
+
+    })
 
     $(".row-store").click(function (e) {
         let productId = $(this).attr("id");
 
-        if($(e.target).hasClass('ignoreClick')) {
+        if ($(e.target).hasClass('ignoreClick')) {
 
-            let freeDelivery = $(e.target).attr("deliveryType");
-            console.log(freeDelivery)
-            let body = {
-                freeDelivery
-            }
-            console.log(body)
-            product.saveDeliveryType(body, productId);
 
             return;
         }
         let isAdmin = $("#isAdmin").attr('content')
-        if(isAdmin){
+        if (isAdmin) {
             $(location).attr('href', './update-product?id=' + productId)
-        }else {
+        } else {
             $(location).attr('href', './add-product?id=' + productId)
         }
     })
@@ -42,7 +54,7 @@ $(document).ready(function () {
 })
 
 let product = {
-    saveDeliveryType: function(product, productId) {
+    saveDeliveryType: function (product, productId) {
         $.ajax({
             url: './product/save-free-delivery?id=' + productId,
             type: 'post',

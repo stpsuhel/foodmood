@@ -1,6 +1,7 @@
 package app.circle.foodmood.controller.commonUtils
 
 import app.circle.foodmood.controller.commonUtils.Notification.AndroidPushNotificationsService
+import app.circle.foodmood.utils.Constant.Companion.ORDER_NOTIFICATION_TOPIC
 import org.json.JSONObject
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
@@ -15,14 +16,13 @@ class NotificationUtils(val androidPushNotificationsService: AndroidPushNotifica
 
 
     fun sendOrderAcceptNotification(message: String, to: String, orderId: Long, orderStatus: Int): ResponseEntity<String> {
-
         val body = JSONObject();
         body.put("to", to);
         body.put("priority", "high");
 
         val notification = JSONObject();
         notification.put("title", "FoodMood - Order Notification");
-        notification.put("sound","default");
+        notification.put("sound", "default");
         notification.put("body", message);
 
         val data = JSONObject();
@@ -48,5 +48,42 @@ class NotificationUtils(val androidPushNotificationsService: AndroidPushNotifica
         }
 
         return ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
+    }
+
+
+    fun orderNotification(orderId: Long, storeName: String): ResponseEntity<String> {
+        val body = JSONObject();
+        body.put("to", "/topics/$ORDER_NOTIFICATION_TOPIC")
+        body.put("priority", "high");
+
+        val notification = JSONObject();
+        notification.put("title", "FoodMood - Order Notification");
+        notification.put("sound", "default");
+        notification.put("body", "A new order is placed in FoodMood");
+
+        val data = JSONObject();
+        data.put("orderId", orderId);
+        data.put("storeName", storeName);
+
+        body.put("notification", notification);
+        body.put("data", data);
+
+
+        val request = HttpEntity<String>(body.toString());
+
+        val pushNotification = androidPushNotificationsService.send(request);
+        CompletableFuture.allOf(pushNotification).join();
+
+        try {
+            val firebaseResponse = pushNotification.get();
+
+            return ResponseEntity<String>(firebaseResponse, HttpStatus.OK);
+        } catch (e: InterruptedException) {
+            e.printStackTrace();
+        } catch (e: ExecutionException) {
+            e.printStackTrace();
+        }
+        return ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
+
     }
 }

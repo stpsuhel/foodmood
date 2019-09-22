@@ -102,7 +102,7 @@ public class AuthController {
                 Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                         .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
                 roles.add(adminRole);
-                user.setPrimaryRole(PrimaryRole.ADMIN);
+                user.setPrimaryRole(PrimaryRole.CompanyManagement);
             } else {
                 Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                         .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));

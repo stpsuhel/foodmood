@@ -17,6 +17,9 @@ class OrderHistory {
     var orderDate: Int? = null
     var orderBy: String = ""
 
+    var storeName: String = ""
+    var storePhone: String = ""
+
     var deliveryAddress: UserAddress? = null
     var itemList: ArrayList<OrderItemDetails> = arrayListOf()
 }
@@ -29,7 +32,8 @@ class OrderItemDetails {
     var price: Int = 0
     var priceDiscount: Int = 0
     var hasDiscount: Boolean = false
-
+    var storeName: String = ""
+    var storePhone: String = ""
 
     override fun toString(): String {
         return id.toString()

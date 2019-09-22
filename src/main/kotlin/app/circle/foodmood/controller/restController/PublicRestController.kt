@@ -2,11 +2,12 @@ package app.circle.foodmood.controller.restController
 
 import app.circle.foodmood.controller.commonUtils.*
 import app.circle.foodmood.model.Response
-import app.circle.foodmood.model.dataModel.CategoryDataModel
-import app.circle.foodmood.model.dataModel.ProductItemDataModel
-import app.circle.foodmood.model.dataModel.StoreDataModel
-import app.circle.foodmood.model.dataModel.TrendingDataModel
+import app.circle.foodmood.model.dataModel.*
+import app.circle.foodmood.model.database.ApplicationStatus
+import app.circle.foodmood.model.database.ApplicationVersion
 import app.circle.foodmood.model.database.UserToken
+import app.circle.foodmood.repository.ApplicationStatusRepository
+import app.circle.foodmood.repository.ApplicationVersionRepository
 import app.circle.foodmood.repository.UserTokenRepository
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.*
@@ -18,8 +19,8 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("public")
-class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils, val imageUtils: ImageUtils,
-                           val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val userTokenRepository: UserTokenRepository, val processDataModel: ProcessDataModel) {
+class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils, val imageUtils: ImageUtils, val userUtils: UserUtils, val userAddressUtils: UserAddressUtils,
+                           val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val userTokenRepository: UserTokenRepository, val processDataModel: ProcessDataModel, val applicationVersionRepository: ApplicationVersionRepository, val applicationStatusRepository: ApplicationStatusRepository) {
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
@@ -403,4 +404,125 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
         response.isSuccessful = true
         return response
     }
+
+
+    @GetMapping("app-version")
+    fun getCurrentAppVersion(): Response<ApplicationVersion> {
+        val response: Response<ApplicationVersion> = Response()
+
+
+        val applicationVersionByStatus = applicationVersionRepository.getApplicationVersionByStatus(Status.Active.value)
+
+
+        applicationVersionByStatus?.let {
+            response.result = it
+            response.isResultAvailable = true
+            response.isSuccessful = true
+        }
+
+        return response
+    }
+
+    @GetMapping("app-status")
+    fun getCurrentAppStatus(): Response<ApplicationStatus> {
+        val response: Response<ApplicationStatus> = Response()
+
+        val applicationVersionByStatus = applicationStatusRepository.getApplicationStatusByStatus(Status.Active.value)
+        applicationVersionByStatus?.let {
+            response.result = it
+            response.isResultAvailable = true
+            response.isSuccessful = true
+        }
+
+        return response
+    }
+
+
+    @GetMapping("delivery-data")
+    fun getDeliveryData(): Response<ArrayList<OrderHistory>> {
+
+        val response = Response<ArrayList<OrderHistory>>()
+        val orderList = ArrayList<Long>()
+        val allOrderList = arrayListOf<OrderHistory>()
+
+        try {
+            val orderProductList = orderUtils.getAllOrder()
+            val orderIdList = arrayListOf<Long>()
+            orderProductList.forEach {
+                orderIdList.add(it.id!!)
+            }
+
+            val allOrder = orderUtils.getAllOrderByIdList(orderIdList)
+
+            val orderDetailsList = orderUtils.getAllOrderProductByOrderList(orderIdList)
+
+            allOrder.forEach {
+                try {
+                    val orderHistory = OrderHistory()
+                    orderHistory.orderId = it.id!!
+                    orderHistory.hasDiscount = it.totalDiscountPrice!! < it.totalPrice!!
+                    orderHistory.orderDiscountPrice = it.totalDiscountPrice!!
+                    orderHistory.orderOriginalPrice = it.totalPrice!!
+                    orderHistory.orderStatus = it.orderStatus!!
+                    orderHistory.orderDate = it.orderDate!!
+
+                    for (orderProduct in orderDetailsList) {
+                        try {
+                            if (orderProduct.orderId == it.id) {
+                                val orderItem = OrderItemDetails()
+                                orderItem.id = orderProduct.id!!
+                                orderItem.price = orderProduct.perProductPrice!!
+                                orderItem.priceDiscount = orderProduct.perProductDiscountPrice!!
+                                orderItem.hasDiscount = orderProduct.hasDiscount!!
+                                orderItem.quantity = orderProduct.quantity!!
+                                val product = productUtils.getByProductId(orderProduct.productId!!)
+                                orderItem.name = product.name
+                                try {
+                                    val store = storeUtils.getStoreById(orderProduct.storeId!!)
+
+                                    orderHistory.storeName = store.name!!
+                                    orderHistory.storePhone = store.contactNumber!!
+
+                                    orderItem.storeName = store.name!!
+                                    orderItem.storePhone = store.contactNumber!!
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                                orderHistory.itemList.add(orderItem)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+
+                    orderHistory.deliveryAddress = userAddressUtils.getUserAddressById(it.addressId!!)!!
+
+                    val userInfo = userUtils.getUserById(orderHistory.deliveryAddress!!.userId!!)
+                    orderHistory.orderBy = userInfo!!.phone
+
+                    allOrderList.add(orderHistory)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+
+            allOrderList.sortByDescending { orderHistory -> orderHistory.orderId  }
+
+
+            response.result = allOrderList
+            response.isSuccessful = true
+            response.isResultAvailable = true
+
+            return response
+        } catch (e: Exception) {
+            response.result = allOrderList
+            response.isSuccessful = false
+            response.isResultAvailable = false
+        }
+
+        return response
+    }
 }
+
+

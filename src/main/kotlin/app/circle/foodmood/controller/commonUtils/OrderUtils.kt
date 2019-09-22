@@ -6,8 +6,6 @@ import app.circle.foodmood.repository.OrderProductRepository
 import app.circle.foodmood.repository.OrderRepository
 import app.circle.foodmood.utils.Status
 import org.springframework.stereotype.Service
-import java.util.*
-import kotlin.collections.ArrayList
 
 @Service
 class OrderUtils(val orderRepository: OrderRepository, val orderProductRepository: OrderProductRepository,
@@ -41,22 +39,33 @@ class OrderUtils(val orderRepository: OrderRepository, val orderProductRepositor
 
 
     fun getOrderByDate(date: Int): ArrayList<Order> {
-        return orderRepository.getAllByOrderDateAndStatus(date,Status.Active.value)
+        return orderRepository.getAllByOrderDateAndStatus(date, Status.Active.value)
     }
 
     fun getOrderById(orderId: Long): Order? {
         return orderRepository.getOrderByIdAndStatus(orderId, Status.Active.value)
     }
 
-    fun getAllOrderOfTodaysDate(orderIdList: ArrayList<Long>): ArrayList<Order>{
+    fun getAllOrderOfTodaysDate(orderIdList: ArrayList<Long>): ArrayList<Order> {
         return orderRepository.getAllByIdInAndOrderDateAndStatus(orderIdList, globalUtils.getCurrentDate()!!, Status.Active.value)
     }
 
-    fun getOrderProductByOrderId(orderId: Long): ArrayList<OrderProduct>{
+    fun getOrderProductByOrderId(orderId: Long): ArrayList<OrderProduct> {
         return orderProductRepository.getByIdAndStatus(orderId, Status.Active.value)
     }
 
     fun getAllOrderByOrderDateAndDeliveryManId(deliveryManId: Long): ArrayList<Order> {
         return orderRepository.getAllByOrderDateAndDeliveryManIdAndStatus(globalUtils.getCurrentDate()!!, deliveryManId, Status.Active.value)
     }
+
+
+    fun getAllOrder(): MutableList<Order> {
+       return orderRepository.findAll()
+    }
+
+
+    fun getAllOrderByIdList(orderIdList: ArrayList<Long>): ArrayList<Order>{
+        return orderRepository.getAllByIdInAndStatus(orderIdList, Status.Active.value)
+    }
+
 }

@@ -1,36 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d711f1dc-8120-4f02-88c3-acc9e61673cd" name="Default Changelist" comment="">
+    <list default="true" id="7257fb10-2c1e-4d70-9ca7-18af80c80d76" name="Default Changelist" comment="t">
+      <change beforePath="$PROJECT_DIR$/dataSources/b03bbef7-e054-4e87-a029-b8c63bb46a53/storage_v2/_src_/database/foodmood_db.qCxVZg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataSources/b03bbef7-e054-4e87-a029-b8c63bb46a53/storage_v2/_src_/database/foodmood_db.qCxVZg/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataSources/b03bbef7-e054-4e87-a029-b8c63bb46a53/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataSources/b03bbef7-e054-4e87-a029-b8c63bb46a53/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/foodmood.iml" beforeDir="false" afterPath="$PROJECT_DIR$/foodmood.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foodmood.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/foodmood.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foodmood.iws" beforeDir="false" afterPath="$PROJECT_DIR$/foodmood.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/GlobalUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/GlobalUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/OrderUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/OrderUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/UserUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/UserUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderDeliveryRestController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderDeliveryRestController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/OrderDeliveryWebController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/OrderDeliveryWebController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/dataModel/OrderDashboard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/dataModel/OrderDashboard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/AdministrationRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/AdministrationRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/DeliveryManRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/DeliveryManRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/OrderRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/repository/OrderRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/PrimaryRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/PrimaryRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/page/deliveryManDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/page/deliveryManDashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/company/deliveryManDashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/company/deliveryManDashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragment/component/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragment/component/sidebar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/AdministrationWebController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/AdministrationWebController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-prod.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="CodeStyleSettingsInfer">
-    <option name="done" value="true" />
-  </component>
-  <component name="ComposerSettings">
-    <execution>
-      <executable />
-    </execution>
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -57,20 +44,20 @@
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="foodmood_db@35.186.154.9" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="foodmood_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="foodmood_prod: database" type="162271b6:PgImplModel$Database" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="foodmood_db@35.186.154.9" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="foodmood_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="foodmood_prod: database" type="162271b6:PgImplModel$Database" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="foodmood_db@35.186.154.9" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="foodmood_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="foodmood_prod: database" type="162271b6:PgImplModel$Database" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
       </path>
@@ -78,7 +65,7 @@
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="foodmood_db@35.186.154.9" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="foodmood_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="foodmood_prod: database" type="162271b6:PgImplModel$Database" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
@@ -86,32 +73,26 @@
     </expand>
     <select />
   </component>
-  <component name="DefaultGradleProjectSettings">
-    <option name="isMigrated" value="true" />
-  </component>
-  <component name="ErrorTreeViewConfiguration">
-    <option name="hideWarnings" value="true" />
-    <option name="HIDE_WARNINGS" value="true" />
-  </component>
   <component name="ExecutionTargetDialog">
     <checked>
-      <node key="91072f26-d21a-471a-9797-806b8546e9d0">
-        <node key="foodmood_db" />
+      <node key="c9cd202e-87d9-487a-8b92-64d3c87ad73b">
+        <node key="foodmood_db">
+          <node key="public" />
+        </node>
       </node>
     </checked>
     <expanded>
-      <node key="91072f26-d21a-471a-9797-806b8546e9d0" />
+      <node key="c9cd202e-87d9-487a-8b92-64d3c87ad73b">
+        <node key="foodmood_db" />
+      </node>
     </expanded>
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="foodmood" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin File" />
         <option value="Kotlin Interface" />
         <option value="JavaScript File" />
+        <option value="Kotlin File" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -119,53 +100,42 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="1" />
-  </component>
-  <component name="ProjectId" id="1Pp2H2rmQlWJXG8O0tGp2VGZOST" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="1Q27EziqrWtMu9hdJJnJKxAqlQN" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/model/dataModel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates/public" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="vcs.Subversion.SSH" />
   </component>
-  <component name="ReadonlyStatusHandler">
-    <option name="SHOW_DIALOG" value="false" />
-  </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/registration" />
+    </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="app.circle.foodmood.controller.restController" />
-      <recent name="app.circle.foodmood.model.dataModel" />
-      <recent name="app.circle.foodmood.controller.commonUtils" />
+      <recent name="app.circle.foodmood.repository" />
       <recent name="app.circle.foodmood.controller.webController" />
+      <recent name="app.circle.foodmood.model.database" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="app.circle.foodmood.model.request" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="app.circle.foodmood.repository" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="H:\Circle\FoodMood\food-mood\src\main\kotlin\app\circle\foodmood\model\dataModel" />
-      <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\static\page" />
-      <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\templates\company" />
-      <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\templates\product" />
-      <recent name="H:\Circle\FoodMood\food-mood\src\main\resources\templates\administration" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/public" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/img" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/css" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/registration" />
+      <recent name="$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/Notification" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -196,12 +166,17 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@545fdce" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@c139338f" type="7427dc5b:ServiceModel$ServiceGroupNode" />
             </path>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@545fdce" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@71f1700c" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@c139338f" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@c1040d3" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@c139338f" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@3c954fdd" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />
@@ -215,257 +190,181 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d711f1dc-8120-4f02-88c3-acc9e61673cd" name="Default Changelist" comment="" />
-      <created>1565237515413</created>
+      <changelist id="7257fb10-2c1e-4d70-9ca7-18af80c80d76" name="Default Changelist" comment="" />
+      <created>1566956729739</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1565237515413</updated>
-      <workItem from="1565237518215" duration="2947000" />
-      <workItem from="1565241208422" duration="158000" />
-      <workItem from="1565348532166" duration="5181000" />
-      <workItem from="1565428527154" duration="189000" />
-      <workItem from="1565429045075" duration="295000" />
-      <workItem from="1565728138790" duration="2998000" />
-      <workItem from="1565849985427" duration="2280000" />
-      <workItem from="1565948179745" duration="1444000" />
-      <workItem from="1565958992566" duration="1830000" />
-      <workItem from="1566022233783" duration="429000" />
-      <workItem from="1566150418757" duration="8239000" />
-      <workItem from="1566203472901" duration="8395000" />
-      <workItem from="1566222718437" duration="4133000" />
-      <workItem from="1566362766337" duration="1071000" />
-      <workItem from="1566365569678" duration="6146000" />
-      <workItem from="1566408777752" duration="347000" />
-      <workItem from="1566409139926" duration="172000" />
-      <workItem from="1566409431888" duration="4769000" />
-      <workItem from="1566414562446" duration="615000" />
-      <workItem from="1566415276513" duration="84000" />
-      <workItem from="1566416233503" duration="5115000" />
-      <workItem from="1566462602575" duration="145000" />
-      <workItem from="1566550727956" duration="2596000" />
-      <workItem from="1566556647230" duration="9396000" />
-      <workItem from="1566591396394" duration="1890000" />
-      <workItem from="1566620596256" duration="3488000" />
-      <workItem from="1566810484896" duration="1564000" />
-      <workItem from="1566927741628" duration="8764000" />
-      <workItem from="1566967994227" duration="2995000" />
-      <workItem from="1567017543156" duration="1116000" />
-      <workItem from="1567019522706" duration="717000" />
-      <workItem from="1567052652450" duration="364000" />
-      <workItem from="1567053468328" duration="1863000" />
-      <workItem from="1567056307901" duration="6332000" />
-      <workItem from="1567067033368" duration="152000" />
-      <workItem from="1567067397153" duration="126000" />
-      <workItem from="1567068244649" duration="370000" />
-      <workItem from="1567068738354" duration="1971000" />
-      <workItem from="1567071074403" duration="633000" />
-      <workItem from="1567101731782" duration="1072000" />
-      <workItem from="1567103069510" duration="308000" />
-      <workItem from="1567103480850" duration="961000" />
-      <workItem from="1567104482114" duration="10539000" />
-      <workItem from="1567155066068" duration="5421000" />
-      <workItem from="1567185735491" duration="10112000" />
-      <workItem from="1567240203212" duration="10133000" />
-      <workItem from="1567273762437" duration="601000" />
-      <workItem from="1567311037391" duration="13612000" />
-      <workItem from="1567358649025" duration="4196000" />
-      <workItem from="1567401705730" duration="579000" />
-      <workItem from="1567411142762" duration="5368000" />
-      <workItem from="1567445088371" duration="12565000" />
-      <workItem from="1567830640376" duration="8107000" />
-      <workItem from="1567853422253" duration="9452000" />
-      <workItem from="1567944125403" duration="3722000" />
-      <workItem from="1568015506496" duration="12843000" />
-      <workItem from="1568052218600" duration="2401000" />
-      <workItem from="1568090978061" duration="1471000" />
-      <workItem from="1568109114811" duration="9428000" />
-      <workItem from="1568137791901" duration="8525000" />
-      <workItem from="1568187681874" duration="7158000" />
-      <workItem from="1568222981868" duration="2373000" />
-      <workItem from="1568266488036" duration="6393000" />
-      <workItem from="1568308847779" duration="9323000" />
-      <workItem from="1568345107461" duration="5396000" />
-      <workItem from="1568353880804" duration="18000" />
-      <workItem from="1568374571773" duration="5168000" />
-      <workItem from="1568437404228" duration="8095000" />
-      <workItem from="1568482135118" duration="9041000" />
-      <workItem from="1568626636340" duration="422000" />
-      <workItem from="1568629644326" duration="4170000" />
-      <workItem from="1568654267920" duration="6132000" />
-      <workItem from="1568696649506" duration="1857000" />
-      <workItem from="1568703727970" duration="2407000" />
-      <workItem from="1568740882552" duration="5462000" />
-      <workItem from="1568748113351" duration="10453000" />
+      <updated>1566956729739</updated>
+      <workItem from="1566956731218" duration="3828000" />
+      <workItem from="1566976020774" duration="451000" />
+      <workItem from="1567029202398" duration="2756000" />
+      <workItem from="1567035028213" duration="593000" />
+      <workItem from="1567064770865" duration="4390000" />
+      <workItem from="1567157695797" duration="9703000" />
+      <workItem from="1567209500735" duration="3299000" />
+      <workItem from="1567242082097" duration="5081000" />
+      <workItem from="1567314789065" duration="6409000" />
+      <workItem from="1567413800392" duration="276000" />
+      <workItem from="1567448030774" duration="3128000" />
+      <workItem from="1567494678257" duration="8465000" />
+      <workItem from="1567537114840" duration="11000" />
+      <workItem from="1567601317671" duration="4058000" />
+      <workItem from="1567634425948" duration="3843000" />
+      <workItem from="1567643997843" duration="66000" />
+      <workItem from="1567669389036" duration="6071000" />
+      <workItem from="1567675662298" duration="3057000" />
+      <workItem from="1567726964653" duration="14952000" />
+      <workItem from="1567763504279" duration="2131000" />
+      <workItem from="1567790608341" duration="127000" />
+      <workItem from="1567830679717" duration="8464000" />
+      <workItem from="1567857289101" duration="8935000" />
+      <workItem from="1567872842032" duration="112000" />
+      <workItem from="1567936914249" duration="6258000" />
+      <workItem from="1567993614185" duration="2260000" />
+      <workItem from="1568034210587" duration="518000" />
+      <workItem from="1568082009481" duration="5191000" />
+      <workItem from="1568110299208" duration="801000" />
+      <workItem from="1568148214447" duration="1323000" />
+      <workItem from="1568175966161" duration="7706000" />
+      <workItem from="1568216734739" duration="241000" />
+      <workItem from="1568291838545" duration="537000" />
+      <workItem from="1568354371747" duration="1427000" />
+      <workItem from="1568361685134" duration="2405000" />
+      <workItem from="1568382545889" duration="2501000" />
+      <workItem from="1568405319006" duration="61000" />
+      <workItem from="1568436661450" duration="2626000" />
+      <workItem from="1568460796302" duration="4198000" />
+      <workItem from="1568479754349" duration="4857000" />
+      <workItem from="1568492446536" duration="2384000" />
+      <workItem from="1568519147232" duration="8105000" />
+      <workItem from="1568552472396" duration="7617000" />
+      <workItem from="1568616881891" duration="2077000" />
+      <workItem from="1568642595844" duration="51000" />
+      <workItem from="1568646108191" duration="251000" />
+      <workItem from="1568659022501" duration="30000" />
+      <workItem from="1568662589323" duration="1318000" />
+      <workItem from="1568690762768" duration="4995000" />
+      <workItem from="1568710048903" duration="1538000" />
+      <workItem from="1568728257305" duration="630000" />
+      <workItem from="1568731057063" duration="150000" />
+      <workItem from="1568743718297" duration="1639000" />
+      <workItem from="1568748829052" duration="1682000" />
+      <workItem from="1568814177744" duration="945000" />
+      <workItem from="1568819215443" duration="1237000" />
+      <workItem from="1568830544721" duration="579000" />
+      <workItem from="1568868184903" duration="578000" />
+      <workItem from="1568869315466" duration="39000" />
+      <workItem from="1568900482242" duration="909000" />
+      <workItem from="1568905514193" duration="598000" />
+      <workItem from="1568959743435" duration="13331000" />
+      <workItem from="1568985905738" duration="5542000" />
+      <workItem from="1569002571690" duration="10557000" />
+      <workItem from="1569038508062" duration="4124000" />
+      <workItem from="1569066305898" duration="1592000" />
+      <workItem from="1569084521659" duration="2949000" />
+      <workItem from="1569128474284" duration="14455000" />
+      <workItem from="1569173244479" duration="4716000" />
+      <workItem from="1569221020198" duration="1348000" />
     </task>
-    <task id="LOCAL-00001" summary="Save Store">
-      <created>1565981370981</created>
+    <task id="LOCAL-00001" summary="add order">
+      <created>1567158007092</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1565981370981</updated>
+      <updated>1567158007092</updated>
     </task>
-    <task id="LOCAL-00002" summary="Save Store">
-      <created>1566204237275</created>
+    <task id="LOCAL-00002" summary="add make order">
+      <created>1567242348842</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1566204237275</updated>
+      <updated>1567242348842</updated>
     </task>
-    <task id="LOCAL-00003" summary="Update Product &amp; Store">
-      <created>1566212442649</created>
+    <task id="LOCAL-00003" summary="add make order">
+      <created>1567315875080</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1566212442649</updated>
+      <updated>1567315875080</updated>
     </task>
-    <task id="LOCAL-00004" summary="Update Product &amp; Store">
-      <created>1566226828712</created>
+    <task id="LOCAL-00004" summary="image model">
+      <created>1567320764998</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1566226828712</updated>
+      <updated>1567320764998</updated>
     </task>
-    <task id="LOCAL-00005" summary="Validate form">
-      <created>1566421273752</created>
+    <task id="LOCAL-00005" summary="image model">
+      <created>1567326137499</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1566421273752</updated>
+      <updated>1567326137499</updated>
     </task>
-    <task id="LOCAL-00006" summary="UserAddress Api">
-      <created>1566593222041</created>
+    <task id="LOCAL-00006" summary="order Live">
+      <created>1567727053258</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1566593222041</updated>
+      <updated>1567727053258</updated>
     </task>
-    <task id="LOCAL-00007" summary="UserAddress Save Update Delete">
-      <created>1566936455912</created>
+    <task id="LOCAL-00007" summary="order Live">
+      <created>1567790693428</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1566936455912</updated>
+      <updated>1567790693428</updated>
     </task>
-    <task id="LOCAL-00008" summary="Free Delivery">
-      <created>1567114919119</created>
+    <task id="LOCAL-00008" summary="order Live">
+      <created>1567831176120</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1567114919120</updated>
+      <updated>1567831176120</updated>
     </task>
-    <task id="LOCAL-00009" summary="Free Delivery">
-      <created>1567243226605</created>
+    <task id="LOCAL-00009" summary="order Live">
+      <created>1567857331847</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1567243226605</updated>
+      <updated>1567857331847</updated>
     </task>
-    <task id="LOCAL-00010" summary="Free Delivery">
-      <created>1567251661007</created>
+    <task id="LOCAL-00010" summary="t">
+      <created>1567872908080</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1567251661008</updated>
+      <updated>1567872908081</updated>
     </task>
-    <task id="LOCAL-00011" summary="Get Product by category">
-      <created>1567415094819</created>
+    <task id="LOCAL-00011" summary="t">
+      <created>1567944317614</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1567415094819</updated>
+      <updated>1567944317614</updated>
     </task>
-    <task id="LOCAL-00012" summary="Trending Product">
-      <created>1567458571301</created>
+    <task id="LOCAL-00012" summary="t">
+      <created>1568192314421</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1567458571301</updated>
+      <updated>1568192314421</updated>
     </task>
-    <task id="LOCAL-00013" summary="Get Home page Data">
-      <created>1567862789602</created>
+    <task id="LOCAL-00013" summary="t">
+      <created>1568759035567</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1567862789602</updated>
+      <updated>1568759035567</updated>
     </task>
-    <task id="LOCAL-00014" summary="Get Home page Data">
-      <created>1568034224686</created>
+    <task id="LOCAL-00014" summary="t">
+      <created>1569176588143</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1568034224686</updated>
+      <updated>1569176588143</updated>
     </task>
-    <task id="LOCAL-00015" summary="Get Home page Data">
-      <created>1568122894487</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1568122894487</updated>
-    </task>
-    <task id="LOCAL-00016" summary="add image">
-      <created>1568189106566</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1568189106566</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Delivery Man Registration">
-      <created>1568191932141</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1568191932141</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Delivery Man Registration">
-      <created>1568196053626</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1568196053626</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Assign Order TO Delivery Man">
-      <created>1568298002519</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1568298002519</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Fix html page">
-      <created>1568350309554</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1568350309554</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Map">
-      <created>1568379950351</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1568379950351</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Map">
-      <created>1568485001661</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1568485001661</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Map">
-      <created>1568492180813</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1568492180813</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Map">
-      <created>1568660396573</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1568660396573</updated>
-    </task>
-    <option name="localTasksCounter" value="25" />
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,152 +382,97 @@
         </entry>
       </map>
     </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list />
-          </value>
-        </entry>
-        <entry key="User">
-          <value>
-            <list />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Save Store" />
-    <MESSAGE value="Update Product &amp; Store" />
-    <MESSAGE value="Validate form" />
-    <MESSAGE value="UserAddress Api" />
-    <MESSAGE value="UserAddress Save Update Delete" />
-    <MESSAGE value="Free Delivery" />
-    <MESSAGE value="Get Product by category" />
-    <MESSAGE value="Trending Product" />
-    <MESSAGE value="Get Home page Data" />
-    <MESSAGE value="add image" />
-    <MESSAGE value="Delivery Man Registration" />
-    <MESSAGE value="Assign Order TO Delivery Man" />
-    <MESSAGE value="Fix html page" />
-    <MESSAGE value="Map" />
-    <option name="LAST_COMMIT_MESSAGE" value="Map" />
+    <MESSAGE value="add order" />
+    <MESSAGE value="add make order" />
+    <MESSAGE value="image model" />
+    <MESSAGE value="order Live" />
+    <MESSAGE value="t" />
+    <option name="LAST_COMMIT_MESSAGE" value="t" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/AuthController.java</url>
-          <line>79</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/AuthController.java</url>
-          <line>114</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/ProductWebController.kt</url>
-          <line>69</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/CouponRestController.kt</url>
-          <line>20</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt</url>
-          <line>199</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/ProductRestController.kt</url>
-          <line>17</line>
-          <option name="timeStamp" value="37" />
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/UserRestController.kt</url>
+          <line>57</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/UserRestController.kt</url>
-          <line>110</line>
-          <option name="timeStamp" value="40" />
+          <line>33</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/PublicRestController.kt</url>
-          <line>241</line>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/PublicRestController.kt</url>
-          <line>367</line>
-          <option name="timeStamp" value="54" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
-          <line>344</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
-          <line>472</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt</url>
-          <line>429</line>
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt</url>
-          <line>292</line>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/CompanyManagementWebController.kt</url>
-          <line>457</line>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/OfferWebController.kt</url>
-          <line>60</line>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderDeliveryRestController.kt</url>
-          <line>28</line>
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderDeliveryRestController.kt</url>
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/UserRestController.kt</url>
           <line>49</line>
-          <option name="timeStamp" value="72" />
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
-          <line>218</line>
-          <option name="timeStamp" value="73" />
+          <line>167</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>349</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>312</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>324</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/commonUtils/ImageUtils.kt</url>
+          <line>26</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/PublicRestController.kt</url>
+          <line>53</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>184</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>197</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>285</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/restController/OrderRestController.kt</url>
+          <line>279</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/controller/webController/AdministrationWebController.kt</url>
+          <line>109</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/circle/foodmood/utils/ProcessDataModel.kt</url>
+          <line>39</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
-  <component name="antWorkspaceConfiguration">
-    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
-    <option name="FILTER_TARGETS" value="false" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>12</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/foodmood$FoodmoodApplication.ic" NAME="FoodmoodApplication Coverage Results" MODIFIED="1567069127138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

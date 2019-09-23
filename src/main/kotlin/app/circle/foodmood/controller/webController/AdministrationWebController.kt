@@ -162,6 +162,7 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
         return "administration/addStore"
     }
 
+
     @RequestMapping("add-store", method = [RequestMethod.POST])
     fun saveStore(@Validated @ModelAttribute("store") store: Store, @RequestParam("id", required = false) id: String? = null,
                   bindingResult: BindingResult, redirectAttributes: RedirectAttributes, model: Model): String {

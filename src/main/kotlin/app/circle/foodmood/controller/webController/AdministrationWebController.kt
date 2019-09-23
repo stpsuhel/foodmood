@@ -173,6 +173,7 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
         storeUtils.saveStoreData(store)
         storeUtils.deleteAllStoreCompanyCache(companyId = userPrinciple.companyId)
+        storeUtils.deleteAllStoreCache()
 
         return "redirect:./store-information"
     }

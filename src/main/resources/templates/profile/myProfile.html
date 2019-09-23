@@ -34,7 +34,8 @@
                             <div class="card-header" style="background-image: url('/img/blogpost.jpg')">
                                 <div class="profile-picture">
                                     <div class="avatar avatar-xl">
-                                        <img alt="..." src="/img/profile.jpg" class="avatar-img rounded-circle userImage">
+                                        <img alt="..." th:src="@{/img/profile.jpg}" id="profileImage"
+                                             class="avatar-img rounded-circle userImage">
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +130,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <form id="multipleUploadForm" name="multipleUploadForm" class="hideSaveButton">
+                                            <form id="multipleUploadForm" class="d-none" name="multipleUploadForm">
                                                 <label for="multipleFileUploadInput">Chose Image</label>
                                                 <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple="" required="">
                                             </form>
@@ -139,7 +140,7 @@
                                         <div class="form-group">
                                             <div class="card-head-row">
                                                 <div class="card-tools">
-                                                    <button id="saveUpdateInformation" class="btn btn-primary hideSaveButton">
+                                                    <button id="hideSaveButton" class="btn btn-primary d-none saveUpdateInformation">
                                                         Save
                                                     </button>
                                                 </div>
@@ -162,6 +163,7 @@
     </div>
 </div>
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
 
 <script th:src="@{/js/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
 

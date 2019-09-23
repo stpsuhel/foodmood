@@ -13,6 +13,7 @@ class UserDetails {
     var phone: String = ""
     var companyId: Long? = null
     var roles: Set<Role> = HashSet()
+    var imageURL: String = ""
 }
 
 

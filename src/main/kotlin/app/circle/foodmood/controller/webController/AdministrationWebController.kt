@@ -5,11 +5,13 @@ import app.circle.foodmood.model.dataModel.UserDataModel
 import app.circle.foodmood.model.dataModel.UserDetails
 import app.circle.foodmood.model.database.Store
 import app.circle.foodmood.repository.AdministrationRepository
+import app.circle.foodmood.repository.ImageRepository
 import app.circle.foodmood.repository.UserRepository
 import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.PrimaryRole
 import app.circle.foodmood.utils.ProcessDataModel
+import app.circle.foodmood.utils.Status
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
@@ -27,7 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class AdministrationWebController(val administrationRepository: AdministrationRepository, val userRepository: UserRepository, val encoder: PasswordEncoder,
                                   val userUtils: UserUtils, val processDataModel: ProcessDataModel, val roleUtils: RoleUtils,
                                   val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val storeUtils: StoreUtils,
-                                  val productUtils: ProductUtils, val userAddressUtils: UserAddressUtils) {
+                                  val productUtils: ProductUtils, val userAddressUtils: UserAddressUtils,
+                                  val imageUtils: ImageUtils) {
 
     @RequestMapping("user-registration", method = [RequestMethod.GET])
     fun getUserRegistration(model: Model): String {

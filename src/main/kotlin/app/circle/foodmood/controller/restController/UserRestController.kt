@@ -1,19 +1,19 @@
 package app.circle.foodmood.controller.restController
 
+import app.circle.foodmood.controller.commonUtils.ImageUtils
 import app.circle.foodmood.controller.commonUtils.UserAddressUtils
 import app.circle.foodmood.controller.commonUtils.UserBookmarkProductUtils
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.dataModel.AddressDataModel
 import app.circle.foodmood.model.dataModel.UpdateTokenDataModel
 import app.circle.foodmood.model.dataModel.UserDetails
+import app.circle.foodmood.model.database.SourceImage
 import app.circle.foodmood.model.database.UserAddress
 import app.circle.foodmood.model.database.UserBookmarkProduct
-import app.circle.foodmood.repository.AdministrationRepository
-import app.circle.foodmood.repository.UserAddressRepository
-import app.circle.foodmood.repository.UserBookmarkProductRepository
-import app.circle.foodmood.repository.UserRepository
+import app.circle.foodmood.repository.*
 import app.circle.foodmood.security.User
 import app.circle.foodmood.security.services.UserPrinciple
+import app.circle.foodmood.utils.ImageSourceType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("user")
 class UserRestController(val userAddressRepository: UserAddressRepository, val userAddressUtils: UserAddressUtils,
                          val userBookmarkProductRepository: UserBookmarkProductRepository,
-                         val userBookmarkProductUtils: UserBookmarkProductUtils,
+                         val userBookmarkProductUtils: UserBookmarkProductUtils, val imageUtils: ImageUtils,
                          val userRepository: UserRepository, val administrationRepository: AdministrationRepository) {
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -144,6 +144,15 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
 
                 val updateUser = userRepository.save(userInfo)
 
+                val imageInfo = SourceImage()
+
+                imageInfo.imageURL = userDetails.imageURL
+                imageInfo.sourceId = updateUser.id
+                imageInfo.sourceType = ImageSourceType.USER_PROFILE_IMAGE.value
+                imageInfo.companyId = updateUser.companyId
+
+                imageUtils.saveSourceImage(imageInfo)
+
                 response.isSuccessful = true
                 response.isResultAvailable = true
                 response.result = updateUser
@@ -155,5 +164,27 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
         }
 
         return  response
+    }
+
+    @GetMapping("get-profile-image")
+    fun getUserProfileImage(): Response<String>{
+        val response = Response<String>()
+        val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
+
+        val image = imageUtils.getImageBySourceId(userPrinciple.id)
+        image?.let {
+            response.result = it.imageURL
+            response.isResultAvailable = true
+            response.isSuccessful = true
+
+            return response
+        }
+
+        response.isSuccessful = false
+        response.isResultAvailable = false
+        response.result = ""
+        response.message = arrayOf("Image not found!!")
+
+        return response
     }
 }

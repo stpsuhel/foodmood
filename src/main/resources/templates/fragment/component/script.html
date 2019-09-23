@@ -15,5 +15,30 @@
 
 
 </div>
+
+<div th:fragment="application-user-profile-fragment">
+    <script>
+        let settings = {
+            "async": true,
+            "crossDomain": false,
+            "url": "./user/get-profile-image",
+            "method": "GET",
+            "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false
+        }
+
+        $.ajax(settings).done(function (response) {
+            console.log(response)
+            if (response.result === "") {
+                return;
+            }
+            $('.userImage').attr('src', response.result)
+        });
+    </script>
+</div>
+
 </body>
 </html>

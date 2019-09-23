@@ -1,10 +1,8 @@
 
-let multipleUploadForm = document.querySelector('#multipleUploadForm');
 let multipleFileUploadInput = document.querySelector('#multipleFileUploadInput');
-let multipleFileUploadError = document.querySelector('#multipleFileUploadError');
-let multipleFileUploadSuccess = document.querySelector('#multipleFileUploadSuccess');
 
 function uploadMultipleFiles(files) {
+    $('#hideSaveButton').addClass('d-none')
     let formData = new FormData();
     for (let index = 0; index < files.length; index++) {
         formData.append("files", files[index]);
@@ -13,56 +11,57 @@ function uploadMultipleFiles(files) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "https://foodmood.app/file-demo-0.0.1-SNAPSHOT/uploadMultipleFiles");
 
+    let image = "";
     xhr.onload = function () {
         console.log(xhr.responseText);
         let response = JSON.parse(xhr.responseText);
         if (xhr.status == 200) {
-            multipleFileUploadError.style.display = "none";
-            let content = "<p>All Files Uploaded Successfully</p>";
-            for (let i = 0; i < response.length; i++) {
-                $('.userImage').attr('src', response[i].fileDownloadUri)
+            try {
+                $('.userImage').attr('src', response[0].fileDownloadUri)
+                $('#hideSaveButton').removeClass('d-none')
+            }catch (e) {
+
             }
-            multipleFileUploadSuccess.innerHTML = content;
-            multipleFileUploadSuccess.style.display = "block";
-        } else {
-            multipleFileUploadSuccess.style.display = "none";
-            multipleFileUploadError.innerHTML = (response && response.message) || "Some Error Occurred";
         }
-    }
+    };
 
     xhr.send(formData);
 }
 
 $(document).ready(function () {
 
-
     $(".updateInformation").click(function () {
 
-
+        $('#multipleUploadForm').removeClass('d-none');
         $('.enableInputField').prop('disabled', false);
 
-        $('.hideSaveButton').show();
+        $('#hideSaveButton').removeClass('d-none')
 
     });
 
-    $("#saveUpdateInformation").click(function () {
-
+    $("#multipleFileUploadInput").change(function(){
         let files = multipleFileUploadInput.files;
-        if (files.length === 0) {
-            multipleFileUploadError.innerHTML = "Please select at least one file";
-            multipleFileUploadError.style.display = "block";
+        if (files.length !== 0) {
+            uploadMultipleFiles(files);
         }
-        uploadMultipleFiles(files);
+    });
+
+    $(".saveUpdateInformation").click(function () {
+
+
 
         $('.enableInputField').prop('disabled', true);
-        $('.hideSaveButton').hide();
+        $('#hideSaveButton').addClass('d-none');
+        $('#multipleUploadForm').addClass('d-none');
 
         let name = $("#name").val();
         let phone = $("#phoneNumber").val();
         let id = $('.getUserId').attr('id');
+        let imageURL = $('#profileImage').attr('src');
+        console.log(imageURL)
 
         let body = {
-            id, name, phone
+            id, name, phone, imageURL
         }
 
         userUpdate.post(body)
@@ -109,21 +108,4 @@ let userUpdate = {
     }
 
 }
-
-
-
-        /*"async": true,
-        "crossDomain": true,
-        "url": "./user/update",
-        "method": "POST",
-        "headers": {
-            "content-type": "application/json",
-        },
-        "processData": false,
-        "data": "{\n\t\"\": \"name\",\n\t\"userName\": \"skdjgl\",\n\t\"email\": \"adhzg@gmail.com\",\n\t\"phone\": \"114422556\",\n\t\"id\": 15\n}"
-}*/
-
-/*$.ajax(userUpdate).done(function (response) {
-    console.log(response);
-});*/
 

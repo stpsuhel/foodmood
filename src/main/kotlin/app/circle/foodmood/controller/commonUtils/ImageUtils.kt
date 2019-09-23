@@ -22,6 +22,10 @@ class ImageUtils(val imageRepository: ImageRepository) {
         return imageRepository.getAllBySourceIdAndSourceTypeAndStatus(sourceId, sourceType, Status.Active.value)
     }
 
+    fun getImageBySourceId(sourceId: Long): SourceImage?{
+        return imageRepository.getBySourceIdAndStatus(sourceId, Status.Active.value)
+    }
+
     fun deleteImageBySourceIdAndSourceType(): Boolean{
         return true
     }

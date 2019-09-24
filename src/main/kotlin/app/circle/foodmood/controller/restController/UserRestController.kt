@@ -171,13 +171,17 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
         val response = Response<String>()
         val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
-        val image = imageUtils.getImageBySourceId(userPrinciple.id)
-        image?.let {
-            response.result = it.imageURL
-            response.isResultAvailable = true
-            response.isSuccessful = true
+        try {
+            val image = imageUtils.getImageBySourceId(userPrinciple.id)
+            image?.let {
+                response.result = it.imageURL
+                response.isResultAvailable = true
+                response.isSuccessful = true
 
-            return response
+                return response
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
         }
 
         response.isSuccessful = false

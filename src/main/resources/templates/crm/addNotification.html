@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Add Notification</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">FoodMood CRM</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Add Notification</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Notification Info</h4>
+                                    <button id="update-notification"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fas fa-save"></i>
+                                        Update Notification
+                                    </button>
+                                </div>
+                            </div>
+
+                            <form method="post" th:action="@{/add-notification(id=${notification.id})}" th:object="${notification}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group checkNotificationId" th:id="${notification.id}">
+                                                <label for="title">Notification Title <a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableProductInfo" id="title"
+                                                       placeholder="Enter Notification Title" disabled
+                                                       th:name="title"
+                                                       th:field="*{title}" type="text">
+                                                <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="description">Description<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableProductInfo" id="description"
+                                                       placeholder="Enter Description" disabled
+                                                       th:name="description"
+                                                       th:field="*{description}"
+                                                       type="text">
+                                                <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="imageURL">Image URL</label>
+                                                <input class="form-control disableProductInfo" id="imageURL"
+                                                       placeholder="Enter Image URL" disabled
+                                                       th:name="imageURL"
+                                                       th:field="*{imageURL}"
+                                                       type="text">
+                                                <small th:if="${#fields.hasErrors('imageURL')}" th:errors="*{imageURL}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="store">Store<a
+                                                        class="text-danger">*</a></label>
+                                                <select class="select2-class disableProductInfo" id="store"
+                                                        disabled th:field="*{sourceId}">
+
+                                                    <option th:each="storeItem : ${storeList}"
+                                                            th:value="${storeItem.getId()}"
+                                                            th:text="${storeItem.getName()}">
+                                                    </option>
+                                                    <small th:if="${#fields.hasErrors('sourceId')}" th:errors="*{sourceId}"
+                                                           class="form-text text-danger text-capitalize text-muted"></small>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="type">Notification Type<a
+                                                        class="text-danger">*</a></label>
+                                                <select class="select2-class disableProductInfo" id="type"
+                                                        disabled th:field="*{notificationType}">
+
+                                                    <option th:each="typeItem : ${type}"
+                                                            th:value="${typeItem.value}"
+                                                            th:text="${typeItem}">
+                                                    </option>
+                                                    <small th:if="${#fields.hasErrors('notificationType')}" th:errors="*{notificationType}"
+                                                           class="form-text text-danger text-capitalize text-muted"></small>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary hideButton" type="submit"/>
+                                    <button class="btn btn-danger hideButton" id="cancel-button" type="reset">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script th:src="@{/page/companyDeliveryMan.js}"></script>
+
+<script>
+
+</script>
+</body>
+</html>

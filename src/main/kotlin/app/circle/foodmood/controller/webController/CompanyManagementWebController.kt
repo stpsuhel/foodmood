@@ -463,6 +463,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                     val userPrinciple = SecurityContextHolder.getContext().authentication.principal as UserPrinciple
 
                     val user = User(userDataModel.name, userDataModel.userName, userDataModel.email, encoder.encode(userDataModel.password), userPrinciple.companyId);
+                    user.phone = userDataModel.phone
 
                     val permission = roleUtils.getRoleListByPermission(arrayListOf(ROLE_DELIVERY_MAN))
                     user.roles = HashSet(permission)

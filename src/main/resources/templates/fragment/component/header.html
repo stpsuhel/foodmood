@@ -286,8 +286,8 @@
                             <div class="dropdown-user-scroll scrollbar-outer">
                                 <li>
                                     <div class="user-box">
-                                        <div class="avatar-lg"><img th:src="@{/img/profile.jpg}" alt="image profile userImage"
-                                                                    class="avatar-img rounded"></div>
+                                        <div class="avatar-lg"><img th:src="@{/img/profile.jpg}" alt="image profile"
+                                                                    class="avatar-img rounded userImage"></div>
                                         <div class="u-text">
                                             <h4 th:text="${#strings.capitalize(#authentication.getPrincipal().getName().toString().toLowerCase())}"></h4>
                                             <p class="text-muted"

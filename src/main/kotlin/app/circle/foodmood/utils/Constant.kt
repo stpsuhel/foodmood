@@ -80,3 +80,8 @@ class Constant {
 
     }
 }
+
+enum class NotificationType(val value: Int) {
+    ImageNotification(1),
+    SimpleTextNotification(0),
+}

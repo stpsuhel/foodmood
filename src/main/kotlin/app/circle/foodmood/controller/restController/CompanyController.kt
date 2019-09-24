@@ -1,10 +1,12 @@
 package app.circle.foodmood.controller.restController
 
+import app.circle.foodmood.controller.commonUtils.*
 import app.circle.foodmood.model.Response
 import app.circle.foodmood.model.database.Company
 import app.circle.foodmood.model.database.RestaurantContactInfo
 import app.circle.foodmood.repository.CompanyRepository
 import app.circle.foodmood.repository.RegistrationRepository
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -30,4 +32,6 @@ class CompanyController(val companyRepository: CompanyRepository , val registrat
         return response
 
     }
+
+
 }

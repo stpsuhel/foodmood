@@ -11,7 +11,6 @@ function uploadMultipleFiles(files) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "https://foodmood.app/file-demo-0.0.1-SNAPSHOT/uploadMultipleFiles");
 
-    let image = "";
     xhr.onload = function () {
         console.log(xhr.responseText);
         let response = JSON.parse(xhr.responseText);
@@ -48,8 +47,6 @@ $(document).ready(function () {
 
     $(".saveUpdateInformation").click(function () {
 
-
-
         $('.enableInputField').prop('disabled', true);
         $('#hideSaveButton').addClass('d-none');
         $('#multipleUploadForm').addClass('d-none');
@@ -58,11 +55,12 @@ $(document).ready(function () {
         let phone = $("#phoneNumber").val();
         let id = $('.getUserId').attr('id');
         let imageURL = $('#profileImage').attr('src');
-        console.log(imageURL)
+        console.log(imageURL);
 
         let body = {
             id, name, phone, imageURL
-        }
+        };
+        console.log(body);
 
         userUpdate.post(body)
     })

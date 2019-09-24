@@ -19,6 +19,9 @@ class UserAddressUtils(val userAddressRepository: UserAddressRepository) {
     fun deleteCacheUserAddressList(companyId: Long) {
     }
 
+    @CacheEvict("user-address-list")
+    fun deleteCacheUserAddressList() {
+    }
 
     fun getUserAddressById(id: Long): UserAddress? {
         val address = userAddressRepository.findById(id)

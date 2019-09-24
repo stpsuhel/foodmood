@@ -37,6 +37,11 @@ class StoreUtils(val storeRepository: StoreRepository,val productUtils: ProductU
         return true
     }
 
+    @CacheEvict("all-store-company")
+    fun deleteAllStoreCompanyCache(): Boolean {
+        return true
+    }
+
 
     @Cacheable("all-store", key = "1")
     fun getAllStore(): MutableList<Store> {
@@ -61,7 +66,12 @@ class StoreUtils(val storeRepository: StoreRepository,val productUtils: ProductU
 
 
     @CacheEvict("all-products-store", key = "#storeId")
-    fun deleteCacheGetProductsByStoreId(storeId: Long): List<ProductItem> {
-       return  productUtils.getProductsByStoreId(storeId)
+    fun deleteCacheGetProductsByStoreId(storeId: Long): Boolean {
+       return true
+    }
+
+    @CacheEvict("all-products-store")
+    fun deleteCacheGetProductsByStoreId(): Boolean {
+        return  true
     }
 }

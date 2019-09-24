@@ -21,11 +21,15 @@ class ProductUtils(val productRepository: ProductRepository) {
         return productRepository.getAllByStatusOrderByIdDesc(Status.Active.value)
     }
 
-
+    @Cacheable("all-product-without-status")
     fun getAllProductWithOutStatus(): List<ProductItem> {
         return productRepository.findAll()
     }
 
+    @CacheEvict("all-product-without-status")
+    fun deleteAllProductWithOutStatus(): Boolean{
+        return true
+    }
 
     @CacheEvict("all-product")
     fun deleteAllProductCache(): Boolean {
@@ -38,9 +42,13 @@ class ProductUtils(val productRepository: ProductRepository) {
         return productRepository.getAllByCompanyIdAndStatusOrderByIdDesc(companyId, Status.Active.value)
     }
 
-
     @CacheEvict("all-product-company", key = "#companyId")
     fun deleteAllProductByCompanyCache(companyId: Long): Boolean {
+        return true
+    }
+
+    @CacheEvict("all-product-company")
+    fun deleteAllProductByCompanyCache(): Boolean {
         return true
     }
 

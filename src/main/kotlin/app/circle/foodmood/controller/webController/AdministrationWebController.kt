@@ -178,6 +178,7 @@ class AdministrationWebController(val administrationRepository: AdministrationRe
         storeUtils.saveStoreData(store)
         storeUtils.deleteAllStoreCompanyCache(companyId = userPrinciple.companyId)
         storeUtils.deleteAllStoreCache()
+        storeUtils.deleteCacheGetProductsByStoreId(store.id!!)
 
         return "redirect:./store-information"
     }

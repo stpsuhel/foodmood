@@ -26,6 +26,10 @@ class  UserUtils(val administrationRepository: AdministrationRepository , var us
     fun deleteCacheUserList(companyId: Long) {
     }
 
+    @CacheEvict("user-list-company")
+    fun deleteCacheUserList() {
+    }
+
 
     fun getGenaratedPassword(studentId: Long): String {
 

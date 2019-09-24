@@ -36,19 +36,27 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <form method="post" th:action="@{./add-category}" th:object="${category}">
-                                <div class="card-header">
-                                    <div class="card-title">Category Info</div>
+                            <div class="card-header checkId" th:id="${category.id}">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Category Info</h4>
+                                    <button id="updateCategory"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fas fa-save"></i>
+                                        Update Category
+                                    </button>
                                 </div>
+                            </div>
+
+                            <form method="post" th:action="@{./add-update-category(id=${category.id})}" th:object="${category}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 col-lg-6">
                                             <div class="form-group">
                                                 <label for="fullName">Category Title<a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="fullName"
+                                                <input class="form-control disableProductInfo"
                                                        placeholder="Enter Category Title"
-                                                       th:name="name"
+                                                       th:name="name" id="fullName" disabled
                                                        th:field="*{name}" type="text">
                                                 <small class="form-text text-muted"></small>
                                             </div>
@@ -58,9 +66,9 @@
                                             <div class="form-group">
                                                 <label for="fullName">Category Image <a
                                                         class="text-danger">*</a></label>
-                                                <input class="form-control" id="categoryImageURL"
+                                                <input class="form-control disableProductInfo" id="categoryImageURL"
                                                        placeholder="Enter Single Image Url"
-                                                       th:name="imageURl"
+                                                       th:name="imageURl" disabled
                                                        th:field="*{imageURl}" type="text">
                                                 <small class="form-text text-muted"></small>
                                             </div>
@@ -69,8 +77,8 @@
                                     </div>
                                 </div>
                                 <div class="card-action">
-                                    <input class="btn btn-primary" type="submit"/>
-                                    <button class="btn btn-danger" id="cancel-button" type="reset">Cancel</button>
+                                    <input class="btn btn-primary hideButton" type="submit"/>
+                                    <button class="btn btn-danger hideButton" id="cancel-button" type="reset">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -86,14 +94,9 @@
 <div th:replace="fragment/component/script :: application-default-page-script"></div>
 <div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
 
+<script th:src="@{/page/updateCategory.js}"></script>
+
 <script>
-
-
-    $("#cancel-button").click(function () {
-        $(location).attr('href', './all-category-information')
-
-    })
-
 </script>
 </body>
 </html>

@@ -105,6 +105,7 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
         productUtils.saveUpdateProduct(product)
         productUtils.deleteAllProductByCompanyCache(userPrinciple.companyId)
         productUtils.deleteAllProductCache()
+        productUtils.deleteAllProductWithOutStatus()
 
         return "redirect:./product-information"
     }

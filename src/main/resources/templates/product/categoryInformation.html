@@ -97,12 +97,12 @@
       });
     $(".row-category").click(function (e) {
         var category = $(this).attr("id");
-        $(location).attr('href', './category-details?id=' + category)
+        $(location).attr('href', './add-update-category?id=' + category)
     })
 
 
     $("#add-category").click(function (e) {
-        $(location).attr('href', './add-category')
+        $(location).attr('href', './add-update-category')
     })
 </script>
 </body>

@@ -18,4 +18,8 @@ class UserBookmarkProductUtils(val userBookmarkProductRepository: UserBookmarkPr
     @CacheEvict("user-bookmark-list",  key = "#userId")
     fun deleteCacheUserBookmarkList(companyId: Long) {
     }
+
+    @CacheEvict("user-bookmark-list")
+    fun deleteCacheUserBookmarkList() {
+    }
 }

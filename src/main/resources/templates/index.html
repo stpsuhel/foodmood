@@ -15,7 +15,11 @@
                         <div>
                             <h2 class="text-white  fw-bold">Dashboard</h2>
                         </div>
+
                         <div class="ml-md-auto py-2 py-md-0">
+                            <a class="btn btn-danger mr-2 text-white btn-sm ml-auto btn-rounded"
+                               sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)"
+                               th:href="@{/admin/delete-update-cache}">Update Cache</a>
                             <!--
                                 <a class="btn btn-sm btn-white text-white btn-border btn-round mr-2">Notice Board</a>
                             -->

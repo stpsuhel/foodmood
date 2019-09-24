@@ -35,7 +35,9 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                                      val companyPermissionRepository: CompanyPermissionRepository,
                                      val roleUtils: RoleUtils, val encoder: PasswordEncoder, val imageUtils: ImageUtils,
                                      val productUtils: ProductUtils, val storeUtils: StoreUtils,
-                                     val deliveryManRepository: DeliveryManRepository) {
+                                     val deliveryManRepository: DeliveryManRepository,
+                                     val userAddressUtils: UserAddressUtils, val userUtils: UserUtils,
+                                     val userBookmarkProductUtils: UserBookmarkProductUtils) {
 
     @RequestMapping("company-registration", method = [RequestMethod.GET])
     fun companyRegistration(model: Model): String {
@@ -189,12 +191,17 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         if (userPrinciple.primaryRole.name == PrimaryRole.CompanyManagement.name) {
             val allProductCompany = productUtils.getAllProductWithOutStatus()
             val productList = ArrayList<ProductItemDataModel>()
+            val storeInfoList = storeUtils.getAllStore()
+
+            val storeListMap = HashMap<Long, Store>()
+            storeInfoList.forEach {
+                storeListMap[it.id!!] = it
+            }
 
             allProductCompany.forEach {
 
                 try {
-                    val storeInfo = storeUtils.getStoreById(it.storeId!!)
-                    val processData = processDataModel.processProductItemToProductItemDataModel(it, storeInfo)
+                    val processData = processDataModel.processProductItemToProductItemDataModel(it, storeListMap[it.storeId]!!)
                     productList.add(processData)
                 }catch (e: Exception){
                     e.printStackTrace()
@@ -219,17 +226,31 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         return "product/categoryInformation"
     }
 
-    @RequestMapping("add-category")
-    fun getAddUpdateCategory(model: Model): String{
-        model.addAttribute("category", Category())
+    @RequestMapping("add-update-category")
+    fun getAddUpdateCategory(@RequestParam("id", required = false) id: Long? = null, model: Model): String{
+        if(id == null) {
+            model.addAttribute("category", Category())
+        }else{
+            val categoryInfo = categoryUtils.getCategoryById(id)
+            model.addAttribute("category", categoryInfo)
+        }
 
         return "product/addUpdateCategory"
     }
 
-    @RequestMapping(value=["add-category"], method = [RequestMethod.POST])
-    fun getSaveUpdateCategory(@Validated @ModelAttribute("productCategory") category: Category, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String{
+    @RequestMapping(value=["add-update-category"], method = [RequestMethod.POST])
+    fun getSaveUpdateCategory(@Validated @ModelAttribute("productCategory") category: Category, @RequestParam("id", required = false) id: Long? = null, bindingResult: BindingResult, model: Model, redirectAttributes: RedirectAttributes): String{
 
-        categoryUtils.saveUpdateCategory(category)
+        if(id == null) {
+            categoryUtils.saveUpdateCategory(category)
+        }else{
+            val categoryInfo = categoryUtils.getCategoryById(id)
+            categoryInfo.imageURl = category.imageURl
+            categoryInfo.name = category.name
+
+            categoryUtils.saveUpdateCategory(category)
+        }
+
         categoryUtils.deleteAllCategoryList ()
 
         return "redirect:./all-category-information"
@@ -402,6 +423,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         productUtils.saveUpdateProduct(productItem)
         productUtils.deleteAllProductByCompanyCache(product.companyId)
         productUtils.deleteAllProductCache()
+        productUtils.deleteAllProductWithOutStatus()
         imageUtils.deleteImageBySourceIdAndSourceType()
 
         return "redirect:./all-product-information"
@@ -497,5 +519,25 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         model.addAttribute("deliveryManList", deliveryManList)
 
         return "company/companyDeliveryManInformation"
+    }
+
+    @RequestMapping("delete-update-cache")
+    fun deleteUpdateCache(): String{
+
+        categoryUtils.deleteAllCategoryList()
+        productUtils.deleteAllProductCache()
+        productUtils.deleteAllProductByCompanyCache()
+        storeUtils.deleteAllStoreCache()
+        storeUtils.deleteAllStoreCompanyCache()
+        storeUtils.deleteCacheGetProductsByStoreId()
+        userAddressUtils.deleteCacheUserAddressList()
+        userBookmarkProductUtils.deleteCacheUserBookmarkList()
+        userUtils.deleteCacheUserList()
+
+        categoryUtils.getAllCategoryList()
+        productUtils.getAllProduct()
+        storeUtils.getAllStore()
+
+        return "redirect:../home"
     }
 }

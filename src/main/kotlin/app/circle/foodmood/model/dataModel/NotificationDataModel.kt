@@ -11,6 +11,6 @@ class NotificationDataModel {
     var notificationType: Int? = null
     var imageURL: String = ""
     var sourceId: Long? = null
-    var to: String? = null
+    var sendTo: String? = null
     var toType: Int? = null
 }

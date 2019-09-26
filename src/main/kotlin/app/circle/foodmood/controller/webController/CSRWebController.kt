@@ -69,10 +69,10 @@ class CSRWebController(val storeUtils: StoreUtils, val notificationRepository: N
 
             notification.description = notificationDataModel.description
             notification.imageURL = notificationDataModel.imageURL
-            notification.notificationType = notificationDataModel.notificationType
+            notification.notificationType = notificationDataModel.notificationType!!
             notification.sourceId = notificationDataModel.sourceId
             notification.title = notificationDataModel.title
-            notification.to = ""
+            notification.sendTo = ""
             notification.toType = -1
             notification.companyId = userPrinciple.companyId
 
@@ -82,10 +82,10 @@ class CSRWebController(val storeUtils: StoreUtils, val notificationRepository: N
             notification?.let {
                 it.description = notificationDataModel.description
                 it.imageURL = notificationDataModel.imageURL
-                it.notificationType = notificationDataModel.notificationType
+                it.notificationType = notificationDataModel.notificationType!!
                 it.sourceId = notificationDataModel.sourceId
                 it.title = notificationDataModel.title
-                it.to = ""
+                it.sendTo = ""
                 it.toType = -1
             }
 

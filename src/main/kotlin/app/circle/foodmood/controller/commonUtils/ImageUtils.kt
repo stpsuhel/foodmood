@@ -29,4 +29,8 @@ class ImageUtils(val imageRepository: ImageRepository) {
     fun deleteImageBySourceIdAndSourceType(): Boolean{
         return true
     }
+
+    fun existsBySourceId(sourceId: Long): Boolean{
+        return imageRepository.existsBySourceIdAndStatus(sourceId, Status.Active.value)
+    }
 }

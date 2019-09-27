@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*
 class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val userUtils: UserUtils, val productUtils: ProductUtils,
                                  val processDataModel: ProcessDataModel, val homeUtils: HomeUtils, val orderUtils: OrderUtils,
                                  val userAddressUtils: UserAddressUtils, val globalUtils: GlobalUtils,
-                                 val deliveryManRepository: DeliveryManRepository) {
+                                 val deliveryManRepository: DeliveryManRepository, val storeUtils: StoreUtils) {
 
     /**
      * Entering Database too many time
@@ -47,7 +47,7 @@ class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val
 
         val allOrderList = ArrayList<OrderDashboard>()
         try {
-            val storeList = homeUtils.getStoreByCompanyId(userPrinciple.companyId)
+            val storeList = storeUtils.getAllStore()
 
             val storeIdList = arrayListOf<Long>()
             storeList.forEach {

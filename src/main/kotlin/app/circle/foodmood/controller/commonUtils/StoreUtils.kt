@@ -43,14 +43,13 @@ class StoreUtils(val storeRepository: StoreRepository,val productUtils: ProductU
     }
 
 
-    @Cacheable("all-store", key = "1")
+    @Cacheable("all-store")
     fun getAllStore(): MutableList<Store> {
-        return storeRepository.findAll()
+        return storeRepository.getByStatus(Status.Active.value)
     }
 
-    @CacheEvict("all-store", key = "1")
+    @CacheEvict("all-store")
     fun deleteAllStoreCache() {
-        storeRepository.findAll()
     }
 
     fun getStoreById(id: Long): Store {

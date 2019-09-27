@@ -5,9 +5,11 @@ import app.circle.foodmood.model.dataModel.OrderDetails
 import app.circle.foodmood.model.dataModel.OrderHistory
 import app.circle.foodmood.model.dataModel.OrderItemDetails
 import app.circle.foodmood.model.database.OrderDelivery
+import app.circle.foodmood.model.database.Store
 import app.circle.foodmood.repository.CouponRepository
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.OrderStatus
+import app.circle.foodmood.utils.PrimaryRole
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -26,14 +28,16 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
 
         val allOrderIdTodayForCurrentCompany = arrayListOf<Long>()
         val allStoreIdCurrentCompany = arrayListOf<Long>()
+        val allOrderList = arrayListOf<OrderHistory>()
 
-
-
-        var allOrderList = arrayListOf<OrderHistory>()
         val todaysDate = globalUtils.getCurrentDate()!!
         val todaysOderList = orderUtils.getOrderByDate(todaysDate)
 
-        val allCompanyStore = storeUtils.getAllCompanyStore(userPrinciple.companyId)
+        val allCompanyStore = if(userPrinciple.primaryRole == PrimaryRole.CompanyManagement){
+            storeUtils.getAllStore()
+        }else{
+            storeUtils.getAllCompanyStore(userPrinciple.companyId)
+        }
 
         allCompanyStore.forEach {
             allStoreIdCurrentCompany.add(it.id!!)

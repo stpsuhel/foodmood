@@ -11,5 +11,7 @@ interface StoreRepository : JpaRepository<Store, Long> {
 
     fun getByIdAndStatus(id:Long,status: Int):Store
 
+    fun getByStatus(status: Int): ArrayList<Store>
+
     fun getAllByCompanyIdAndStatus(companyId: Long, status: Int): ArrayList<Store>
 }

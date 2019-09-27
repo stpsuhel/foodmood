@@ -33,4 +33,8 @@ class UserAddressUtils(val userAddressRepository: UserAddressRepository) {
             null
         }
     }
+
+    fun getUserAddressByUserId(userId: Long): UserAddress?{
+        return userAddressRepository.getByUserIdAndStatus(userId, Status.Active.value)
+    }
 }

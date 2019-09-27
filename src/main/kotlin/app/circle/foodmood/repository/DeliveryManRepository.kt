@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface DeliveryManRepository: JpaRepository<DeliveryMan, Long> {
 
-    fun getByUserIdAndStatus(userId: Long, status: Int): DeliveryMan
+    fun getByUserIdAndStatus(userId: Long, status: Int): DeliveryMan?
 
     fun existsByIdAndDeliveryStatusAndStatus(id: Long, deliveryStatus: Int, status: Int): Boolean
 

@@ -21,4 +21,8 @@ class OrderDeliveryUtils(val deliveryManRepository: DeliveryManRepository) {
     fun getAllDeliveryMan(): ArrayList<DeliveryMan>{
         return deliveryManRepository.getAllByStatus(Status.Active.value)
     }
+
+    fun getDeliveryManByUserId(userId: Long): DeliveryMan?{
+        return deliveryManRepository.getByUserIdAndStatus(userId, Status.Active.value)
+    }
 }

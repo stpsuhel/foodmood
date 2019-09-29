@@ -102,6 +102,11 @@ class ProductWebController(val storeUtils: StoreUtils, val productUtils: Product
             }
         }
 
+        if(product.id != null){
+            val productInfo = productUtils.getByProductId(product.id!!)
+            product.primaryImageId = productInfo.primaryImageId
+        }
+
         productUtils.saveUpdateProduct(product)
         productUtils.deleteAllProductByCompanyCache(userPrinciple.companyId)
         productUtils.deleteAllProductCache()

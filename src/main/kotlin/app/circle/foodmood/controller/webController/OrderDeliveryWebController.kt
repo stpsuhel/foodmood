@@ -61,7 +61,6 @@ class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val
             }
 
             val allOrder = orderUtils.getAllOrderOfTodaysDate(orderIdList)
-
             val orderDetailsList = orderUtils.getAllOrderProductByOrderList(orderIdList)
 
             allOrder.forEach {
@@ -85,6 +84,8 @@ class OrderDeliveryWebController(val orderDeliveryUtils: OrderDeliveryUtils, val
 
                 val userAddress = userAddressUtils.getUserAddressById(it.addressId!!)!!
                 orderDashboard.deliveryAddress = userAddress.addressLineOne
+                orderDashboard.latitude = userAddress.locationLatitude
+                orderDashboard.longitude = userAddress.locationLongitude
 
                 val userInfo = userUtils.getUserById(userAddress.userId!!)
                 orderDashboard.orderBy = userInfo!!.phone

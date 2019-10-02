@@ -49,8 +49,8 @@ class CompanyProductItemDataModel {
 
     @NotNull
     var categoryId: Long? = null
-    var id: Long = ID_NOT_FOUND
-    var companyId: Long = ID_NOT_FOUND
+    var id: Long? = null
+    var companyId: Long? = null
 
     var imageURL: String = ""
 

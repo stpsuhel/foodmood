@@ -1,10 +1,7 @@
 package app.circle.foodmood.controller.webController
 
 import app.circle.foodmood.controller.commonUtils.*
-import app.circle.foodmood.model.dataModel.CompanyDataModel
-import app.circle.foodmood.model.dataModel.CompanyProductItemDataModel
-import app.circle.foodmood.model.dataModel.ProductItemDataModel
-import app.circle.foodmood.model.dataModel.UserDataModel
+import app.circle.foodmood.model.dataModel.*
 import app.circle.foodmood.model.database.*
 import app.circle.foodmood.repository.CompanyPermissionRepository
 import app.circle.foodmood.repository.CompanyRepository
@@ -257,14 +254,31 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
     }
 
     @RequestMapping("update-product")
-    fun getUpdateProduct(@RequestParam id: Long? = null, model: Model): String{
+    fun getUpdateProduct(@RequestParam("id", required = false) id: Long? = null, model: Model): String{
+
+        val companyList = companyRepository.getAllByStatus(Status.Active.value)
+        val storeList = storeUtils.getAllStore()
+        val categoryList = categoryUtils.getAllCategoryList()
+        val storeDetailsList = ArrayList<StoreDetails>()
+
+        storeList.forEach {
+            val storeDetails = StoreDetails()
+
+            storeDetails.id = it.id
+            storeDetails.companyId = it.companyId
+            storeDetails.name = it.name
+
+            for (company in companyList){
+                if (company.id==it.companyId){
+                    storeDetails.companyName = company.name
+                    break
+                }
+            }
+            storeDetailsList.add(storeDetails)
+        }
+
         if (id != null) {
-
             val productInfo = productUtils.getByProductId(id)
-            val companyInfo = companyRepository.getCompanyByIdAndStatus(productInfo.companyId!!, Status.Active.value)
-            val storeList = storeUtils.getAllCompanyStore(companyInfo.id!!)
-            val categoryList = categoryUtils.getAllCategoryList()
-
             val imageList = imageUtils.getImageBySourceIdAndSourceType(productInfo.id!!, ImageSourceType.PRODUCT_IMAGE.value)
 
             val stringBuilder = StringBuilder()
@@ -275,14 +289,16 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
             val companyProductItemDataModel = processDataModel.processCompanyProductItemToCompanyProductItemDataModel(productInfo, stringBuilder.toString())
 
             model.addAttribute("product", companyProductItemDataModel)
-            model.addAttribute("company", companyInfo)
-            model.addAttribute("storeList", storeList)
-            model.addAttribute("categoryList", categoryList)
 
-            return "company/updateProduct"
         } else {
-            return "redirect:./error"
+            model.addAttribute("product", CompanyProductItemDataModel())
         }
+
+        model.addAttribute("companyList", companyList)
+        model.addAttribute("storeList", storeDetailsList)
+        model.addAttribute("categoryList", categoryList)
+
+        return "company/updateProduct"
     }
 
     @RequestMapping(value = ["update-product"], method = [RequestMethod.POST])
@@ -291,14 +307,41 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                              model: Model, redirectAttributes: RedirectAttributes): String {
 
 
-        if(product.storeId == null){
-            bindingResult.rejectValue("storeId", "500", "Please Select a Store")
+        if(product.storeId != null){
+            val storeInfo = storeUtils.getStoreById(product.storeId!!)
+            if (storeInfo.companyId != product.companyId){
+                bindingResult.rejectValue("storeId", "500", "Please Select Store for selected Company only")
+            }
         }
+
         if(product.price == null || product.price == 0){
             bindingResult.rejectValue("price", "500", "Product price must be greater then Zero")
         }
         if(bindingResult.hasErrors()){
-            model.addAttribute("storeList", storeUtils.getAllCompanyStore(product.companyId!!))
+            val companyList = companyRepository.getAllByStatus(Status.Active.value)
+            val storeList = storeUtils.getAllStore()
+            val categoryList = categoryUtils.getAllCategoryList()
+            val storeDetailsList = ArrayList<StoreDetails>()
+
+            storeList.forEach {
+                val storeDetails = StoreDetails()
+
+                storeDetails.id = it.id
+                storeDetails.companyId = it.companyId
+                storeDetails.name = it.name
+
+                for (company in companyList){
+                    if (company.id==it.companyId){
+                        storeDetails.companyName = company.name
+                        break
+                    }
+                }
+                storeDetailsList.add(storeDetails)
+            }
+            model.addAttribute("categoryList", categoryList)
+            model.addAttribute("companyList", companyList)
+            model.addAttribute("storeList", storeDetailsList)
+
             return "company/updateProduct"
         }
 
@@ -377,7 +420,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                 imageUtils.saveSourceImage(imageItem)
             }
 
-            val allImageList = imageUtils.getImageBySourceIdAndSourceType(product.id, ImageSourceType.PRODUCT_IMAGE.value)
+            val allImageList = imageUtils.getImageBySourceIdAndSourceType(product.id!!, ImageSourceType.PRODUCT_IMAGE.value)
 
             for (imageItem in allImageList) {
 
@@ -421,7 +464,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         val productItem = processDataModel.processCompanyProductItemDataModelToCompanyProductItem(product, primaryImageId!!)
 
         productUtils.saveUpdateProduct(productItem)
-        productUtils.deleteAllProductByCompanyCache(product.companyId)
+        productUtils.deleteAllProductByCompanyCache(product.companyId!!)
         productUtils.deleteAllProductCache()
         productUtils.deleteAllProductWithOutStatus()
         imageUtils.deleteImageBySourceIdAndSourceType()

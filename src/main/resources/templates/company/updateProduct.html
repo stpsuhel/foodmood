@@ -99,7 +99,7 @@
                                         <div class="col-md-12 col-lg-6">
 
                                             <div class="form-group">
-                                                <label for="discountPrice">Discount Price*</a></label>
+                                                <label for="discountPrice">Discount Price</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">BDT</span>
@@ -125,10 +125,10 @@
                                                             th:value="${storeItem.getId()}"
                                                             th:text="${storeItem.getName()}">
                                                     </option>
-                                                    <small th:if="${#fields.hasErrors('storeId')}" th:errors="*{storeId}"
-                                                           class="form-text text-danger text-capitalize text-muted"></small>
                                                 </select>
-                                                <small class="form-text text-muted"></small>
+                                                <small th:if="${#fields.hasErrors('storeId')}" th:errors="*{storeId}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+
                                             </div>
                                         </div>
 
@@ -157,12 +157,13 @@
                                                 <select class="select2-class disableProductInfo" id="company"
                                                         disabled th:field="*{companyId}">
 
-                                                    <option th:value="${company.id}"
+                                                    <option th:each="company: ${companyList}"
+                                                            th:value="${company.id}"
                                                             th:text="${company.name}">
                                                     </option>
-                                                    <small class="form-text text-danger text-capitalize text-muted"></small>
+                                                    <small th:if="${#fields.hasErrors('companyId')}" th:errors="*{companyId}"
+                                                           class="form-text text-danger text-capitalize text-muted"></small>
                                                 </select>
-                                                <small class="form-text text-muted"></small>
                                             </div>
                                         </div>
 
@@ -172,9 +173,7 @@
                                                 <textarea class="form-control disableProductInfo" id="imageUrl" rows="5"
                                                           th:name="imageURL" th:field="*{imageURL}" disabled>
 												</textarea>
-
-                                                <small th:if="${#fields.hasErrors('imageURL')}" th:errors="*{imageURL}"
-                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                                <small class="form-text text-danger text-capitalize text-muted"></small>
                                             </div>
                                         </div>
                                     </div>

@@ -35,8 +35,6 @@ $(document).ready(function () {
         let productId = $(this).attr("id");
 
         if ($(e.target).hasClass('ignoreClick')) {
-
-
             return;
         }
         let isAdmin = $("#isAdmin").attr('content')
@@ -48,7 +46,12 @@ $(document).ready(function () {
     })
 
     $("#add-product").click(function (e) {
-        $(location).attr('href', './add-product')
+        let isAdmin = $("#isAdmin").attr('content')
+        if (isAdmin) {
+            $(location).attr('href', './update-product')
+        } else {
+            $(location).attr('href', './add-product')
+        }
     })
 
 })

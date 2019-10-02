@@ -80,8 +80,11 @@
                                                 style="cursor: pointer"
                                                 th:each="orderItem: ${allOrderList}">
 
-                                                <td th:text="${orderItem.orderId}" class="latitude" th:id="${orderItem.latitude}"></td>
-                                                <td th:text="${orderItem.orderBy}" class="longitude" th:id="${orderItem.longitude}"></td>
+                                                <td th:text="${orderItem.orderId}" th:id="'latitude' + ${orderItem.orderId}"
+                                                    th:data="${orderItem.latitude}"></td>
+
+                                                <td th:text="${orderItem.orderBy}" th:id="'longitude' + ${orderItem.orderId}"
+                                                    th:data="${orderItem.longitude}"></td>
                                                 <td>
                                                     <span th:each="order: ${orderItem.itemList}">
                                                         <span th:text="${order}+','"></span>

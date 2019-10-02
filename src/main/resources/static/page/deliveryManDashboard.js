@@ -1,11 +1,11 @@
 
 let map;
-let marker;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 10, lng: 10},
+        center: {lat: 24.749181, lng: 90.418864},
         zoom: 13
+
     });
 }
 
@@ -23,17 +23,22 @@ $(document).ready(function () {
     $("#order-delivery-table").DataTable({});
 
     $(".row-store-order").click(function () {
-        let latitude = $('.latitude').attr('id');
-        let longitude = $('.longitude').attr('id');
+        let orderId = $(this).attr('id');
+
+        console.log(orderId);
+
+        let latitude = Number($('#latitude'+orderId).attr('data'));
+        let longitude = Number($('#longitude'+orderId).attr('data'))
+
+        console.log(typeof latitude)
 
         let center = new google.maps.LatLng(latitude, longitude);
         map.panTo(center);
 
-        marker = new google.maps.Marker({
+        let marker = new google.maps.Marker({
             position: {lat: latitude, lng: longitude},
             map
         });
-
         console.log(longitude + latitude)
     });
 

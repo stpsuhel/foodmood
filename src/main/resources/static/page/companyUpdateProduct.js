@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
 
-    let productId = $(".checkProduct").attr("id");
+    let productId = $('.checkProduct').attr('id');
     console.log(productId);
     if(productId==null){
         $('.disableProductInfo').prop('disabled', false);
@@ -16,7 +16,6 @@ $(document).ready(function () {
         width: '100%',
         dropdownAutoWidth: true
     });
-
 
     $("#cancel-button").click(function () {
 

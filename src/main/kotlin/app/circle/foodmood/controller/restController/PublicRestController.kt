@@ -24,8 +24,8 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
 
     @GetMapping("all-product")
     fun getAllActiveProduct(): Response<List<ProductItemDataModel>> {
-        var response = Response<List<ProductItemDataModel>>()
-        var allProductItemDataModel = ArrayList<ProductItemDataModel>()
+        val response = Response<List<ProductItemDataModel>>()
+        val allProductItemDataModel = ArrayList<ProductItemDataModel>()
 
         try {
             val allProduct = productUtils.getAllProduct()
@@ -33,7 +33,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             val allStore = storeUtils.getAllStore()
 
             allProduct.forEach { productITem ->
-                var allImage = arrayListOf<String>()
+                val allImage = arrayListOf<String>()
                 val productItemDataModel = ProductItemDataModel()
                 productItemDataModel.companyId = productITem.companyId!!
                 productItemDataModel.id = productITem.id!!

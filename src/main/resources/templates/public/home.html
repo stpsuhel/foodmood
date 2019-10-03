@@ -2,11 +2,52 @@
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragment/component/header :: application-head"></head>
 
-<body class="bg-dark-gradient">
+<body>
 
-<a sec:authorize="isAuthenticated()" class="dashboard-btn btn btn-default m-4"> Dashboard</a>
 
-<div class="container center pt-5">
+<div class="wrapper">
+    <div>
+        <div class="content">
+            <div class="bg-primary-gradient">
+                <div class="page-inner py-5 mt--2">
+                    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                        <div class="ml-md-auto py-2 py-md-0">
+                            <a class="btn btn-danger mr-2 text-white btn-lg ml-auto btn-rounded dashboard-btn"
+                               sec:authorize="isAuthenticated()">Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="page-inner mt--5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-3 justify-content-center"
+                             th:each="productItem: ${allProduct}">
+                            <div class="card">
+                                <img class="card-img-top" style="height: 240px;" th:src="${productItem.primaryImageUrl}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-2 fw-mediumbold" th:text="${productItem.name}"></h5>
+                                    <p class="card-text" th:text="${productItem.storeName}"></p>
+                                    <a href="#" class="btn btn-warning">Add Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+
+
+
+<!--<div class="container center pt-5">
     <div class="row justify-content-md-start">
         <div class="col">
             <img style="width: 270px"
@@ -53,7 +94,7 @@
 
     </div>
 
-</div>
+</div>-->
 <script th:src="@{/js/core/jquery.3.2.1.min.js}"></script>
 
 <script th:src="@{/js/core/bootstrap.min.js}"></script>

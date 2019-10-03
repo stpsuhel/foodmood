@@ -301,6 +301,10 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         return "company/updateProduct"
     }
 
+
+    /**
+     * Problem for Adding a product
+     */
     @RequestMapping(value = ["update-product"], method = [RequestMethod.POST])
     fun getSaveUpdateProduct(@RequestParam("id", required = false) id: Long? = null,
                              @Validated @ModelAttribute("product") product: CompanyProductItemDataModel, bindingResult: BindingResult,
@@ -355,7 +359,11 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
 
         var primaryImageId: Long? = null
-        val imageSourceList = imageUtils.getImageBySourceIdAndSourceType(id!!, ImageSourceType.PRODUCT_IMAGE.value)
+        var imageSourceList: ArrayList<SourceImage>? = null
+
+        if(id != null) {
+            imageSourceList = imageUtils.getImageBySourceIdAndSourceType(id, ImageSourceType.PRODUCT_IMAGE.value)
+        }
         val imageURLList = product.imageURL.split(",")
         val isDeleteImageItem = ArrayList<SourceImage>()
 
@@ -369,7 +377,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                 if (it.isNotBlank() && it.isNotEmpty()) {
                     isNewImageURL.add(it)
 
-                    if (imageSourceList.isNotEmpty()) {
+                    if ((imageSourceList != null && imageSourceList.isNotEmpty())) {
                         for (image in imageSourceList) {
 
                             if (image.imageURL == it) {
@@ -381,7 +389,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                 }
             }
 
-            imageSourceList.forEach {
+            imageSourceList?.forEach {
 
                 println(it.imageURL)
                 try {
@@ -432,7 +440,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         }else{
             primaryImageId = -1
 
-            imageSourceList.forEach {
+            imageSourceList?.forEach {
 
                 println(it.imageURL)
                 try {
@@ -460,10 +468,10 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                 imageUtils.saveSourceImage(it)
             }
         }
-
         val productItem = processDataModel.processCompanyProductItemDataModelToCompanyProductItem(product, primaryImageId!!)
 
         productUtils.saveUpdateProduct(productItem)
+
         productUtils.deleteAllProductByCompanyCache(product.companyId!!)
         productUtils.deleteAllProductCache()
         productUtils.deleteAllProductWithOutStatus()

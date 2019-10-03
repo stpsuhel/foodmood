@@ -144,19 +144,19 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
 
                 val updateUser = userRepository.save(userInfo)
 
-                var imageInfo: SourceImage? = null
+                var imageInfo = SourceImage()
 
                 if(imageUtils.existsBySourceId(updateUser.id)){
-                    imageInfo = imageUtils.getImageBySourceId(updateUser.id)
-                    imageInfo?.imageURL = userDetails.imageURL
+                    imageInfo = imageUtils.getImageBySourceId(updateUser.id)!!
+                    imageInfo.imageURL = userDetails.imageURL
                 }else{
-                    imageInfo?.imageURL = userDetails.imageURL
-                    imageInfo?.sourceId = updateUser.id
-                    imageInfo?.sourceType = ImageSourceType.USER_PROFILE_IMAGE.value
-                    imageInfo?.companyId = updateUser.companyId
+                    imageInfo.imageURL = userDetails.imageURL
+                    imageInfo.sourceId = updateUser.id
+                    imageInfo.sourceType = ImageSourceType.USER_PROFILE_IMAGE.value
+                    imageInfo.companyId = updateUser.companyId
                 }
 
-                imageUtils.saveSourceImage(imageInfo!!)
+                imageUtils.saveSourceImage(imageInfo)
 
                 response.isSuccessful = true
                 response.isResultAvailable = true

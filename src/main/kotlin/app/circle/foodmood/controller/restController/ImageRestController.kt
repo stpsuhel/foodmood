@@ -44,6 +44,9 @@ class ImageRestController(val imageUtils: ImageUtils) {
             response.isResultAvailable = true
             response.isSuccessful = true
 
+            imageUtils.deleteAllImage()
+            imageUtils.deleteImageBySourceIdAndSourceType()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

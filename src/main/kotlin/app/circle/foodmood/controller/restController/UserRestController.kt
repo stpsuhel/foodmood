@@ -167,6 +167,8 @@ class UserRestController(val userAddressRepository: UserAddressRepository, val u
         }else{
             response.message = arrayOf("User not found")
         }
+        imageUtils.deleteImageBySourceIdAndSourceType()
+        imageUtils.deleteAllImage()
 
         return  response
     }

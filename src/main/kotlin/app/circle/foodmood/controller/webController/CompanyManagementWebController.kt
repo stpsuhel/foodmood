@@ -473,6 +473,7 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         productUtils.deleteAllProductCache()
         productUtils.deleteAllProductWithOutStatus()
         imageUtils.deleteImageBySourceIdAndSourceType()
+        imageUtils.deleteAllImage()
 
         return "redirect:./all-product-information"
     }
@@ -582,7 +583,10 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         userAddressUtils.deleteCacheUserAddressList()
         userBookmarkProductUtils.deleteCacheUserBookmarkList()
         userUtils.deleteCacheUserList()
+        imageUtils.deleteAllImage()
+        imageUtils.deleteImageBySourceIdAndSourceType()
 
+        imageUtils.getAllImage()
         categoryUtils.getAllCategoryList()
         productUtils.getAllProduct()
         storeUtils.getAllStore()

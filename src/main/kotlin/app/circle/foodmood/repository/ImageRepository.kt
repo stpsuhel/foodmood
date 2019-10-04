@@ -13,4 +13,6 @@ interface ImageRepository : JpaRepository<SourceImage, Long> {
     fun getBySourceIdAndStatus(sourceId: Long, status: Int): SourceImage?
 
     fun existsBySourceIdAndStatus(sourceId: Long, status: Int): Boolean
+
+    fun getAllByStatus(status: Int): ArrayList<SourceImage>
 }

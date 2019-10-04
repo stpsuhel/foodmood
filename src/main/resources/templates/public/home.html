@@ -21,23 +21,20 @@
 
 
             <div class="page-inner mt--5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-3 justify-content-center"
-                             th:each="productItem: ${allProduct}">
-                            <div class="card">
-                                <img class="card-img-top" style="height: 240px;" th:src="${productItem.primaryImageUrl}"
-                                     alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-2 fw-mediumbold" th:text="${productItem.name}"></h5>
-                                    <p class="card-text" th:text="${productItem.storeName}"></p>
-                                    <a href="#" class="btn btn-warning">Add Cart</a>
-                                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-3 justify-content-center"
+                         th:each="productItem: ${allProduct}">
+                        <div class="card">
+                            <img class="card-img-top" style="height: 240px;" th:src="${productItem.primaryImageUrl}"
+                                 alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title mb-2 fw-mediumbold" th:text="${productItem.name}"></h5>
+                                <p class="card-text" th:text="${productItem.storeName}"></p>
+                                <a href="#" class="btn btn-warning">Add Cart</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <!--Footer-->
@@ -110,7 +107,7 @@
         window.open('https://play.google.com/store/apps/details?id=app.circle.foodmood')
     })
 
-    $(".submitButton").click(function () {
+    /*$(".submitButton").click(function () {
 
         let restaurantName = $("#restaurantName").val()
         let ownerName = $("#ownerNumber").val()
@@ -153,7 +150,7 @@
                 icon: "error",
             });
         }
-    })
+    })*/
 
 
     $(".dashboard-btn").click(function () {

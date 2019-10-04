@@ -301,10 +301,6 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         return "company/updateProduct"
     }
 
-
-    /**
-     * Problem for Adding a product
-     */
     @RequestMapping(value = ["update-product"], method = [RequestMethod.POST])
     fun getSaveUpdateProduct(@RequestParam("id", required = false) id: Long? = null,
                              @Validated @ModelAttribute("product") product: CompanyProductItemDataModel, bindingResult: BindingResult,

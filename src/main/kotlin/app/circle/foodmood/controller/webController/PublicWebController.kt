@@ -22,13 +22,15 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
 
         val allProductItemDataModel = ArrayList<ProductItemDataModel>()
 
+
         try {
             val allProduct = productUtils.getAllProduct()
-
+            val allImage= imageUtils.getAllImage()
             val allStore = storeUtils.getAllStore()
+            val allCategoryList = categoryUtils.getAllCategoryList()
 
             allProduct.forEach { productITem ->
-                val allImage = arrayListOf<String>()
+                val allProductImage = arrayListOf<String>()
                 val productItemDataModel = ProductItemDataModel()
                 productItemDataModel.companyId = productITem.companyId!!
                 productItemDataModel.id = productITem.id!!
@@ -42,12 +44,11 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
                 productItemDataModel.isFreeDelivery = productITem.freeDelivery
                 productItemDataModel.categoryId = productITem.categoryId!!
 
-
-                val categoryListByProductId = categoryUtils.getCategoryListByProductId(productITem.id!!)
-
-                if (categoryListByProductId.isNotEmpty()) {
-                    categoryListByProductId.forEach {
-                        productItemDataModel.categoryList.add(it.categoryId!!)
+                if (allCategoryList.isNotEmpty()) {
+                    allCategoryList.forEach {
+                        if(it.id == productITem.categoryId) {
+                            productItemDataModel.categoryList.add(it.id!!)
+                        }
                     }
                 } else {
                     productItemDataModel.categoryList = arrayListOf(productITem.categoryId!!)
@@ -55,19 +56,16 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
 
 
                 if (productITem.primaryImageId != ID_NOT_FOUND) {
-                    val imageSource = imageUtils.getImageById(productITem.primaryImageId)
-                    productItemDataModel.primaryImageUrl = imageSource?.imageURL!!
+
+                    allImage.forEach {
+                        if(it.id == productITem.primaryImageId)
+                            productItemDataModel.primaryImageUrl = it.imageURL!!
+
+                        if(it.sourceId == productITem.id)
+                            allProductImage.add(it.imageURL!!)
+                    }
+                    productItemDataModel.imageList = allProductImage
                 }
-
-
-                val imageBySourceIdAndSourceType = imageUtils.getImageBySourceIdAndSourceType(productITem.id!!, ImageSourceType.PRODUCT_IMAGE.value)
-
-
-                imageBySourceIdAndSourceType.forEach {
-                    allImage.add(it.imageURL!!)
-                }
-
-                productItemDataModel.imageList = allImage
 
 
                 for (store in allStore) {

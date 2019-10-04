@@ -33,4 +33,14 @@ class ImageUtils(val imageRepository: ImageRepository) {
     fun existsBySourceId(sourceId: Long): Boolean{
         return imageRepository.existsBySourceIdAndStatus(sourceId, Status.Active.value)
     }
+
+    @Cacheable("all-image")
+    fun getAllImage(): ArrayList<SourceImage>{
+        return imageRepository.getAllByStatus(Status.Active.value)
+    }
+
+    @CacheEvict("all-image")
+    fun deleteAllImage(): Boolean{
+        return true
+    }
 }

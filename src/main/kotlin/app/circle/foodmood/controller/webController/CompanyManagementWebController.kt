@@ -358,7 +358,10 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
         }
 
 
-        var primaryImageId: Long? = null
+        var primaryImageId: Long = -1L
+        val productItem = processDataModel.processCompanyProductItemDataModelToCompanyProductItem(product, primaryImageId!!)
+        val saveProduct = productUtils.saveUpdateProduct(productItem)
+
         var imageSourceList: ArrayList<SourceImage>? = null
 
         if(id != null) {
@@ -422,23 +425,22 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
 
                 imageItem.imageURL = it
                 imageItem.sourceType = ImageSourceType.PRODUCT_IMAGE.value
-                imageItem.sourceId = product.id
-                imageItem.companyId = product.companyId
+                imageItem.sourceId = saveProduct.id
+                imageItem.companyId = saveProduct.companyId
 
                 imageUtils.saveSourceImage(imageItem)
             }
 
-            val allImageList = imageUtils.getImageBySourceIdAndSourceType(product.id!!, ImageSourceType.PRODUCT_IMAGE.value)
+            val allImageList = imageUtils.getImageBySourceIdAndSourceType(saveProduct.id!!, ImageSourceType.PRODUCT_IMAGE.value)
 
             for (imageItem in allImageList) {
 
                 if (firstImage != null && firstImage == imageItem.imageURL) {
-                    primaryImageId = imageItem.id
+                    primaryImageId = imageItem.id!!
                     break
                 }
             }
         }else{
-            primaryImageId = -1
 
             imageSourceList?.forEach {
 
@@ -468,9 +470,8 @@ class CompanyManagementWebController(val companyRepository: CompanyRepository, v
                 imageUtils.saveSourceImage(it)
             }
         }
-        val productItem = processDataModel.processCompanyProductItemDataModelToCompanyProductItem(product, primaryImageId!!)
-
-        productUtils.saveUpdateProduct(productItem)
+        saveProduct.primaryImageId = primaryImageId
+        productUtils.saveUpdateProduct(saveProduct)
 
         productUtils.deleteAllProductByCompanyCache(product.companyId!!)
         productUtils.deleteAllProductCache()

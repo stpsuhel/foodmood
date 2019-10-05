@@ -45,7 +45,7 @@ enum class OrderStatus(val value: Int) {
     START_DELIVERY(7),
     NEAR_DELIVERY_ADDRESS(8),
     DELIVERED_SUCCESSFULLY(9),
-    ORDER_CANCELED(10 ),
+    ORDER_CANCELED(10),
 
 }
 
@@ -74,9 +74,21 @@ enum class DeliveryManStatus(val value: Int) {
     ON_DELIVERY(1),
     FREE_NOW(0),
 }
+
 class Constant {
-    companion object{
+    companion object {
+        var IMAGE_NOT_AVAILABLE_URL = "http://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/fm_not_available.png"
         var ORDER_NOTIFICATION_TOPIC = "foodmood_order_notification"
+        const val FOODMOOD_EVENT_TOPIC = "foodmood_event"
+        const val FOODMOOD_PROMOTION_NOTIFICATION = "foodmood_promotion_notification"
+
+
+
+        const val FOODMOOD_PRIMARY_TOPIC = "food_mood_primary_topic"
+        const val FOODMOOD_PROMOTION_TOPIC = "food_mood_promotion_topic"
+
+        const val FOODMOOD_ORDER_NOTIFICATIOM = "Order Notification"
+        const val DATABASE_CLEAR_EVENT = "database_clear_event"
 
     }
 }

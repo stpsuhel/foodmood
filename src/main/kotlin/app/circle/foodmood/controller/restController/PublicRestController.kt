@@ -11,7 +11,10 @@ import app.circle.foodmood.repository.ApplicationVersionRepository
 import app.circle.foodmood.repository.UserTokenRepository
 import app.circle.foodmood.security.services.UserPrinciple
 import app.circle.foodmood.utils.*
+import app.circle.foodmood.utils.Constant.Companion.DATABASE_CLEAR_EVENT
+import app.circle.foodmood.utils.Constant.Companion.FOODMOOD_EVENT_TOPIC
 import org.joda.time.LocalDate
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -19,7 +22,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("public")
-class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils, val imageUtils: ImageUtils, val userUtils: UserUtils, val userAddressUtils: UserAddressUtils,
+class PublicRestController(val productUtils: ProductUtils, val storeUtils: StoreUtils, val categoryUtils: CategoryUtils, val imageUtils: ImageUtils, val userUtils: UserUtils, val userAddressUtils: UserAddressUtils, val notificationUtils: NotificationUtils,
                            val orderUtils: OrderUtils, val globalUtils: GlobalUtils, val userTokenRepository: UserTokenRepository, val processDataModel: ProcessDataModel, val applicationVersionRepository: ApplicationVersionRepository, val applicationStatusRepository: ApplicationStatusRepository) {
 
     @GetMapping("all-product")
@@ -465,6 +468,8 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
                     orderHistory.orderOriginalPrice = it.totalPrice!!
                     orderHistory.orderStatus = it.orderStatus!!
                     orderHistory.orderDate = it.orderDate!!
+                    orderHistory.deliveryPrice = it.deliveryCharge!!
+                    orderHistory.deliveryManId = it.deliveryManId!!
 
                     for (orderProduct in orderDetailsList) {
                         try {
@@ -507,7 +512,7 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             }
 
 
-            allOrderList.sortByDescending { orderHistory -> orderHistory.orderId  }
+            allOrderList.sortByDescending { orderHistory -> orderHistory.orderId }
 
 
             response.result = allOrderList
@@ -519,9 +524,18 @@ class PublicRestController(val productUtils: ProductUtils, val storeUtils: Store
             response.result = allOrderList
             response.isSuccessful = false
             response.isResultAvailable = false
+            response.message = arrayOf(e.message+"")
         }
 
         return response
+    }
+
+
+    @GetMapping("clear-all-user-local-database")
+    fun clearAllUserCache(): ResponseEntity<String> {
+        return notificationUtils.eventNotification(DATABASE_CLEAR_EVENT, FOODMOOD_EVENT_TOPIC)
+
+
     }
 }
 

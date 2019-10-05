@@ -70,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/terms-condition",
                         "/swagger-ui.html",
+                        "/update-status",//TODO Need to authorized
                         "/app.js",
                         "/manifest.json",
                         "/firebase-messaging-sw.js",
@@ -77,6 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login",
                         "/public/**",
                         "/data/**",
+                        "/notification/**",
                         "/signup",
                         "/restaurant/contact-form",
                         "/save/restaurant-info",

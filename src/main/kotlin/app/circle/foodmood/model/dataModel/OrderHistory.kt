@@ -13,6 +13,7 @@ class OrderHistory {
     var hasDiscount: Boolean = false
     var deliveryType: Int = DeliveryType.PAID_DELIVERY.value
     var deliveryPrice: Int = 0
+    var deliveryManId: Long = -1
     var orderStatus: Int = OrderStatus.PENDING_FOR_APPROVAL.value
     var orderDate: Int? = null
     var orderBy: String = ""

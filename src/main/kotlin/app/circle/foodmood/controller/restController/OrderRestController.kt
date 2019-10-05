@@ -300,6 +300,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                 productList.forEach {
                     productIdList.add(it.id!!)
                 }
+              /**
                 updateOrderStatusRequestBody.productList.forEach {
                     if (!productIdList.contains(it)) {
                         response.isResultAvailable = false
@@ -310,6 +311,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
                         return response
                     }
                 }
+                **/
                 order.orderStatus = updateOrderStatusRequestBody.orderStatus!!
                 val updatedOrder = orderRepository.save(order)
 

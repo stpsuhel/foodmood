@@ -5,8 +5,8 @@ import app.circle.foodmood.controller.commonUtils.ImageUtils
 import app.circle.foodmood.controller.commonUtils.ProductUtils
 import app.circle.foodmood.controller.commonUtils.StoreUtils
 import app.circle.foodmood.model.dataModel.ProductItemDataModel
+import app.circle.foodmood.utils.Constant.Companion.IMAGE_NOT_AVAILABLE_URL
 import app.circle.foodmood.utils.ID_NOT_FOUND
-import app.circle.foodmood.utils.ImageSourceType
 import app.circle.foodmood.utils.URL.HomeController.Companion.HOME_PAGE
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -25,7 +25,7 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
 
         try {
             val allProduct = productUtils.getAllProduct()
-            val allImage= imageUtils.getAllImage()
+            val allImage = imageUtils.getAllImage()
             val allStore = storeUtils.getAllStore()
             val allCategoryList = categoryUtils.getAllCategoryList()
 
@@ -45,9 +45,10 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
                 productItemDataModel.categoryId = productITem.categoryId!!
 
                 if (allCategoryList.isNotEmpty()) {
-                    allCategoryList.forEach {
-                        if(it.id == productITem.categoryId) {
+                    for (it in allCategoryList) {
+                        if (it.id == productITem.categoryId) {
                             productItemDataModel.categoryList.add(it.id!!)
+                            break
                         }
                     }
                 } else {
@@ -58,10 +59,10 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
                 if (productITem.primaryImageId != ID_NOT_FOUND) {
 
                     allImage.forEach {
-                        if(it.id == productITem.primaryImageId)
+                        if (it.id == productITem.primaryImageId)
                             productItemDataModel.primaryImageUrl = it.imageURL!!
 
-                        if(it.sourceId == productITem.id)
+                        if (it.sourceId == productITem.id)
                             allProductImage.add(it.imageURL!!)
                     }
                     productItemDataModel.imageList = allProductImage
@@ -75,6 +76,10 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
                     }
                 }
 
+
+                if(productItemDataModel.primaryImageUrl.isNullOrEmpty()){
+                    productItemDataModel.primaryImageUrl = IMAGE_NOT_AVAILABLE_URL
+                }
                 allProductItemDataModel.add(productItemDataModel)
             }
         } catch (e: Exception) {

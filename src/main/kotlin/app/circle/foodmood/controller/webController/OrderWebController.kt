@@ -50,32 +50,36 @@ class OrderWebController(val couponRepository: CouponRepository, val productUtil
 
 
         todaysOderList.forEach {
-            val orderHistory = OrderHistory()
-            orderHistory.orderId = it.id!!
-            orderHistory.hasDiscount = it.totalDiscountPrice!! < it.totalPrice!!
-            orderHistory.orderDiscountPrice = it.totalDiscountPrice!!
-            orderHistory.orderOriginalPrice = it.totalPrice!!
-            orderHistory.orderStatus = it.orderStatus!!
-            orderHistory.orderDate = it.orderDate!!
-            for (orderProduct in orderDetailsList) {
-                if (orderProduct.orderId == it.id && allStoreIdCurrentCompany.contains(orderProduct.storeId)) {
-                    val orderItem = OrderItemDetails()
-                    orderItem.id = orderProduct.productId!!
-                    orderItem.price = orderProduct.perProductPrice!!
-                    orderItem.priceDiscount = orderProduct.perProductDiscountPrice!!
-                    orderItem.hasDiscount = orderProduct.hasDiscount!!
-                    orderItem.quantity = orderProduct.quantity!!
-                    val product = productUtils.getByProductId(orderProduct.productId!!)
-                    orderItem.name = product.name
-                    orderHistory.itemList.add(orderItem)
+            try {
+                val orderHistory = OrderHistory()
+                orderHistory.orderId = it.id!!
+                orderHistory.hasDiscount = it.totalDiscountPrice!! < it.totalPrice!!
+                orderHistory.orderDiscountPrice = it.totalDiscountPrice!!
+                orderHistory.orderOriginalPrice = it.totalPrice!!
+                orderHistory.orderStatus = it.orderStatus!!
+                orderHistory.orderDate = it.orderDate!!
+                for (orderProduct in orderDetailsList) {
+                    if (orderProduct.orderId == it.id && allStoreIdCurrentCompany.contains(orderProduct.storeId)) {
+                        val orderItem = OrderItemDetails()
+                        orderItem.id = orderProduct.productId!!
+                        orderItem.price = orderProduct.perProductPrice!!
+                        orderItem.priceDiscount = orderProduct.perProductDiscountPrice!!
+                        orderItem.hasDiscount = orderProduct.hasDiscount!!
+                        orderItem.quantity = orderProduct.quantity!!
+                        val product = productUtils.getByProductId(orderProduct.productId!!)
+                        orderItem.name = product.name
+                        orderHistory.itemList.add(orderItem)
 
+                    }
                 }
+
+                orderHistory.deliveryAddress = userAddressUtils.getUserAddressById(it.addressId!!)!!
+
+                if (orderHistory.itemList.isNotEmpty())
+                    allOrderList.add(orderHistory)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
-            orderHistory.deliveryAddress = userAddressUtils.getUserAddressById(it.addressId!!)!!
-
-            if (orderHistory.itemList.isNotEmpty())
-                allOrderList.add(orderHistory)
         }
 
 

@@ -26,7 +26,7 @@ class ProductRestController(val productUtils: ProductUtils) {
 
         productUtils.saveUpdateProduct(productInfo)
         productUtils.deleteAllProductCache()
-        productUtils.deleteAllProductByCompanyCache(userPrinciple.companyId)
+        productUtils.deleteAllProductByCompanyCache()
 
         response.isSuccessful = true
         response.isResultAvailable = true
@@ -34,6 +34,7 @@ class ProductRestController(val productUtils: ProductUtils) {
 
 
         productUtils.deleteAllProductCache()
+        productUtils.deleteAllProductWithOutStatus()
         productUtils.deleteAllProductByCompanyCache(userPrinciple.companyId)
 
         return response

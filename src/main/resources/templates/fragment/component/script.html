@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div sec:authorize="isAuthenticated()" th:fragment="application-default-page-script">
+<div  th:fragment="application-default-page-script">
     <script th:src="@{/js/core/jquery.3.2.1.min.js}"></script>
     <script th:src="@{/js/core/popper.min.js}"></script>
     <script th:src="@{/js/core/bootstrap.min.js}"></script>

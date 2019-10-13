@@ -175,16 +175,19 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="d-none nav-item dropdown hidden-caret">
-                            <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+
+                        <li class="nav-item">
+                            <a class="nav-link add-cart-link" data-toggle="dropdown" href="" aria-expanded="false">
                                 <i class="fas fa-layer-group"></i>
+                                <span class="notification d-none" id="add-to-cart"></span>
                             </a>
-                            <div class="dropdown-menu quick-actions quick-actions-info animated fadeIn">
+                            <!--<div class="dropdown-menu quick-actions quick-actions-info animated fadeIn">
                                 <div class="quick-actions-header">
                                     <span class="title mb-1">Quick Actions</span>
                                     <span class="subtitle op-8">Shortcuts</span>
                                 </div>
-                                <div class="scroll-wrapper quick-actions-scroll scrollbar-outer" style="position: relative;"><div class="quick-actions-scroll scrollbar-outer scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;">
+                                <div class="scroll-wrapper quick-actions-scroll scrollbar-outer" style="position: relative;">
+                                    <div class="quick-actions-scroll scrollbar-outer scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;">
                                     <div class="quick-actions-items">
                                         <div class="row m-0">
                                             <a class="col-6 col-md-4 p-0" href="#">
@@ -226,8 +229,9 @@
                                         </div>
                                     </div>
                                 </div><div class="scroll-element scroll-x" style=""><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar ui-draggable ui-draggable-handle"></div></div></div><div class="scroll-element scroll-y" style=""><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar ui-draggable ui-draggable-handle"></div></div></div></div>
-                            </div>
+                            </div>-->
                         </li>
+
                         <li class="nav-item dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                                 <div class="avatar-sm">
@@ -415,7 +419,7 @@
                             <div class="card-body">
                                 <h5 class="card-title mb-2 fw-mediumbold" th:text="${productItem.name}"></h5>
                                 <p class="card-text" th:text="${productItem.storeName}"></p>
-                                <a class="btn btn-warning mr-auto">Add Cart</a>
+                                <a class="btn btn-warning mr-auto add-cart" th:id="${productItem.id}">Add Cart</a>
                             </div>
                         </div>
                     </div>
@@ -465,6 +469,42 @@
     $(".dashboard-btn").click(function () {
         window.location.href = "./home";
 
+    })
+
+    let product = JSON.parse(localStorage.getItem("product"));
+    if(product){
+        $('#add-to-cart').removeClass('d-none')
+        $('#add-to-cart').html(product.length)
+        console.log(typeof product)
+    }
+
+    $('.add-cart').click(function () {
+        let productId = $(this).attr('id')
+        let productIdList = JSON.parse(localStorage.getItem("product"));
+
+        let productList = []
+        if(!productIdList) {
+            productList.push(productId)
+
+        }else{
+            if ($.inArray(productId, productIdList) !== -1){
+                alert("Item Alredy selected!!")
+                return
+            }
+            for(let i=0;i<productIdList.length;i++){
+                productList.push(productIdList[i])
+            }
+            productList.push(productId)
+        }
+
+        localStorage.setItem("product", JSON.stringify(productList))
+        $('#add-to-cart').removeClass('d-none')
+        $('#add-to-cart').html(productList.length)
+        console.log(productList)
+    });
+
+    $('.add-cart-link').click(function () {
+        window.location.href = "./cart";
     })
 
 </script>

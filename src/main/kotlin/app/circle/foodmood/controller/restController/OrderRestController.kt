@@ -488,7 +488,7 @@ class OrderRestController(val productUtils: ProductUtils, val orderRepository: O
 
     /**
      * Delivery Man er Id asbe UserPrinciple theke
-     * Has Role Permision DeliveryMan
+     * Has Role Permission DeliveryMan
      */
     @PostMapping("save-update-order-delivery-man")
     fun assignOrderToDeliveryMan(@Validated @RequestBody orderDeliveryDataModel: OrderDeliveryDataModel): Response<OrderDelivery> {

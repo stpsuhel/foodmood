@@ -94,4 +94,9 @@ class PublicWebController(val productUtils: ProductUtils, val storeUtils: StoreU
     fun getTerms(): String {
         return "public/terms"
     }
+
+    @RequestMapping("cart")
+    fun getCart(): String {
+        return "public/cart"
+    }
 }

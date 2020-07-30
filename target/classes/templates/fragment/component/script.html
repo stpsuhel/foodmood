@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div  th:fragment="application-default-page-script">
+    <script th:src="@{/js/core/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/core/popper.min.js}"></script>
+    <script th:src="@{/js/core/bootstrap.min.js}"></script>
+    <script th:src="@{/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js}"></script>
+    <script th:src="@{/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+    <script th:src="@{/js/plugin/datatables/datatables.min.js}"></script>
+    <script th:src="@{/js/plugin/sweetalert/sweetalert.min.js}"></script>
+    <script th:src="@{/js/atlantis.min.js}"></script>
+    <script th:src="@{/js/select2.full.min.js}"></script>
+
+
+</div>
+
+<div th:fragment="application-user-profile-fragment">
+    <script>
+        let settings = {
+            "async": true,
+            "crossDomain": false,
+            "url": "../user/get-profile-image",
+            "method": "GET",
+            "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false
+        }
+
+        $.ajax(settings).done(function (response) {
+            console.log(response)
+            if (response.result === "") {
+                return;
+            }
+            $('.userImage').attr('src', response.result)
+        });
+    </script>
+</div>
+
+</body>
+</html>

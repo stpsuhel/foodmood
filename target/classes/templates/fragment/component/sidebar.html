@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+
+<div sec:authorize="isAuthenticated()" th:fragment="application-side-bar">
+    <div class="sidebar sidebar-style-2">
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+            <div class="sidebar-content">
+                <div class="user">
+                    <div class="avatar avatar-online float-left mr-2">
+                        <img alt="..." class="avatar-img rounded-circle userImage" th:src="@{/img/profile.jpg}">
+                    </div>
+                    <div class="info">
+                        <a>
+                            <span>
+                                <div class="info-user">
+									<div class=" ml-1 username text-capitalize font-weight-bold"
+                                         th:text="${#strings.capitalize(#authentication.getPrincipal().getName().toString().toLowerCase())}">
+                                    </div>
+									<span class="status small ml-1"
+                                          th:text="${#strings.capitalize(#authentication.getPrincipal().getPrimaryRole().toString().toLowerCase())}"></span>
+								</div>
+                            </span>
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <ul class="nav nav-primary">
+                    <li class="nav-section">
+                        <h5 class="text-section">
+                            Module
+                        </h5>
+                    </li>
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)">
+                        <a data-toggle="collapse" href="#company-management">
+                            <i class="fas fa-hotel"></i>
+                            <p>Company Management</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="company-management">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/admin/company-registration}">
+                                        <span class="sub-item">Company Registration</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/admin/company-information}">
+                                        <span class="sub-item">Company Information</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/admin/all-product-information}">
+                                        <span class="sub-item">All Product Information</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/admin/all-category-information}">
+                                        <span class="sub-item">All Category Information</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/admin/delivery-man-information}">
+                                        <span class="sub-item">Delivery Man Information</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"
+                        sec:authorize="hasRole(T(app.circle.foodmood.utils.RoleConstant).ROLE_COMPANY_ADMIN)">
+                        <a data-toggle="collapse" href="#administration">
+                            <i class="fas fa-hotel"></i>
+                            <p>Administration</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="administration">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/store-information}">
+                                        <span class="sub-item">Store Information</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/previous-order}">
+                                        <span class="sub-item">Previous Order</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"
+                        sec:authorize="hasAuthority(T(app.circle.foodmood.utils.RoleConstant).COMPANY_MANAGEMENT)">
+                        <a data-toggle="collapse" href="#delivery">
+                            <i class="fas fa-hotel"></i>
+                            <p>Delivery</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="delivery">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/order-delivery/dashboard}">
+                                        <span class="sub-item">Delivery Dashboard</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#product">
+                            <i class="fas fa-hotel"></i>
+                            <p>Product</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="product">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/product-information}">
+                                        <span class="sub-item">Product Information</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/coupon-information}">
+                                        <span class="sub-item">Coupon Information</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/offer-information}">
+                                        <span class="sub-item">Offer Information</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#notification">
+                            <i class="fas fa-hotel"></i>
+                            <p>FoodMood CRM</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="notification">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a th:href="@{/notification-information}">
+                                        <span class="sub-item">Notification Information</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

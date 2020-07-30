@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Category Information</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Category</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Information</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header checkId" th:id="${category.id}">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Category Info</h4>
+                                    <button id="updateCategory"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fas fa-save"></i>
+                                        Update Category
+                                    </button>
+                                </div>
+                            </div>
+
+                            <form method="post" th:action="@{./add-update-category(id=${category.id})}" th:object="${category}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="fullName">Category Title<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableProductInfo"
+                                                       placeholder="Enter Category Title"
+                                                       th:name="name" id="fullName" disabled
+                                                       th:field="*{name}" type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="fullName">Category Image <a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableProductInfo" id="categoryImageURL"
+                                                       placeholder="Enter Single Image Url"
+                                                       th:name="imageURl" disabled
+                                                       th:field="*{imageURl}" type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary hideButton" type="submit"/>
+                                    <button class="btn btn-danger hideButton" id="cancel-button" type="reset">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script th:src="@{/page/updateCategory.js}"></script>
+
+<script>
+</script>
+</body>
+</html>

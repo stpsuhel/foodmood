@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+
+<body>
+
+
+<div class="wrapper">
+
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title" th:text="${permission}">Order Dashboard - Live </h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Order</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Live</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <span class="card-title">Order List </span>
+                                     <span   id="add-store" th:text="${date}" class="ml-auto h2" >
+
+                                     </span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="live-Order"
+                                               class="display table table-bordered dataTable"
+                                               cellspacing="0" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" style="width: 10%">Order Id</th>
+                                                <th scope="col">Order Item</th>
+                                                <th scope="col" style="width: 30%">Action</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                            <tr  th:each="orderItem : ${orderHistoryList}">
+                                                <td th:text="${orderItem.getOrderId()}"></td>
+                                                <td style="cursor: pointer">
+                                                    <div class="card-list">
+                                                        <div class="item-list"
+                                                             th:each="productItem : ${orderItem.getItemList()}">
+                                                            <div class="info-user">
+                                                                <pre class="username" th:if="${productItem.hasDiscount}"
+                                                                     th:text="${productItem.getName()  + '     x ' + productItem.getQuantity() +  '  (' + productItem.getPriceDiscount()+ ' BDT) = ' + (productItem.getPriceDiscount()* productItem.getQuantity())  + ' BDT'}"></pre>
+                                                                <pre class="username"
+                                                                     th:if="!${productItem.hasDiscount}"
+                                                                     th:text="${productItem.getName()  + '     x ' + productItem.getQuantity() +  '  (' + productItem.getPrice()+  ' BDT) = ' + (productItem.getPrice()* productItem.getQuantity()) + ' BDT' }"></pre>
+
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="clearfix"></div>
+
+                                                </td>
+                                                <td th:class="${orderItem.getOrderStatus() == fraudOrder ?'bg-danger text-white':''}">
+                                                    <div>
+
+                                                        <button th:if="${orderItem.getOrderStatus() == pendingByRestaurant}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                                class="order-accept hover-square   btn m-1 btn-success btn-sm ml-auto">
+                                                            <i class="fas fa-check"></i>
+                                                            Accept
+                                                        </button>
+
+                                                        <button th:if="${orderItem.getOrderStatus() == pendingByRestaurant}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                                class="order-reject  btn  m-1   btn-danger btn-sm ml-auto">
+                                                            <i class="fas fa-times"></i>
+                                                            Reject
+                                                        </button>
+
+                                                        <button th:if="${orderItem.getOrderStatus() >= acceptedByRestaurant && orderItem.getOrderStatus()<readyToPickUp  && orderItem.getOrderStatus()!= cookingByRestaurant}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                                class="order-start-cooking  btn  m-1   btn-success btn-sm ml-auto">
+                                                            <i class="fas fa-rocket"></i>
+                                                            Start Cooking
+                                                        </button>
+                                                        <button th:if="${orderItem.getOrderStatus() >= acceptedByRestaurant  && orderItem.getOrderStatus()!= readyToPickUp && orderItem.getOrderStatus() < readyToPickUp}"
+                                                                th:attr="orderid=${orderItem.orderId},productList=${orderItem.itemList.toString()}"
+                                                                class="order-ready-pick-up btn  m-1   btn-secondary btn-sm ml-auto">
+                                                            <i class="fas fa-shipping-fast"></i>
+                                                            Ready To Pick Up
+                                                        </button>
+
+                                                        <span th:if="${ orderItem.getOrderStatus() == fraudOrder}">Fraud Order</span>
+                                                        <span th:if="${ orderItem.getOrderStatus() == rejectedByRestaurant}" class="text-danger">Order Rejected</span>
+                                                        <span th:if="${ orderItem.getOrderStatus() == readyToPickUp}">Waiting For Delivery Man</span>
+                                                        <span  th:if="${ orderItem.getOrderStatus() >= pickedUpByDeliveryMan &&  orderItem.getOrderStatus() != rejectedByRestaurant}"> Picked By Delivery Man</span>
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+<script th:src="@{/page/orderLive.js}"></script>
+
+<script>
+
+    $("#live-Order").DataTable({
+        "pageLength": 50,
+        "language": {
+            "emptyTable": "No order found"
+        }
+    });
+</script>
+</body>
+</html>

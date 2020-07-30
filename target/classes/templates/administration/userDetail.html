@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">User Details</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">User</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Details</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form method="post" th:action="@{/user-update(id=${user.id})}" th:object="${user}">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title">User Info</div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="card-head-row">
+                                                <div class="card-tools">
+                                                    <a id="update-user"
+                                                       class="btn btn-info btn-border btn-round btn-sm mr-2">
+                                                    <span class="btn-label">
+                                                        <i class="fas fa-plus"></i>
+                                                    </span>
+                                                        Update Information
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="fullName">Name</label>
+                                                <input class="form-control enableInputField" id="fullName"
+                                                       placeholder="Enter Full Name"
+                                                       th:name="name" disabled=""
+                                                       th:field="*{name}" type="text">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="userName">User Name</label>
+                                                <input class="form-control enableInputField" id="userName"
+                                                       placeholder="Enter User Name"
+                                                       th:name="userName" disabled=""
+                                                       th:field="*{userName}"
+                                                       autocomplete="new-user-name"
+                                                       type="text">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input class="form-control enableInputField" id="email"
+                                                       placeholder="Enter User Email"
+                                                       th:name="email" disabled=""
+                                                       th:field="*{email}"
+                                                       type="text">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="phoneNumber">Phone Number</label>
+                                                <input class="form-control enableInputField" id="phoneNumber"
+                                                       placeholder="Enter Phone Number"
+                                                       th:name="phone" disabled=""
+                                                       th:field="*{phone}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="teacher">Primary Role</label>
+                                                <select class="select2-class enableInputField" id="teacher"
+                                                        th:name="primaryRole"
+                                                        th:field="*{primaryRole}" disabled="">
+                                                    <option th:value="-1">Select Role</option>
+                                                    <option th:each="roleItem : ${primaryRole}"
+                                                            th:text="${roleItem.name()}"
+                                                            th:value="${roleItem.name()}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Permission</label>
+                                                <div class="selectgroup selectgroup-pills selectgroup-danger"
+                                                     th:field="*{permissionList}">
+                                                    <label class="selectgroup-item"
+                                                           th:each="permissionItem : ${companyPermissionList}" >
+                                                        <input type="checkbox" name="permissionList"
+                                                               th:checked="${user.permissionList.contains(permissionItem.role_text)}"
+                                                               th:value="${permissionItem.role_text}" disabled
+                                                               class="selectgroup-input enableInputField">
+                                                        <span class="selectgroup-button"
+                                                              th:text="${permissionItem.name}"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary" type="submit"/>
+                                    <button class="btn btn-danger" id="cancelUpdate">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script th:src="@{/page/userDetails.js}"></script>
+
+
+</body>
+</html>

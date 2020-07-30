@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head  th:replace="fragment/component/header :: application-head"></head>
+
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="panel-header bg-primary-gradient">
+                <div class="page-inner py-5">
+                </div>
+            </div>
+            <div class="page-inner mt--5">
+                <div class="row mt--2">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-body" style="height: 600px">
+                                <div class="h-100" id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="map-delivery-table"
+                                               class="display table table-striped table-hover dataTable">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Status</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr class="row-store-delivery" style="cursor: pointer"
+                                                th:each="deliveryMan: ${deliveryManList}">
+                                                <td th:text="${deliveryMan.name}"></td>
+                                                <td th:text="${deliveryMan.deliveryStatus==0?'Free':'On Delivery'}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table class="display table table-striped table-hover dataTable" id="order-delivery-table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">Order By</th>
+                                                <th scope="col">Order Details</th>
+                                                <th scope="col">Order Address</th>
+                                                <th scope="col">Order Time</th>
+                                                <th scope="col">Order Status</th>
+                                                <th scope="col">Delivery Man List</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr class="row-store-order" th:id="${orderItem.orderId}"
+                                                style="cursor: pointer"
+                                                th:each="orderItem: ${allOrderList}">
+
+                                                <td th:text="${orderItem.orderId}" th:id="'latitude' + ${orderItem.orderId}"
+                                                    th:data="${orderItem.latitude}"></td>
+
+                                                <td th:text="${orderItem.orderBy}" th:id="'longitude' + ${orderItem.orderId}"
+                                                    th:data="${orderItem.longitude}"></td>
+                                                <td>
+                                                    <span th:each="order: ${orderItem.itemList}">
+                                                        <span th:text="${order}+','"></span>
+                                                    </span>
+                                                </td>
+                                                <td th:text="${orderItem.deliveryAddress}"></td>
+                                                <td th:text="${orderItem.orderDate}"></td>
+                                                <td th:text="${orderItem.orderStatus}"></td>
+                                                <td th:if="${orderItem.deliveryManId==ID_NOT_FOUND}">
+                                                    <select class="select2-class deliveryMan" th:id="'deliveryMan' + ${orderItem.orderId}">
+                                                        <option th:each="deliveryMan: ${deliveryManList}"
+                                                                th:value="${deliveryMan.id}"
+                                                                th:text="${deliveryMan.name}">
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td th:unless="${orderItem.deliveryManId==ID_NOT_FOUND}"
+                                                    th:text="${orderItem.deliveryMan}"></td>
+
+                                                <td th:if="${orderItem.deliveryManId==ID_NOT_FOUND}" style="cursor: pointer">
+                                                    <button th:id="${orderItem.orderId}"
+                                                            class="btn btn-primary btn-sm ml-auto assignDeliveryMan">
+                                                        <i class="fas fa-save"></i>
+                                                        Assign
+                                                    </button>
+                                                </td>
+                                                <td th:unless="${orderItem.deliveryManId==ID_NOT_FOUND}">
+                                                    <button class="btn btn-danger disabled btn-sm ml-auto">
+                                                        <i class="fas fa-save"></i>
+                                                        Assigned
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+
+<script th:src="@{/page/deliveryManDashboard.js}"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpHTSv4ccs7Tu7ClWQXr999z17hqcein8&callback=initMap"
+        type="text/javascript"></script>
+
+<script>
+</script>
+
+</body>
+</html>

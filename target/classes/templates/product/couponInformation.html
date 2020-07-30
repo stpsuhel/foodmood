@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Coupon Information</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Coupon</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Information</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Coupon List</h4>
+                                    <button id="add-coupon" class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Add Coupon
+                                    </button>
+                                </div>
+                            </div>
+                            <!--<div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="coupon-table"
+                                               class="display table table-striped table-hover dataTable">
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script>
+    $(".select2-class").select2({
+        closeOnSelect: true,
+        placeholder: "Grade",
+        width: '100%',
+        dropdownAutoWidth: true
+    });
+
+
+      $("#coupon-table").DataTable({
+      });
+
+    $(".row-store").click(function (e) {
+        let storeId = $(this).attr("id");
+        $(location).attr('href', './add-product?id=' + storeId)
+    })
+
+
+    $("#add-coupon").click(function (e) {
+        $(location).attr('href', './create-coupon')
+    })
+</script>
+</body>
+</html>

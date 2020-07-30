@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Category Information</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Category</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Information</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Category List</h4>
+                                    <button id="add-category"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Add Category
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table id="category-table"
+                                               class="display table table-striped table-hover dataTable">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 10%" scope="col">Id</th>
+                                                <th scope="col" style="width: 10%">Image</th>
+                                                <th scope="col">Name</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                 <tr class="row-category" th:id="${categoryItem.id}" style="cursor: pointer"
+                                                     th:each="categoryItem : ${allCategoryList}">
+                                                     <td th:text="${categoryItem.id}"></td>
+                                                     <td>
+                                                         <div class="avatar">
+                                                             <img th:src="${categoryItem.imageURl}" alt="..." class="avatar-img rounded">
+                                                         </div>
+                                                     </td>
+                                                     <td th:text="${categoryItem.name}"></td>
+                                                 </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script>
+
+      $("#category-table").DataTable({
+      });
+    $(".row-category").click(function (e) {
+        var category = $(this).attr("id");
+        $(location).attr('href', './add-update-category?id=' + category)
+    })
+
+
+    $("#add-category").click(function (e) {
+        $(location).attr('href', './add-update-category')
+    })
+</script>
+</body>
+</html>

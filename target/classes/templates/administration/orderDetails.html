@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+
+<body>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<div class="wrapper">
+
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Previous Order</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Order</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">List</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <span class="card-title">Order List</span>
+                                    <span class="ml-auto p-2">
+                                        <input id="datepicker" type="text">
+                                    </span>
+                                    <span id="add" class="ml p-2" >
+                                        <select class="select2-class" id="selected-type">
+                                                <option value="0">All Month</option>
+                                                <option value="1">Only Selected Month</option>
+                                        </select>
+                                    </span>
+                                    <span class="ml p-2" >
+                                        <button id="show-previous-order" class="btn btn-primary btn-sm ml-auto" >
+                                            <i class="fa fa-plus"></i>
+                                            Show
+                                        </button>
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <div class="table-responsive">
+                                        <table class="display table table-bordered table-striped dataTable"
+                                               cellspacing="0" width="100%">
+
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" style="width: 10%">Order Id</th>
+                                                <th scope="col">Order Item</th>
+                                                <th scope="col">Order Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="showOrderDetails">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script th:src="@{/page/previousOrderDetails.js}"></script>
+
+<script>
+
+
+</script>
+</body>
+</html>

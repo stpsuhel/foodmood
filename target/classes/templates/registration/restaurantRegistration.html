@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/component/header :: application-head"></head>
+
+<body class="bg-dark-gradient">
+
+<div class="container center pt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-5 text-center mt-5">
+            <div class="card p-2">
+                <div class="card-header">
+                    <h2 class="card-title font-weight-bold text-center">
+                        FoodMood restaurant contact form
+                    </h2>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="flaticon-network"></i>
+                                </span>
+                        </div>
+                        <input type="text" id="restaurantName" class="form-control" placeholder="Restaurant Name">
+                    </div>
+
+
+                    <div class="input-group mt-2">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="flaticon-user-1"></i>
+                                </span>
+                        </div>
+                        <input type="text" id="ownerNumber" class="form-control" placeholder="Restaurant Owner Name">
+                    </div>
+
+                    <div class="input-group mt-2">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="icon-phone"></i>
+                                </span>
+                        </div>
+                        <input type="text" id="contactNumber" class="form-control" placeholder="Contact Number">
+                    </div>
+                    <div class="text-center mt-3">
+                        <button class="submitButton  btn btn-default">
+											<span class="btn-label">
+												<i class="fa fa-archive"></i>
+											</span>
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col">
+            <img style="width: 300px"
+                 src="https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/device-2019-09-14-212721.png">
+        </div>
+
+        <div class="col">
+            <img style="width: 300px"
+                 src="https://foodmood.app/file-demo-0.0.1-SNAPSHOT/downloadFile/device-2019-09-14-212951.png">
+        </div>
+
+    </div>
+</div>
+<script th:src="@{/js/core/jquery.3.2.1.min.js}"></script>
+<script th:src="@{/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+<script th:src="@{/js/core/popper.min.js}"></script>
+<script th:src="@{/js/core/bootstrap.min.js}"></script>
+<script th:src="@{/js/atlantis.min.js}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+
+<script>
+
+
+    $(".submitButton").click(function () {
+
+        let restaurantName = $("#restaurantName").val()
+        let ownerName = $("#ownerNumber").val()
+        let contactNumber = $("#contactNumber").val()
+
+        if(restaurantName && ownerName && contactNumber ) {
+            let settings = {
+                "async": true,
+                "crossDomain": false,
+                "url": "../save/restaurant-info",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "data": JSON.stringify({
+                    restaurantName, ownerName, contactNumber
+                })
+            };
+
+            $.ajax(settings).done(function (response) {
+
+                if (response.isResultAvailable && response.isSuccessful && response.result){
+                    swal({
+                        title: "FoodMood Message",
+                        text: "আপনার তথ্য সঠিক ভাবে রাখা হয়েছে . ফুডমুড অতিসত্বর আপনার সাথে যোগাযোগ করবে । যেকোনো প্রয়োজনে কল করুন ফুডমুড হেল্পলাইন (০১৭৭৫৬৭৬৭৭৬) এই নাম্বারে ",
+                        icon: "success",
+                    }).then(function () {
+                        $("#restaurantName").val('')
+                       $("#ownerNumber").val('')
+                       $("#contactNumber").val('')
+                    });
+                }
+
+            });
+
+        } else {
+            swal({
+                title: "One or more fields are empty",
+                text: "Please fill all input fields",
+                icon: "error",
+            });
+        }
+    })
+
+</script>
+</body>
+</html>

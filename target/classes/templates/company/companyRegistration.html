@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Company Registration</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Administration</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Company Registration</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form method="post" th:object="${companyDataModel}" th:action="@{/admin/company-registration}">
+                                <div class="card-header">
+                                    <div class="card-title">Company Info</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="fullName">Company Name <a class="text-danger">*</a></label>
+                                                <input class="form-control" id="fullName"
+                                                       placeholder="Enter Company Name"
+                                                       th:name="name"
+                                                       th:field="*{name}"
+                                                       type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="phoneNumber">Phone Number<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="phoneNumber"
+                                                       placeholder="Enter Phone Number"
+                                                       th:name="phoneNumber"
+                                                       th:field="*{phoneNumber}"
+                                                       type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Address<a class="text-danger">*</a></label>
+                                                <input class="form-control" id="address"
+                                                       placeholder="Enter Address"
+                                                       th:name="address"
+                                                       th:field="*{address}"
+
+                                                       type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="location">Location<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control" id="location"
+                                                       placeholder="Enter Location"
+                                                       th:name="location"
+                                                       th:field="*{location}"
+
+                                                       type="text">
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="contactInfo">Contact Info<a
+                                                        class="text-danger">*</a></label>
+                                                <textarea class="form-control" id="contactInfo"
+                                                          placeholder="Enter Contact Info"
+                                                          th:name="contactInfo"
+                                                          th:field="*{contactInfo}"
+
+                                                          type="text"></textarea>
+                                                <small class="form-text text-muted"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Permission</label>
+                                                <div class="selectgroup selectgroup-pills" th:field="*{permissionList}">
+                                                    <label class="selectgroup-item"
+                                                           th:each="permissionItem : ${permissionList}">
+                                                        <input type="checkbox" name="permissionList"
+                                                               th:value="${permissionItem.name().toString()}"
+                                                               class="selectgroup-input">
+                                                        <span class="selectgroup-button"
+                                                              th:text="${permissionItem.name().toString()}"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary" type="submit"/>
+                                    <button class="btn btn-danger">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script>
+    $(".select2-class").select2({
+        closeOnSelect: true,
+        placeholder: "Grade",
+        width: '100%',
+        dropdownAutoWidth: true
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="fragment/component/header :: application-head"></head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragment/component/header :: application-top-header"></div>
+    <div th:replace="fragment/component/sidebar :: application-side-bar"></div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Store Information</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Store</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Information</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Store Info</h4>
+                                    <button id="updateStore"
+                                            class="btn btn-primary btn-sm ml-auto">
+                                        <i class="fas fa-save"></i>
+                                        Update Store
+                                    </button>
+                                </div>
+                            </div>
+                            <form method="post" th:action="@{/add-store(id=${store.id})}" th:object="${store}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group findStoreId" th:id="${store.id}">
+                                                <label for="fullName">Full Name <a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableInputField" id="fullName"
+                                                       placeholder="Enter Full Name"
+                                                       th:name="name"
+                                                       th:field="*{name}" type="text">
+                                                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="contactNumber">Phone Number<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableInputField" id="contactNumber"
+                                                       placeholder="Enter Phone Number"
+                                                       th:name="contactNumber"
+                                                       th:field="*{contactNumber}">
+                                                <small th:if="${#fields.hasErrors('contactNumber')}" th:errors="*{contactNumber}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Area<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableInputField" id="area"
+                                                       placeholder="Enter Area"
+                                                       th:field="*{area}"
+                                                       th:name="area">
+
+                                                <small th:if="${#fields.hasErrors('area')}" th:errors="*{area}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Address<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableInputField" id="address"
+                                                       placeholder="Enter Address"
+                                                       th:name="address"
+                                                       th:field="*{address}">
+                                                <small th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Open Time<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableInputField" type="time"
+                                                       placeholder="Enter Closed Time"
+                                                       th:name="openTime"
+                                                       th:field="*{openTime}">
+                                                <small th:if="${#fields.hasErrors('openTime')}" th:errors="*{openTime}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Closed Time<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableInputField"
+                                                       placeholder="Enter Closed Time"
+                                                       th:name="closedTime"
+                                                       type="time"
+                                                       th:field="*{closedTime}">
+                                                <small th:if="${#fields.hasErrors('closedTime')}" th:errors="*{closedTime}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="address">Tag Line<a
+                                                        class="text-danger">*</a></label>
+                                                <input class="form-control disableInputField"
+                                                       placeholder="Enter Tag Line"
+                                                       th:name="tagline"
+                                                       type="text" maxlength="50"
+                                                       th:field="*{tagline}">
+                                                <small th:if="${#fields.hasErrors('tagline')}" th:errors="*{tagline}"
+                                                       class="form-text text-danger text-capitalize text-muted"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-action">
+                                    <input class="btn btn-primary hideSaveButton" type="submit"/>
+                                    <button class="btn btn-danger hideSaveButton" id="cancel-button" type="reset">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Footer-->
+        <footer th:replace="fragment/component/footer :: application-footer"></footer>
+
+    </div>
+</div>
+<div th:replace="fragment/component/script :: application-default-page-script"></div>
+<div th:replace="fragment/component/script :: application-user-profile-fragment"></div>
+
+<script>
+    let storeId = $('.findStoreId').attr('id');
+
+    if(storeId==null){
+        $('#updateStore').hide();
+    }else {
+        $('.hideSaveButton').hide();
+        $('.disableInputField').prop('disabled', true);
+    }
+
+    $(".select2-class").select2({
+        closeOnSelect: true,
+        placeholder: "Grade",
+        width: '100%',
+        dropdownAutoWidth: true
+    });
+
+
+    $("#store-table").DataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": false,
+        "bAutoWidth": false
+    });
+
+    $("#cancel-button").click(function () {
+
+        if(storeId==null){
+            $(location).attr('href', './store-information');
+        }else{
+            $('.hideSaveButton').hide();
+            $('.disableInputField').prop('disabled', true);
+        }
+    });
+
+    $('#updateStore').click(function () {
+        $('.hideSaveButton').show();
+        $('.disableInputField').prop('disabled', false);
+    })
+
+</script>
+</body>
+</html>
